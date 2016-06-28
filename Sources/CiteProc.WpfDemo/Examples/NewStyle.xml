@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0">
+  <info>
+    <id />
+    <title>[New Style]</title>
+  </info>
+  <citation>
+    <layout prefix="(" suffix=")">
+      <group delimiter=":">
+        <names variable="author">
+          <name form="short" />
+        </names>
+        <date variable="issued" form="text" date-parts="year" />
+      </group>
+    </layout>
+  </citation>
+  <bibliography and="text">
+    <layout>
+      <names variable="author" suffix=". " font-weight="bold">
+        <name name-as-sort-order="all" />
+      </names>
+      <text variable="title" font-style="italic" />
+      <date variable="issued" prefix=" (" suffix=")" form="text" date-parts="year" />
+      <text value="." />
+    </layout>
+  </bibliography>
+</style>

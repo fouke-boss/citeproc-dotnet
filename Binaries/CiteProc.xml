@@ -1,0 +1,4643 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiteProc</name>
+    </assembly>
+    <members>
+        <member name="T:CiteProc.File">
+            <summary>
+            Base class for all style and locale files.
+            </summary>
+        </member>
+        <member name="T:CiteProc.Element">
+            <summary>
+            Base class for all xml elements.
+            </summary>
+        </member>
+        <member name="M:CiteProc.Element.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:CiteProc.Element.Tag">
+            <summary>
+            Gets or sets additional data for the element. When the elemnt was loaded using an XmlReader,
+            the tag is filled with the (line, position) of the element in the xml.
+            </summary>
+        </member>
+        <member name="F:CiteProc.File.NAMESPACE_URI">
+            <summary>
+            Public Citation Style Language namespace.
+            </summary>
+        </member>
+        <member name="M:CiteProc.File.#ctor(System.Version)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="specification"></param>
+        </member>
+        <member name="M:CiteProc.File.Parse(System.String)">
+            <summary>
+            Parses the given xml into a file instance.
+            </summary>
+            <param name="xml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Parse``1(System.String)">
+            <summary>
+            Parses the given xml into a file instance of the given type T.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="xml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load(System.String)">
+            <summary>
+            Loads a file from the given path.
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load(System.IO.Stream)">
+            <summary>
+            Loads a file from the given stream.
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load(System.IO.TextReader)">
+            <summary>
+            Loads a file from the given text reader.
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load(System.Xml.XmlReader)">
+            <summary>
+            Loads a file from the given xml reader.
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load``1(System.String)">
+            <summary>
+            Loads a file from the given path.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load``1(System.IO.Stream)">
+            <summary>
+            Loads a file from the given text reader.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load``1(System.IO.TextReader)">
+            <summary>
+            Loads a file from the given text reader.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Load``1(System.Xml.XmlReader)">
+            <summary>
+            Loads a file from the given xml reader.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.Save(System.String)">
+            <summary>
+            Saves the content of this file to the given path.
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:CiteProc.File.Save(System.IO.Stream)">
+            <summary>
+            Saves the content of this file to the given stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:CiteProc.File.Save(System.IO.TextWriter)">
+            <summary>
+            Saves the content of this file to the given text writer.
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:CiteProc.File.Save(System.Xml.XmlWriter)">
+            <summary>
+            Saves the content of this file to the xml writer.
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:CiteProc.File.Clone">
+            <summary>
+            Returns a deep clone of this file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.System#ICloneable#Clone">
+            <summary>
+            Returns a deep clone of this file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.File.ToString">
+            <summary>
+            Returns the xml of this file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:CiteProc.File.Specification">
+            <summary>
+            Indicates the specification version of the CSL file.
+            </summary>
+        </member>
+        <member name="P:CiteProc.File.Version">
+            <summary>
+            The version of the CSL file.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.And">
+            <summary>
+            Specifies the delimiter between the second to last and last name of the names in a name variable.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.And.Delimiter">
+            <summary>
+            Selects the comma, e.g. “Doe, Johnson, Smith”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.And.Text">
+            <summary>
+            Selects the “and” term, e.g. “Doe, Johnson and Smith”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.And.Symbol">
+            <summary>
+            Selects the ampersand, e.g. “Doe, Johnson &amp; Smith”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Collapse">
+            <summary>
+            Specifies cite grouping and collapsing.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Collapse.CitationNumber">
+            <summary>
+            “citation-number” - collapses ranges of cite numbers (rendered through the “citation-number” variable) in
+            citations for “numeric” styles (e.g. from “[1, 2, 3, 5]” to “[1–3, 5]”). Only increasing ranges collapse,
+            e.g. “[3, 2, 1]” will not collapse.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Collapse.Year">
+            <summary>
+            “year” - collapses cite groups by suppressing the output of the cs:names element for subsequent cites in
+            the group, e.g. “(Doe 2000, Doe 2001)” becomes “(Doe 2000, 2001)”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Collapse.YearSuffix">
+            <summary>
+            “year-suffix” - collapses as “year”, but also suppresses repeating years within the cite group, e.g. 
+            “(Doe 2000a, b)” instead of “(Doe 2000a, 2000b)”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Collapse.YearSuffixRanged">
+            <summary>
+            “year-suffix-ranged” - collapses as “year-suffix”, but also collapses ranges of year-suffixes, e.g. 
+            “(Doe 2000a–c,e)” instead of “(Doe 2000a, b, c, e)”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.GivenNameDisambiguationRules">
+            <summary>
+            Specifies a) whether the purpose of name expansion is limited to disambiguating cites, or has
+            the additional goal of disambiguating names 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.GivenNameDisambiguationRules.AllNames">
+            <summary>
+            Name expansion has the dual purpose of disambiguating cites and names. All rendered ambiguous
+            names, in both ambiguous and umambiguous cites, are subject to disambiguation. Each name is
+            progressively transformed until it is disambiguated. Names that can not be disambiguated
+            remain in their original form.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.GivenNameDisambiguationRules.AllNamesWithInitials">
+            <summary>
+            As “all-names”, but name expansion is limited to showing initials (see step 1(a) above). No
+            disambiguation attempt is made when initialize-with is not set or when initialize is set to “false”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.GivenNameDisambiguationRules.PrimaryName">
+            <summary>
+            As “all-names”, but disambiguation is limited to the first name of each cite.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.GivenNameDisambiguationRules.PrimaryNameWithInitials">
+            <summary>
+            As “all-names-with-initials”, but disambiguation is limited to the first name of each cite.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.GivenNameDisambiguationRules.ByCite">
+            <summary>
+            Default. As “all-names”, but the goal of name expansion is limited to disambiguating cites. Only ambiguous
+            names in ambiguous cites are affected, and disambiguation stops after the first name that eliminates cite ambiguity.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.ILocale">
+            <summary>
+            Represents localization data which can be included either in styles or in locale files (which conveniently provide sets of default
+            localization data), consisting of terms, date formats and grammar options. Each locale element contains localization data for a single
+            language dialect. This locale code is set on the required xml:lang attribute on the cs:locale root element.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.ILocale.XmlLang">
+            <summary>
+            The locale code of this locale.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.ILocale.StyleOptions">
+            <summary>
+            Style options of the locale.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.ILocale.Dates">
+            <summary>
+            Two localized date formats can be defined with cs:date elements: a “numeric” (e.g. “12-15-2005”) and a “text” format.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.ILocale.Terms">
+            <summary>
+            Terms are localized strings (e.g. by using the “and” term, “Doe and Smith” automatically becomes “Doe und Smith”
+            when the style locale is switched from English to German). Terms are either directly defined in the content of cs:term,
+            or, in cases where singular and plural variants are needed (e.g. “page” and “pages”), in the content of the child
+            elements cs:single and cs:multiple, respectively.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.PersonalDetailsElement">
+            <summary>
+            Represents the personal details of a author, contributor or translater of a style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.PersonalDetailsElement.Name">
+            <summary>
+            The name of the author, contributor or translator.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.PersonalDetailsElement.Uri">
+            <summary>
+            Website of the author, contributor or translator.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.PersonalDetailsElement.Email">
+            <summary>
+            Email address of the author, contributor or translator.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.BibliographyElement">
+            <summary>
+            The cs:bibliography element describes the formatting of bibliographies, which list one or more bibliographic sources.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.EntryElement">
+            <summary>
+            Base class for Citation and Bibliography elements.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.INameOptions">
+            <summary>
+            Represents an element with name option attributes.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.IEtAlOptions">
+            <summary>
+            Represents an element with et-al attributes.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlMin">
+            <summary>
+            If the number of names in a name variable matches or exceeds the number set on et-al-min, the rendered name list is truncated.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlSubsequentMin">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlSubsequentMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlSubsequentUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlSubsequentUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-use-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlUseLast">
+            <summary>
+            When set to “true” (the default is “false”), name lists truncated by et-al abbreviation are followed by the name
+            delimiter, the ellipsis character, and the last name of the original name list. This is only possible when the
+            original name list has at least two more names than the truncated name list.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IEtAlOptions.EtAlUseLastSpecified">
+            <summary>
+            Indicates whether the 'et-al-use-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.And">
+            <summary>
+            Specifies the delimiter between the second to last and last name of the names in a name variable.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.AndSpecified">
+            <summary>
+            Indicates whether the 'and' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.Delimiter">
+            <summary>
+            Specifies the text string used to separate names in a name variable. Default is ”, ” (e.g. “Doe, Smith”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.DelimiterPrecedesEtAl">
+            <summary>
+            Determines when the name delimiter or a space is used between a truncated name list and the “et-al”
+            (or “and others”) term in case of et-al abbreviation.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.DelimiterPrecedesEtAlSpecified">
+            <summary>
+            Indicates whether the 'delimiter-preceded-et-al' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.DelimiterPrecedesLast">
+            <summary>
+            Determines when the name delimiter is used to separate the second to last and the last name in name lists (if
+            and is not set, the name delimiter is always used, regardless of the value of delimiter-precedes-last).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.DelimiterPrecedesLastSpecified">
+            <summary>
+            Indicates whether the 'delimiter-precedes-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.Format">
+            <summary>
+            Specifies whether all the name-parts of personal names should be displayed (value “long”, the default), or only the
+            family name and the non-dropping-particle (value “short”). A third value, “count”, returns the total number of names
+            that would otherwise be rendered by the use of the cs:names element (taking into account the effects of et-al abbreviation
+            and editor/translator collapsing), which allows for advanced sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.Initialize">
+            <summary>
+            When set to “false” (the default is “true”), given names are no longer initialized when “initialize-with” is set. However,
+            the value of “initialize-with” is still added after initials present in the full name (e.g. with initialize set to “false”,
+            and initialize-with set to ”.”, “James T Kirk” becomes “James T. Kirk”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.InitializeSpecified">
+            <summary>
+            Indicates whether the 'initialize' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.InitializeWith">
+            <summary>
+            When set, given names are converted to initials. The attribute value is added after each initial (”.” results in “J.J. Doe”). 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.NameAsSortOrder">
+            <summary>
+            Specifies that names should be displayed with the given name following the family name (e.g. “John Doe” becomes “Doe, John”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.NameAsSortOrderSpecified">
+            <summary>
+            Indicates whether the 'name-as-sort-order' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INameOptions.SortSeparator">
+            <summary>
+            Sets the delimiter for name-parts that have switched positions as a result of name-as-sort-order. The default value
+            is ”, ” (“Doe, John”). As is the case for name-as-sort-order, this attribute only affects names written
+            in the latin or Cyrillic alphabets.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.INamesOptions">
+            <summary>
+            Represents an element with names option attributes.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.INamesOptions.Delimiter">
+            <summary>
+            Specifies the delimiter for names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.EntryElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles the entry descriptor element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.Sort">
+            <summary>
+            The optional cs:sort element specifies how references within the bibliography should be sorted.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.Layout">
+            <summary>
+            The required cs:layout child element describes how each entry should be formatted.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.And">
+            <summary>
+            Specifies the delimiter between the second to last and last name of the names in a name variable.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.AndSpecified">
+            <summary>
+            Indicates whether the 'and' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.NameDelimiter">
+            <summary>
+            Specifies the text string used to separate names in a name variable. Default is ”, ” (e.g. “Doe, Smith”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.CiteProc#v10#INameOptions#Delimiter">
+            <summary>
+            Specifies the text string used to separate names in a name variable. Default is ”, ” (e.g. “Doe, Smith”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.NamesDelimiter">
+            <summary>
+            Specifies the delimiter for names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.CiteProc#v10#INamesOptions#Delimiter">
+            <summary>
+            Specifies the delimiter for names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.DelimiterPrecedesEtAl">
+            <summary>
+            Determines when the name delimiter or a space is used between a truncated name list and the “et-al”
+            (or “and others”) term in case of et-al abbreviation.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.DelimiterPrecedesEtAlSpecified">
+            <summary>
+            Indicates whether the 'delimiter-preceded-et-al' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.DelimiterPrecedesLast">
+            <summary>
+            Determines when the name delimiter is used to separate the second to last and the last name in name lists (if
+            and is not set, the name delimiter is always used, regardless of the value of delimiter-precedes-last).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.DelimiterPrecedesLastSpecified">
+            <summary>
+            Indicates whether the 'delimiter-precedes-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlMin">
+            <summary>
+            If the number of names in a name variable matches or exceeds the number set on et-al-min, the rendered name list is truncated.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlSubsequentMin">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlSubsequentMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlSubsequentUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlSubsequentUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-use-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlUseLast">
+            <summary>
+            When set to “true” (the default is “false”), name lists truncated by et-al abbreviation are followed by the name
+            delimiter, the ellipsis character, and the last name of the original name list. This is only possible when the
+            original name list has at least two more names than the truncated name list.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.EtAlUseLastSpecified">
+            <summary>
+            Indicates whether the 'et-al-use-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.NameFormat">
+            <summary>
+            Specifies whether all the name-parts of personal names should be displayed (value “long”, the default), or only the
+            family name and the non-dropping-particle (value “short”). A third value, “count”, returns the total number of names
+            that would otherwise be rendered by the use of the cs:names element (taking into account the effects of et-al abbreviation
+            and editor/translator collapsing), which allows for advanced sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.NameFormatSpecified">
+            <summary>
+            Indicates whether the 'name-form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.CiteProc#v10#INameOptions#Format">
+            <summary>
+            Specifies whether all the name-parts of personal names should be displayed (value “long”, the default), or only the
+            family name and the non-dropping-particle (value “short”). A third value, “count”, returns the total number of names
+            that would otherwise be rendered by the use of the cs:names element (taking into account the effects of et-al abbreviation
+            and editor/translator collapsing), which allows for advanced sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.CiteProc#v10#INameOptions#FormatSpecified">
+            <summary>
+            Indicates whether the 'name-form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.Initialize">
+            <summary>
+            When set to “false” (the default is “true”), given names are no longer initialized when “initialize-with” is set. However,
+            the value of “initialize-with” is still added after initials present in the full name (e.g. with initialize set to “false”,
+            and initialize-with set to ”.”, “James T Kirk” becomes “James T. Kirk”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.InitializeSpecified">
+            <summary>
+            Indicates whether the 'initialize' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.InitializeWith">
+            <summary>
+            When set, given names are converted to initials. The attribute value is added after each initial (”.” results in “J.J. Doe”). 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.NameAsSortOrder">
+            <summary>
+            Specifies that names should be displayed with the given name following the family name (e.g. “John Doe” becomes “Doe, John”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.NameAsSortOrderSpecified">
+            <summary>
+            Indicates whether the 'name-as-sort-order' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EntryElement.SortSeparator">
+            <summary>
+            Sets the delimiter for name-parts that have switched positions as a result of name-as-sort-order. The default value
+            is ”, ” (“Doe, John”). As is the case for name-as-sort-order, this attribute only affects names written
+            in the latin or Cyrillic alphabets.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.BibliographyElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles the bibliography element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.HangingIndent">
+            <summary>
+            If set to “true” (“false” is the default), bibliographic entries are rendered with hanging-indents.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.HangingIndentSpecified">
+            <summary>
+            Indicates whether the 'hanging-indent' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.SecondFieldAlign">
+            <summary>
+            If set, subsequent lines of bibliographic entries are aligned along the second field.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.SecondFieldAlignSpecified">
+            <summary>
+            Indicates whether the 'hanging-indent' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.LineSpacing">
+            <summary>
+            Specifies vertical line distance. Defaults to “1” (single-spacing), and can be set to any positive integer
+            to specify a multiple of the standard unit of line height (e.g. “2” for double-spacing).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.LineSpacingSpecified">
+            <summary>
+            Indicates whether the 'line-spacing' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.EntrySpacing">
+            <summary>
+            Specifies vertical distance between bibliographic entries. By default (with a value of “1”), entries are separated
+            by a single additional line-height (as set by the line-spacing attribute). Can be set to any non-negative integer
+            to specify a multiple of this amount.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.EntrySpacingSpecified">
+            <summary>
+            Indicates whether the 'entry-spacing' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.SubsequentAuthorSubstitute">
+            <summary>
+            If set, the value of this attribute replaces names in a bibliographic entry that also occur in the preceding entry.
+            The exact method of substitution depends on the value of the subsequent-author-substitute-rule attribute. Substitution
+            is limited to the names of the first cs:names element rendered.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.SubsequentAuthorSubstituteSpecified">
+            <summary>
+            Indicates whether the 'subsequent-author-substitute' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.SubsequentAuthorSubstituteRule">
+            <summary>
+            Specifies when and how names are substituted as a result of the subsequent-author-substitute attribute.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.BibliographyElement.SubsequentAuthorSubstituteRuleSpecified">
+            <summary>
+            Indicates whether the 'subsequent-author-substitute-rule' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.CategoryElement">
+            <summary>
+            May be used once to describe how in-text citations are rendered, using the citation-format attribute. May
+            be used multiple times with the field attribute, set to one of the discipline categories, to indicate the field(s)
+            for which the style is relevant.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CategoryElement.CitationFormat">
+            <summary>
+            Describes how in-text citations are rendered.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CategoryElement.CitationFormatSpecified">
+            <summary>
+            Indicates whether the citation format is specified. Required bij the System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CategoryElement.Field">
+            <summary>
+            Indicates the field for which the style is relevant.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.ChooseElement">
+            <summary>
+            The cs:choose rendering element allows for conditional rendering of rendering elements.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.RenderingElement">
+            <summary>
+            Base class for elements with affixes.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.RenderingElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this rendering element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.RenderingElement.Prefix">
+            <summary>
+            Gets or sets the value that is added before the output of the element carrying the attribute, but only if the element produces output.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.RenderingElement.Suffix">
+            <summary>
+            Gets or sets the value that is added after the output of the element carrying the attribute, but only if the element produces output.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.ChooseElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles the Choose element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.ChooseElement.If">
+            <summary>
+            Represents the first, 'if', conditional branch.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.ChooseElement.ElseIf">
+            <summary>
+            Represents the subsequent, 'else if' conditional branches.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.ChooseElement.Else">
+            <summary>
+            Represents the last, 'else' conditional branch.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.CitationElement">
+            <summary>
+            The cs:citation element describes the formatting of citations, which consist of one or more
+            references (“cites”) to bibliographic sources. Citations appear in the form of either in-text
+            citations (in the author (e.g. “[Doe]”), author-date (“[Doe 1999]”), label (“[doe99]”)
+            or number (“[1]”) format) or notes.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.CitationElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles the Citation element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.DisambiguateAddNames">
+            <summary>
+            If set to “true” (“false” is the default), names that would otherwise be hidden as a result of et-al abbreviation
+            are added one by one to all members of a set of ambiguous cites, until no more cites in the set can be disambiguated by adding names.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.DisambiguateAddNamesSpecified">
+            <summary>
+            Indicates whether the 'disambiguate-add-names' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.DisambiguateAddGivenName">
+            <summary>
+            If set to “true” (“false” is the default), ambiguous names (names that are identical in their “short” or
+            initialized “long” form, but differ when initials are added or the full given name is shown) are expanded.
+            Name expansion can be configured with givenname-disambiguation-rule.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.DisambiguateAddGivenNameSpecified">
+            <summary>
+            Indicates whether the 'disambiguate-add-givenname' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.GivenNameDisambiguationRule">
+            <summary>
+            Specifies a) whether the purpose of name expansion is limited to disambiguating cites, or has the additional
+            goal of disambiguating names (only in the latter case are ambiguous names in unambigous cites expanded, e.g.
+            from “(Doe 1950; Doe 2000)” to “(Jane Doe 1950; John Doe 2000)”), b) whether name expansion targets all, or
+            just the first name of each cite, and c) the method by which each name is expanded.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.GivenNameDisambiguationRuleSpecified">
+            <summary>
+            Indicates whether the 'givenname-disambiguation-rule' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.DisambiguateAddYearSuffix">
+            <summary>
+            If set to “true” (“false” is the default), an alphabetic year-suffix is added to ambiguous cites (e.g.
+            “Doe 2007, Doe 2007” becomes “Doe 2007a, Doe 2007b”) and to their corresponding bibliographic entries.
+            The assignment of the year-suffixes follows the order of the bibliographies entries, and additional letters
+            are used once “z” is reached (“z”, “aa”, “ab”, ..., “az”, “ba”, etc.). By default the year-suffix is appended
+            to the cite, and to the first year rendered through cs:date in the bibliographic entry, but its location
+            can be controlled by explicitly rendering the “year-suffix” variable using cs:text. If “year-suffix” is
+            rendered through cs:text in the scope of cs:citation, it is suppressed for cs:bibliography, unless it is
+            also rendered through cs:text in the scope of cs:bibliography, and vice versa.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.DisambiguateAddYearSuffixSpecified">
+            <summary>
+            Indicates whether the 'disambiguate-add-year-suffix' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.CiteGroupDelimiter">
+            <summary>
+            Activates cite grouping and specifies the delimiter for cites within a cite group. Defaults to ”, ”. E.g. with
+            delimiter on cs:layout in cs:citation set to ”; ”, collapse set to “year”, and cite-group-delimiter set to ”,”,
+            citations look like “(Doe 1999,2001; Jones 2000)”.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.CiteGroupDelimiterSpecified">
+            <summary>
+            Indicates whether the 'cite-group-delimiter' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.Collapse">
+            <summary>
+            Activates cite grouping and collapsing.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.CollapseSpecified">
+            <summary>
+            Indicates whether the 'collapse' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.YearSuffixDelimiter">
+            <summary>
+            Specifies the delimiter for year-suffixes. Defaults to the delimiter set on cs:layout in cs:citation.
+            E.g. with collapse set to “year-suffix”, delimiter on cs:layout in cs:citation set to ”; ”, and
+            year-suffix-delimiter set to ”,”, citations look like “(Doe 1999a,b; Jones 2000)”.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.YearSuffixDelimiterSpecified">
+            <summary>
+            Indicates whether the 'year-suffix-delimiter' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.AfterCollapseDelimiter">
+            <summary>
+            Specifies the cite delimiter to be used after a collapsed cite group. Defaults to the delimiter set on cs:layout
+            in cs:citation. E.g. with collapse set to “year”, delimiter on cs:layout in cs:citation set to ”, ”, and
+            after-collapse-delimiter set to ”; ”, citations look like “(Doe 1999, 2001; Jones 2000, Brown 2001)”.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.AfterCollapseDelimiterSpecified">
+            <summary>
+            Indicates whether the 'after-collapse-delimiter' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.NearNoteDistance">
+            <summary>
+            A cite tests true for the “near-note” position (see Choose) when a preceding note exists that a) refers to the
+            same item and b) does not precede the current note by more footnotes or endnotes than the value of
+            near-note-distance (default value is “5”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.CitationElement.NearNoteDistanceSpecified">
+            <summary>
+            Indicates whether the 'near-note-distance' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.CitationClass">
+            <summary>
+            Determines whether the style uses in-text citations (value “in-text”) or notes (“note”).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationClass.InText">
+            <summary>
+            In-text citations.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationClass.Note">
+            <summary>
+            Note citations.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.CitationFormat">
+            <summary>
+            Describes how in-text citations are rendered.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationFormat.AuthorDate">
+            <summary>
+            “author-date” - e.g. ”... (Doe, 1999)”
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationFormat.Author">
+            <summary>
+            “author” - e.g. ”... (Doe)”
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationFormat.Numeric">
+            <summary>
+            “numeric” - e.g. ”... [1]”
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationFormat.Label">
+            <summary>
+            “label” - e.g. ”... [doe99]”
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.CitationFormat.Note">
+            <summary>
+            “note” - the citation appears as a footnote or endnote
+            </summary>
+        </member>
+        <member name="T:CiteProc.Compilation.Compiler">
+            <summary>
+            Represents the root of the snippet tree.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DelimiterBehavior">
+            <summary>
+            Specifies the behavior of delimiters for the delimiter-precedes-et-al and delimiter-precedes-last attributes on cs:name.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DelimiterBehavior.Contextual">
+            <summary>
+            “contextual” - (default), name delimiter is only used for name lists truncated to two or more (delimiter-precedes-et-al)
+            or three or more (delimiter-precedes-last) names.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DelimiterBehavior.AfterInvertedName">
+            <summary>
+            “after-inverted-name” - name delimiter is only used if the preceding name is inverted as a result of the name-as-sort-order attribute.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DelimiterBehavior.Always">
+            <summary>
+            “always” - name delimiter is always used.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DelimiterBehavior.Never">
+            <summary>
+            “never” - name delimiter is never used.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DemotingBehavior">
+            <summary>
+            Describes the display and sorting behavior of the non-dropping-particle in inverted names (e.g. “de” in “Koning, W. de”). 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DemotingBehavior.Never">
+            <summary>
+            “never”: the non-dropping-particle is treated as part of the family name, whereas the dropping-particle is appended
+            (e.g. “de Koning, W.”, “La Fontaine, Jean de”). The non-dropping-particle is part of the primary sort key (sort order
+            A, e.g. “de Koning, W.” appears under “D”).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DemotingBehavior.SortOnly">
+            <summary>
+            “sort-only”: same display behavior as “never”, but the non-dropping-particle is demoted to a secondary sort key 
+            (sort order B, e.g. “de Koning, W.” appears under “K”).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DemotingBehavior.DisplayAndSort">
+            <summary>
+            “display-and-sort” (default): the dropping and non-dropping-particle are appended (e.g. “Koning, W. de” and 
+            “Fontaine, Jean de La”). For name sorting, all particles are part of the secondary sort key (sort order B, e.g.
+            “Koning, W. de” appears under “K”).
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Display">
+            <summary>
+            The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
+            into one or more text blocks. If used, all rendering elements should be under the control of a display attribute. 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Display.Block">
+            <summary>
+            Block stretching from margin to margin.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Display.LeftMargin">
+            <summary>
+            Block starting at the left margin. If followed by a “right-inline” block, the “left-margin” blocks of all bibliographic
+            entries are set to a fixed width to accommodate the longest content string found among these “left-margin” blocks. In
+            the absence of a “right-inline” block the “left-margin” block extends to the right margin.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Display.RightInline">
+            <summary>
+            block starting to the right of a preceding “left-margin” block (behaves as “block” in the absence of
+            such a “left-margin” block). Extends to the right margin.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Display.Indent">
+            <summary>
+            Block indented to the right by a standard amount. Extends to the right margin.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.IGlobalOptions">
+            <summary>
+            Global options, which affect both citations and the bibliography, are set on the cs:style element.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IGlobalOptions.InitializeWithHyphen">
+            <summary>
+            Specifies whether compound given names (e.g. “Jean-Luc”) should be initialized with a hyphen 
+            (“J.-L.”, value “true”, default) or without (“J.L.”, value “false”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IGlobalOptions.InitializeWithHyphenSpecified">
+            <summary>
+            Indicates whether the 'initialize-with-hyphen' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IGlobalOptions.PageRangeFormat">
+            <summary>
+            Activates expansion or collapsing of page ranges. If the attribute is not set, page ranges are rendered without reformatting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IGlobalOptions.PageRangeFormatSpecified">
+            <summary>
+            Indicates whether the 'page-range-format' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IGlobalOptions.DemoteNonDroppingParticle">
+            <summary>
+            Sets the display and sorting behavior of the non-dropping-particle in inverted names (e.g. “Koning, W. de”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IGlobalOptions.DemoteNonDroppingParticleSpecified">
+            <summary>
+            Indicates whether the 'demote-non-dropping-particle' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.INameVariable.FamilyName">
+            <summary>
+            Surname minus any particles and suffixes.
+            </summary>
+        </member>
+        <member name="P:CiteProc.INameVariable.GivenNames">
+            <summary>
+            Given names, either full (“John Edward”) or initialized (“J. E.”)
+            </summary>
+        </member>
+        <member name="P:CiteProc.INameVariable.Suffix">
+            <summary>
+            Name suffix, e.g. “Jr.” in “John Smith Jr.” and “III” in “Bill Gates III”.
+            </summary>
+        </member>
+        <member name="P:CiteProc.INameVariable.NonDroppingParticles">
+            <summary>
+            Name particles that are not dropped when only the surname is shown (“de” in the Dutch surname “de Koning”)
+            but which may be treated separately from the family name, e.g. for sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.INameVariable.DroppingParticles">
+            <summary>
+            Name particles that are dropped when only the surname is shown (“van” in “Ludwig van Beethoven”, which becomes “Beethoven”).
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.IStripPeriods">
+            <summary>
+            Represents an element with a strip-periods attribute.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IStripPeriods.StripPeriods">
+            <summary>
+            When set to “true” (“false” is the default), any periods in the rendered text are removed.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IStripPeriods.StripPeriodsSpecified">
+            <summary>
+            Indicates whether the 'strip-periods' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.NameFormat">
+            <summary>
+            Describes the rendering format of a name.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NameFormat.Long">
+            <summary>
+            “long”: all the name-parts of personal names will be rendered.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NameFormat.Short">
+            <summary>
+            “short”: only the family name and the non-dropping-particle will be rendered.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NameFormat.Count">
+            <summary>
+            “count”: returns the total number of names that would otherwise be rendered by the use of the cs:names element (taking
+            into account the effects of et-al abbreviation and editor/translator collapsing). Allows for advanced sorting.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.NamePartName">
+            <summary>
+            Specifies the part of a name.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NamePartName.Family">
+            <summary>
+            The family name part, including any non-dropping particles.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NamePartName.Given">
+            <summary>
+            The given name part, including any dropping particles.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.NameSortOptions">
+            <summary>
+            Specifies the order of the name parts (e.g. “John Doe” vs. “Doe, John”). 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NameSortOptions.None">
+            <summary>
+            None of the names will be inverted.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NameSortOptions.First">
+            <summary>
+            “first”: only the first name in a list will be inverted.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NameSortOptions.All">
+            <summary>
+            “all”: a;; names in a list will be inverted.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.PageRangeFormats">
+            <summary>
+            Represents the available page range abbreviation rules.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.PageRangeFormats.Chicago">
+            <summary>
+            Page ranges are abbreviated according to the Chicago Manual of Style-rules.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.PageRangeFormats.Expanded">
+            <summary>
+            Abbreviated page ranges are expanded to their non-abbreviated form: 42–45, 321–328, 2787–2816.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.PageRangeFormats.Minimal">
+            <summary>
+            All digits repeated in the second number are left out: 42–5, 321–8, 2787–816.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.PageRangeFormats.MinimalTwo">
+            <summary>
+            As “minimal”, but at least two digits are kept in the second number when it has two or more digits long.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Position">
+            <summary>
+            Specifies conditions on the position of a cite in a citation.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Position.First">
+            <summary>
+            •“first”: position of cites that are the first to reference an item.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Position.Ibid">
+            <summary>
+            Cites referencing previously cited items, for which either
+            a. the current cite immediately follows on another cite, within the same citation, that references the same item, or
+            b. the current cite is the first cite in the citation, and the previous citation consists of a single cite referencing the same item
+            and the item either has no locator or the locator is the same as the previously cited item.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Position.IbidWithLocator">
+            <summary>
+            Cites referencing previously cited items, for which either
+            a. the current cite immediately follows on another cite, within the same citation, that references the same item, or
+            b. the current cite is the first cite in the citation, and the previous citation consists of a single cite referencing the same item
+            and the item has a different locator from the previously cited item.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Position.Subsequent">
+            <summary>
+            Cites referencing previously cited items have the “subsequent” position.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Position.NearNote">
+            <summary>
+            “near-note”: position of a cite following another cite referencing the same item. Both cites have to be located
+            in foot or endnotes, and the distance between both cites may not exceed the maximum distance (measured in number
+            of foot or endnotes) set with the near-note-distance option.
+            </summary>
+        </member>
+        <member name="T:CiteProc.Season">
+            <summary>
+            The enumeration of the seasons.
+            </summary>
+        </member>
+        <member name="F:CiteProc.Season.Spring">
+            <summary>
+            Spring.
+            </summary>
+        </member>
+        <member name="F:CiteProc.Season.Summer">
+            <summary>
+            Summer.
+            </summary>
+        </member>
+        <member name="F:CiteProc.Season.Autumn">
+            <summary>
+            Autumn.
+            </summary>
+        </member>
+        <member name="F:CiteProc.Season.Winter">
+            <summary>
+            Winter.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.SecondFieldAlign">
+            <summary>
+            Specifies alignment of the second field.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SecondFieldAlign.Flush">
+            <summary>
+            With “flush”, the first field is flush with the margin.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SecondFieldAlign.Margin">
+            <summary>
+            With “margin”, the first field is put in the margin, and subsequent lines are aligned with the margin.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.SortOrder">
+            <summary>
+            Describes a sort order.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SortOrder.Ascending">
+            <summary>
+            Ascending.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SortOrder.Descending">
+            <summary>
+            Descending.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.StyleOptionsElement">
+            <summary>
+            Per-locale, global options which affect both citations and the bibliography.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.LimitDayOrdinalsToDay1">
+            <summary>
+            By setting limit-day-ordinals-to-day-1 to “true” (“false” is the default), the “ordinal” form is 
+            limited to the first day of each month (other days will use the “numeric” form). This is desirable 
+            for some languages, such as French: “1er janvier”, but “2 janvier”, “3 janvier”, etc.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.LimitDayOrdinalsToDay1Specified">
+            <summary>
+            Indicates whether the 'limit-day-ordinals-to-day-1' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.PunctuationInQuote">
+            <summary>
+            For cs:text elements rendered with the quotes attribute set to “true” (see Formatting), and for which 
+            the output is followed by a comma or period, punctuation-in-quote specifies whether this punctuation is
+            placed outside (value “false”, default) or inside (value “true”) the closing quotation mark.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.PunctuationInQuoteSpecified">
+            <summary>
+            Indicates whether the 'punctuation-in-quote' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.SubsequentAuthorSubstituteRules">
+            <summary>
+            Specifies when and how names within bibliographies are substituted as a result of subsequent-author-substitute. 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.CompleteAll">
+            <summary>
+            “complete-all” - (default), when all rendered names of the name variable match those in the preceding
+            bibliographic entry, the value of subsequent-author-substitute replaces the entire name list (including
+            punctuation and terms like “et al” and “and”), except for the affixes set on the cs:names element.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.CompleteEach">
+            <summary>
+            “complete-each” - requires a complete match like “complete-all”, but now the value of
+            subsequent-author-substitute substitutes for each rendered name.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.PartialEach">
+            <summary>
+            “partial-each” - when one or more rendered names in the name variable match those in the preceding bibliographic
+            entry, the value of subsequent-author-substitute substitutes for each matching name. Matching starts with the
+            first name, and continues up to the first mismatch.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.PartialFirst">
+            <summary>
+            “partial-first” - as “partial-each”, but substitution is limited to the first name of the name variable.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor">
+            <summary>
+            Represents a processor for styles that adhere to the CSL v1.0.1 specification.
+            See http://docs.citationstyles.org/en/stable/specification.html.
+            </summary>
+        </member>
+        <member name="T:CiteProc.Processor">
+            <summary>
+            Base class for processors of any version of the CSl specifications.
+            </summary>
+        </member>
+        <member name="M:CiteProc.Processor.Compile(CiteProc.File[])">
+            <summary>
+            Compiles the given style and locale files into a Processor instance.
+            </summary>
+            <param name="files"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Processor.#ctor(System.Version,System.String,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="version"></param>
+            <param name="id"></param>
+            <param name="title"></param>
+        </member>
+        <member name="P:CiteProc.Processor.Id">
+            <summary>
+            Returns the ID of the compiled style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.Processor.Title">
+            <summary>
+            Returns the title of the compiled style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.Processor.Version">
+            <summary>
+            Returns the version of the CSL specification used for the compiled style.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.#ctor(System.String,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="id"></param>
+            <param name="title"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.Compile(CiteProc.Compilation.Class,CiteProc.v10.LocaleFile[],CiteProc.v10.LocaleElement[],CiteProc.v10.LocaleElement[])">
+            <summary>
+            Implements locale fallback.
+            </summary>
+            <param name="code"></param>
+            <param name="files"></param>
+            <param name="independents"></param>
+            <param name="dependents"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileLocaleFiles(CiteProc.Compilation.Class,CiteProc.v10.LocaleFile[],System.String)">
+            <summary>
+            Compiles the locale provider classes for the given locale files.
+            </summary>
+            <param name="code"></param>
+            <param name="files"></param>
+            <param name="accessor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileLocales(CiteProc.Compilation.Class,CiteProc.v10.Runtime.LocaleProviderType[],CiteProc.v10.LocaleElement[],CiteProc.v10.LocaleElement[])">
+            <summary>
+            Compiles the locale provider classes for the given locale elements in the independent and dependent styles.
+            </summary>
+            <param name="code"></param>
+            <param name="files"></param>
+            <param name="independents"></param>
+            <param name="dependents"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.Compile(CiteProc.Compilation.Class,CiteProc.v10.ILocale,System.String,CiteProc.v10.Runtime.LocaleProviderType,System.String,CiteProc.Culture)">
+            <summary>
+            Compiles the given locale into a nested class inside the Processor class.
+            </summary>
+            <param name="code"></param>
+            <param name="classNameTemplate"></param>
+            <param name="baseClass"></param>
+            <param name="accessor"></param>
+            <param name="culture"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileStyleOptions(CiteProc.Compilation.Class,CiteProc.v10.StyleOptionsElement)">
+            <summary>
+            Compiled the style options for this locale.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileDatePartParameters(CiteProc.Compilation.Class,CiteProc.v10.DateElement[],CiteProc.v10.DateFormat)">
+            <summary>
+            Compiles the date part formats for this locale.
+            </summary>
+            <param name="code"></param>
+            <param name="format"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileOrdinals(CiteProc.Compilation.Class,CiteProc.v10.TermElement[])">
+            <summary>
+            Compiles the ordinals for this locale.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileLongOrdinals(CiteProc.Compilation.Class,CiteProc.v10.TermElement[])">
+            <summary>
+            Compiles the long ordinals for this locale.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.GetGenderIif(CiteProc.v10.TermElement[],CiteProc.v10.TermElement[])">
+            <summary>
+            Compiles a gender based ternary operator.
+            </summary>
+            <param name="terms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileTerms(CiteProc.Compilation.Class,CiteProc.v10.TermElement[])">
+            <summary>
+            Compiles the terms for this locale.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.CompileTermGender(CiteProc.Compilation.Class,CiteProc.v10.TermElement[])">
+            <summary>
+            Compiles the term genders for this locale.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.Compile(CiteProc.Compilation.Case,CiteProc.v10.TermElement[])">
+            <summary>
+            Compiles the term formats for the given term.
+            </summary>
+            <param name="code"></param>
+            <param name="terms"></param>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.LocaleProvider.Compile(CiteProc.Compilation.Scope,CiteProc.v10.TermElement)">
+            <summary>
+            Compiles single/plural or value for the given term.
+            </summary>
+            <param name="block"></param>
+            <param name="term"></param>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.Invariant">
+            <summary>
+            Invariant.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.af_ZA">
+            <summary>
+            af-ZA
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.ar">
+            <summary>
+            ar
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.bg">
+            <summary>
+            bg
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.ca_AD">
+            <summary>
+            ca-AD
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.cs_CZ">
+            <summary>
+            cs-CZ
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.cy_GB">
+            <summary>
+            cy-GB
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.da_DK">
+            <summary>
+            da-DK
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.de">
+            <summary>
+            de
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.de_AT">
+            <summary>
+            de-AT
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.de_CH">
+            <summary>
+            de-CH
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.el_GR">
+            <summary>
+            el-GR
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.en_GB">
+            <summary>
+            en-GB
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.es">
+            <summary>
+            es
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.es_CL">
+            <summary>
+            es-CL
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.es_MX">
+            <summary>
+            es-MX
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.et_EE">
+            <summary>
+            et-EE
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.eu">
+            <summary>
+            eu
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.fa_IR">
+            <summary>
+            fa-IR
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.fi">
+            <summary>
+            fi
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.fr">
+            <summary>
+            fr
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.fr_CA">
+            <summary>
+            fr-CA
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.he_IL">
+            <summary>
+            he-IL
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.hr">
+            <summary>
+            hr
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.is">
+            <summary>
+            is
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.it">
+            <summary>
+            it
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.ja_JP">
+            <summary>
+            ja-JP
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.km_KH">
+            <summary>
+            km-KH
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.ko_KR">
+            <summary>
+            ko-KR
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.lt">
+            <summary>
+            lt
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.lv">
+            <summary>
+            lv
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.mn">
+            <summary>
+            mn
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.nb_NO">
+            <summary>
+            nb-NO
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.nl">
+            <summary>
+            nl
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.nn_NO">
+            <summary>
+            nn-NO
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.pl">
+            <summary>
+            pl
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.pt">
+            <summary>
+            pt
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.pt_BR">
+            <summary>
+            pt-BR
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.ro">
+            <summary>
+            ro
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.ru">
+            <summary>
+            ru
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.sk">
+            <summary>
+            sk
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.sl_SI">
+            <summary>
+            sl-SI
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.sr_RS">
+            <summary>
+            sr-RS
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.sv_SE">
+            <summary>
+            sv-SE
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.th">
+            <summary>
+            th
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.tr">
+            <summary>
+            tr
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.uk_UA">
+            <summary>
+            uk-UA
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.vi_VN">
+            <summary>
+            vi-VN
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.zh">
+            <summary>
+            zh
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Runtime.Processor.LocaleProvider.zh_TW">
+            <summary>
+            zh-TW
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariable(System.String)">
+            <summary>
+            Get the value from the underlying data provider, and casts it into one of four types:
+            - IDateVariable
+            - INumberVariable
+            - object[], either string or INameVariable
+            - a string
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsText(System.String)">
+            <summary>
+            Returns the variable with the given name as a string.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsDate(System.String)">
+            <summary>
+            Returns the variable with the given name as either a IDateVariable or a string.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsNumber(System.String)">
+            <summary>
+            Returns the variable with the given name as either a INumberVariable or a string.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsNames(System.String)">
+            <summary>
+            Returns the variable with the given name as object[].
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CiteProc.Culture">
+            <summary>
+            A culture represents the combination of a language and a dialect.
+            </summary>
+        </member>
+        <member name="F:CiteProc.Culture.Invariant">
+            <summary>
+            The invariant culture.
+            </summary>
+        </member>
+        <member name="F:CiteProc.Culture.Klingon">
+            <summary>
+            The Klingon culture.
+            </summary>
+        </member>
+        <member name="M:CiteProc.Culture.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="xmlLang"></param>
+        </member>
+        <member name="M:CiteProc.Culture.op_Implicit(System.String)~CiteProc.Culture">
+            <summary>
+            Implicit conversion operator to string.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.op_Implicit(CiteProc.Culture)~System.String">
+            <summary>
+            Implicit conversion operator from string.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.op_Equality(CiteProc.Culture,CiteProc.Culture)">
+            <summary>
+            Equal operator.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.op_Inequality(CiteProc.Culture,CiteProc.Culture)">
+            <summary>
+            Inequal operator.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.Equals(CiteProc.Culture)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.Culture.ToString">
+            <summary>
+            Returns the full name of this culture.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:CiteProc.Culture.Language">
+            <summary>
+            The language of the culture, in lowercase.
+            </summary>
+        </member>
+        <member name="P:CiteProc.Culture.Dialect">
+            <summary>
+            The dialect of the culture, in uppercase.
+            </summary>
+        </member>
+        <member name="P:CiteProc.Culture.IsDialect">
+            <summary>
+            Indicates whether both language and dialect are set. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.Culture.IsLanguage">
+            <summary>
+            Indicates whether language is set but dialect is not set. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.Culture.IsInvariant">
+            <summary>
+            Indicates whether both language and dialect are not set. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.Culture.IsKlingon">
+            <summary>
+            Indicates whether the culture is the Klingon culture.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DateElement">
+            <summary>
+            The cs:date rendering element outputs the date selected from the list of date variables with the required variable
+            attribute. A date can be rendered in either a localized or non-localized format.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.FormattingElement">
+            <summary>
+            Base class for elements with affixes and formatting attributes.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.IFormatting">
+            <summary>
+            Represents an element with formatting attributes.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.FontStyle">
+            <summary>
+            Gets or sets the font style (normal, italic or oblique).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.FontStyleSpecified">
+            <summary>
+            Indicates whether the 'font-style' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.FontVariantSpecified">
+            <summary>
+            Gets or sets the font variant (normal or small-caps).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.FontVariant">
+            <summary>
+            Indicates whether the 'font-variant' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.FontWeight">
+            <summary>
+            Gets or sets the font weight (normal, bold or light).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.FontWeightSpecified">
+            <summary>
+            Indicates whether the 'font-weight' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.TextDecorationSpecified">
+            <summary>
+            Gets or sets the text decoration (none or underline).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.TextDecoration">
+            <summary>
+            Indicates whether the 'text-decoration' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.VerticalAlignSpecified">
+            <summary>
+            Gets or sets the vertical alignment (baseline, subscript or superscript).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IFormatting.VerticalAlign">
+            <summary>
+            Indicates whether the 'vertical-align' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.FontStyle">
+            <summary>
+            Gets or sets the font style (normal, italic or oblique).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.FontStyleSpecified">
+            <summary>
+            Indicates whether the 'font-style' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.FontVariant">
+            <summary>
+            Gets or sets the font variant (normal or small-caps).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.FontVariantSpecified">
+            <summary>
+            Indicates whether the 'font-variant' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.FontWeight">
+            <summary>
+            Gets or sets the font weight (normal, bold or light).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.FontWeightSpecified">
+            <summary>
+            Indicates whether the 'font-weight' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.TextDecoration">
+            <summary>
+            Gets or sets the text decoration (none or underline).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.TextDecorationSpecified">
+            <summary>
+            Indicates whether the 'text-decoration' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.VerticalAlign">
+            <summary>
+            Gets or sets the vertical alignment (baseline, subscript or superscript).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.FormattingElement.VerticalAlignSpecified">
+            <summary>
+            Indicates whether the 'vertical-align' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.DateElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Date element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.Variable">
+            <summary>
+            Specifies which date variable will be rendered.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.Format">
+            <summary>
+            Localized date formats are selected with the optional form attribute, which must set to either “numeric” (for
+            fully numeric formats, e.g. “12-15-2005”), or “text” (for formats with a non-numeric month, e.g. “December 15, 2005”). 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.Precision">
+            <summary>
+            The date-parts attribute may be used to show fewer date parts.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.PrecisionSpecified">
+            <summary>
+            Indicates whether the 'date-parts' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.TextCase">
+            <summary>
+            When specified, converts the rendered text to the given case.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.TextCaseSpecified">
+            <summary>
+            Indicates whether the 'text-case' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.DateParts">
+            <summary>
+            For date formats with the form attribute specified, the attributes set on these elements override those specified for
+            the localized date formats. In the absence of the form attribute, cs:date describes a self-contained non-localized date
+            format. In this case, the date format is constructed using cs:date-part child elements. With a required name attribute set
+            to either day, month or year, the order of these elements reflects the display order of respectively the day, month, and year.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.Display">
+            <summary>
+            The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
+            into one or more text blocks. If used, all rendering elements should be under the control of a display attribute. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.DisplaySpecified">
+            <summary>
+            Indicates whether the 'display' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DateElement.Delimiter">
+            <summary>
+            The delimiter attribute delimits non-empty pieces of output.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DateFormat">
+            <summary>
+            Specifies the format of a localized date element.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DateFormat.Numeric">
+            <summary>
+            “numeric” (for fully numeric formats, e.g. “12-15-2005”).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DateFormat.Text">
+            <summary>
+            “text” (for formats with a non-numeric month, e.g. “December 15, 2005”).
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DatePartElement">
+            <summary>
+            Represents a part of a date - day, month or year.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.DatePartElement.Compile(CiteProc.Compilation.MethodInvoke)">
+            <summary>
+            Compiles this DatePart.
+            </summary>
+            <param name="method"></param>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.Name">
+            <summary>
+            Specifies the name or the part = day, month or year.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.Format">
+            <summary>
+            Specifies the format of this date part.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.RangeDelimiter">
+            <summary>
+            Specifies the delimiter used for rendering a date range. When a date range is rendered, the range delimiter is
+            drawn from the cs:date-part element matching the largest date part (“year”, “month”, or “day”) that
+            differs between the two dates.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.RangeDelimiterSpecified">
+            <summary>
+            Indicates whether the 'range-delimiter' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.StripPeriods">
+            <summary>
+            When set to “true” (“false” is the default), any periods in the rendered text are removed.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.StripPeriodsSpecified">
+            <summary>
+            Indicates whether the 'strip-periods' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.TextCase">
+            <summary>
+            When specified, converts the rendered date part to the given case.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.DatePartElement.TextCaseSpecified">
+            <summary>
+            Indicates whether the 'text-case' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DatePartFormat">
+            <summary>
+            Specifies the format of a date part.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartFormat.Numeric">
+            <summary>
+            “numeric” - (default), e.g. “1” - allowed for day and month parts.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartFormat.NumericLeadingZeros">
+            <summary>
+            “numeric-leading-zeros” - e.g. “01” - allowed for day and month parts.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartFormat.Ordinal">
+            <summary>
+            “ordinal” - e.g. “1st” - allowed for day parts.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartFormat.Long">
+            <summary>
+            “long” - (default), e.g. “January” or “2005” - allowed for month and year parts.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartFormat.Short">
+            <summary>
+            “short” - e.g. “Jan.” (month) or “05” (year) - allowed for month and year parts.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DatePartName">
+            <summary>
+            Specifies the name of the date part - day, month, year.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartName.Day">
+            <summary>
+            Day part.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartName.Month">
+            <summary>
+            Month part.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePartName.Year">
+            <summary>
+            Year part.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.DatePrecision">
+            <summary>
+            Specifies which parts of the date will be rendered. 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePrecision.YearMonthDay">
+            <summary>
+            “year-month-day” - (default), renders the year, month and day.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePrecision.YearMonth">
+            <summary>
+            “year-month” - renders the year and month.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.DatePrecision.Year">
+            <summary>
+            “year” - renders the year.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.ElseElement">
+            <summary>
+            Represents a cs:else conditional branch inside a cs:choose element.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.ElseElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Else element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.ElseElement.Children">
+            <summary>
+            Gets or sets the rendered child elements if the condition is met.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.EtAlElement">
+            <summary>
+            Et-al abbreviation, controlled via the et-al-... attributes, can be further customized with this optional cs:et-al element.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.EtAlElement.Compile(CiteProc.Compilation.MethodInvoke)">
+            <summary>
+            Compiles this EtAl element.
+            </summary>
+            <param name="m"></param>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.Term">
+            <summary>
+            The term attribute may be set to either “et-al” (the default) or to “and others” to use either term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.TermSpecified">
+            <summary>
+            Indicates whether the 'term' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.FontStyle">
+            <summary>
+            Gets or sets the font style (normal, italic or oblique).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.FontStyleSpecified">
+            <summary>
+            Indicates whether the 'font-style' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.FontVariant">
+            <summary>
+            Gets or sets the font variant (normal or small-caps).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.FontVariantSpecified">
+            <summary>
+            Indicates whether the 'font-variant' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.FontWeight">
+            <summary>
+            Gets or sets the font weight (normal, bold or light).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.FontWeightSpecified">
+            <summary>
+            Indicates whether the 'font-weight' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.TextDecoration">
+            <summary>
+            Gets or sets the text decoration (none or underline).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.TextDecorationSpecified">
+            <summary>
+            Indicates whether the 'text-decoration' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.VerticalAlign">
+            <summary>
+            Gets or sets the vertical alignment (baseline, subscript or superscript).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.EtAlElement.VerticalAlignSpecified">
+            <summary>
+            Indicates whether the 'vertical-align' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.FontStyle">
+            <summary>
+            Specifies the font style (normal, italic or oblique).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontStyle.Normal">
+            <summary>
+            “normal” (default).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontStyle.Italic">
+            <summary>
+            “italic”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontStyle.Oblique">
+            <summary>
+            “oblique” (i.e. slanted).
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.FontVariant">
+            <summary>
+            Specifies the font variant (normal or small-caps).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontVariant.Normal">
+            <summary>
+            “normal” (default).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontVariant.SmallCaps">
+            <summary>
+            “small-caps”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.FontWeight">
+            <summary>
+            Sepecifies the font weight (normal, bold or light).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontWeight.Normal">
+            <summary>
+            “normal” (default).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontWeight.Bold">
+            <summary>
+            “bold”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.FontWeight.Light">
+            <summary>
+            “light”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Gender">
+            <summary>
+            Specifies the gender of a term.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Gender.Masculine">
+            <summary>
+            Masculine.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Gender.Feminine">
+            <summary>
+            Feminine.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.GroupElement">
+            <summary>
+            The cs:group rendering element must contain one or more rendering elements (with the exception of cs:layout). cs:group 
+            may carry the delimiter attribute to separate its child elements, as well as affixes and display attributes (applied to
+            the output of the group as a whole) and formatting attributes (transmitted to the enclosed elements). cs:group implicitly
+            acts as a conditional: cs:group and its child elements are suppressed if a) at least one rendering element in cs:group
+            calls a variable (either directly or via a macro), and b) all variables that are called are empty.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.GroupElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this group element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.GroupElement.Display">
+            <summary>
+            The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
+            into one or more text blocks. If used, all rendering elements should be under the control of a display attribute. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.GroupElement.DisplaySpecified">
+            <summary>
+            Indicates whether the 'display' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.GroupElement.Delimiter">
+            <summary>
+            The delimiter attribute delimits non-empty pieces of output.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.GroupElement.Children">
+            <summary>
+            Gets or sets the rendering elements to be grouped.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.IfElement">
+            <summary>
+            Represents a cs:if or cs:else-if conditional branch inside a cs:choose element.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.IfElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this If element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.Disambiguate">
+            <summary>
+            When set to “true” (the only allowed value), the element content is only rendered if it disambiguates two otherwise
+            identical citations. This attempt at disambiguation is only made when all other disambiguation methods have failed
+            to uniquely identify the target source.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.DisambiguateSpecified">
+            <summary>
+            Indicates whether the 'disambiguate' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:CiteProc.v10.IfElement.IsNumeric" -->
+        <member name="P:CiteProc.v10.IfElement.IsUncertainDate">
+            <summary>
+            Tests whether the given date variables contain approximate dates.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.Locator">
+            <summary>
+            Tests whether the locator matches the given locator types (see Locators). Use “sub-verbo” to test for the “sub verbo” locator type.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.Position">
+            <summary>
+            Tests whether the cite position matches the given positions (terminology: citations consist of one or more cites to individual items). When called within the scope of cs:bibliography, position tests “false”.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.Type">
+            <summary>
+            Tests whether the item matches the given types.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.Variable">
+            <summary>
+            Tests whether the default (long) forms of the given variables contain non-empty values.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.Match">
+            <summary>
+            Controls the testing logic.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.IfElement.MatchSpecified">
+            <summary>
+            Indicates whether the 'match' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.KeyElement">
+            <summary>
+            Represents a sort key.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.KeyElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Key element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.Variable">
+            <summary>
+            The variable that is used for sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.Macro">
+            <summary>
+            The macro that is used for sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.SortOrder">
+            <summary>
+            Specifies the direction of the sort.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.SortOrderSpecified">
+            <summary>
+            Indicates whether the 'sort' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.EtAlMin">
+            <summary>
+            If the number of names in a name variable matches or exceeds the number set on et-al-min, the rendered name list is truncated.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.EtAlMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.EtAlUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.EtAlUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.EtAlUseLast">
+            <summary>
+            When set to “true” (the default is “false”), name lists truncated by et-al abbreviation are followed by the name
+            delimiter, the ellipsis character, and the last name of the original name list. This is only possible when the
+            original name list has at least two more names than the truncated name list.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.EtAlUseLastSpecified">
+            <summary>
+            Indicates whether the 'et-al-use-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.CiteProc#v10#IEtAlOptions#EtAlSubsequentMin">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.CiteProc#v10#IEtAlOptions#EtAlSubsequentMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.CiteProc#v10#IEtAlOptions#EtAlSubsequentUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.KeyElement.CiteProc#v10#IEtAlOptions#EtAlSubsequentUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-use-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LabelElement">
+            <summary>
+            The cs:label rendering element outputs the term matching the variable selected with the required variable 
+            attribute, which must be set to “locator, “page”, or one of the number variables. The term is only rendered
+            if the selected variable is non-empty. 
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.LabelElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles the Label element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.Variable">
+            <summary>
+            The term/variable to be rendered.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.Format">
+            <summary>
+            Selects the format of the term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.Plurilization">
+            <summary>
+            Sets pluralization of the term: contextual (default), always or never.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.PlurilizationSpecified">
+            <summary>
+            Indicates whether the 'plural' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.StripPeriods">
+            <summary>
+            When set to “true” (“false” is the default), any periods in the rendered text are removed.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.StripPeriodsSpecified">
+            <summary>
+            Indicates whether the 'strip-periods' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.TextCase">
+            <summary>
+            When specified, converts the rendered text to the given case.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LabelElement.TextCaseSpecified">
+            <summary>
+            Indicates whether the 'text-case' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LabelPluralization">
+            <summary>
+            Sets pluralization of the term in a label.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:CiteProc.v10.LabelPluralization.Contextual" -->
+        <member name="F:CiteProc.v10.LabelPluralization.Always">
+            <summary>
+            “always” - always use the plural form, e.g. “pages 1” and “pages 1-3”
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.LabelPluralization.Never">
+            <summary>
+            “never” - always use the singular form, e.g. “page 1” and “page 1-3”.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.LayoutElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Layout element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.LayoutElement.Delimiter">
+            <summary>
+            The delimiter attribute delimits non-empty pieces of output.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.InfoTextElement">
+            <summary>
+            Represents a text in a given language within the style info.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.InfoTextElement.XmlLang">
+            <summary>
+            Specifies the language of the element’s content; the value must be an xsd:language locale code.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.InfoTextElement.Text">
+            <summary>
+            The text of the translation.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LinkElement">
+            <summary>
+            Links this style to other styles and documents.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LinkElement.Href">
+            <summary>
+            The uri of the linked document.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LinkElement.Relation">
+            <summary>
+            Indicates how the URI relates to the style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LinkElement.Culture">
+            <summary>
+            Specifies the language of the element’s content; the value must be an xsd:language locale code.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LinkRelation">
+            <summary>
+            Represents the ways an external document relates to a style.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.LinkRelation.Self">
+            <summary>
+            URI of the style itself.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.LinkRelation.Template">
+            <summary>
+            URI of the style from which the current style is derived.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.LinkRelation.Documentation">
+            <summary>
+            URI of style documentation.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.LinkRelation.IndepdendentParent">
+            <summary>
+            The independent parent file of the current dependent file.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LocaleElement">
+            <summary>
+            Represents localization data which can be included in a styles. Each locale element contains localization data for a single
+            language dialect. This locale code is set on the required xml:lang attribute on the cs:locale root element.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleElement.XmlLang">
+            <summary>
+            The locale code of this locale.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleElement.StyleOptions">
+            <summary>
+            Style options of the locale.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleElement.Dates">
+            <summary>
+            Two localized date formats can be defined with cs:date elements: a “numeric” (e.g. “12-15-2005”) and a “text” format.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleElement.Terms">
+            <summary>
+            Terms are localized strings (e.g. by using the “and” term, “Doe and Smith” automatically becomes “Doe und Smith”
+            when the style locale is switched from English to German). Terms are either directly defined in the content of cs:term,
+            or, in cases where singular and plural variants are needed (e.g. “page” and “pages”), in the content of the child
+            elements cs:single and cs:multiple, respectively.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LocaleFile">
+            <summary>
+            Represents a locale file. Each locale file contains localization data for a single language dialect.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.LocaleFile.Clone">
+            <summary>
+            Returns a clone of this locale file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:CiteProc.v10.LocaleFile.Defaults">
+            <summary>
+            Returns an array of all currently available locale files.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleFile.XmlLang">
+            <summary>
+            The locale code of this locale.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleFile.Info">
+            <summary>
+            The cs:info element may be used to give metadata on the locale file.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleFile.StyleOptions">
+            <summary>
+            Style options of the locale.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleFile.Dates">
+            <summary>
+            Two localized date formats can be defined with cs:date elements: a “numeric” (e.g. “12-15-2005”) and a “text” format.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleFile.Terms">
+            <summary>
+            Terms are localized strings (e.g. by using the “and” term, “Doe and Smith” automatically becomes “Doe und Smith”
+            when the style locale is switched from English to German). Terms are either directly defined in the content of cs:term,
+            or, in cases where singular and plural variants are needed (e.g. “page” and “pages”), in the content of the child
+            elements cs:single and cs:multiple, respectively.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.LocaleInfoElement">
+            <summary>
+            The cs:info element may be used to give metadata on the locale file.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleInfoElement.Translators">
+            <summary>
+            Used to acknowledge locale translators.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleInfoElement.Rights">
+            <summary>
+            The contents of cs:rights specifies the license under which the locale file is released.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleInfoElement.Updated">
+            <summary>
+            The contents of cs:updated must be a timestamp that shows when the locale file was last updated.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.LocaleInfoElement.UpdatedSpecified">
+            <summary>
+            Indicates whether the 'updated' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.MacroElement">
+            <summary>
+            Macros allow formatting instructions to be reused, keeping styles compact and maintainable.
+            The use of macros can improve style readability, compactness and maintainability. It is recommended to keep 
+            the contents of cs:citation and cs:bibliography compact and agnostic of item types (e.g. books, journal 
+            articles, etc.) by depending on macro calls. To allow for easy reuse of macros in other styles, it is 
+            recommended to use common macro names.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.MacroElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this macro element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.MacroElement.Name">
+            <summary>
+            The name of the macro, which is also referenced by the cs:text and cs:sort elements.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.MacroElement.Children">
+            <summary>
+            The child elements to be rendered.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.Match">
+            <summary>
+            Control the testing logic of a cs:choose element.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Match.All">
+            <summary>
+            Default. Elements only tests “true” when all conditions test “true” for all given test values.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Match.Any">
+            <summary>
+            Element tests “true” when any condition tests “true” for any given test value.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.Match.None">
+            <summary>
+            Element only tests “true” when none of the conditions test “true” for any given test value.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NameElement.Delimiter">
+            <summary>
+            The delimiter attribute delimits non-empty pieces of output.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamePartElement.TextCase">
+            <summary>
+            When specified, converts the rendered text to the given case.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamePartElement.TextCaseSpecified">
+            <summary>
+            Indicates whether the 'text-case' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.NamesElement">
+            <summary>
+            The cs:names rendering element outputs the contents of one or more name variables (selected with the
+            required variable attribute), each of which can contain multiple names (e.g. the “author” variable
+            contains all the author names of the cited item). If multiple variables are selected (separated by
+            single spaces, see example below), each variable is independently rendered in the order specified,
+            with one exception: when the selection consists of “editor” and “translator”, and when the contents
+            of these two name variables is identical, then the contents of only one name variable is rendered.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.Variable">
+            <summary>
+            Selects the names variables to be used.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.Delimiter">
+            <summary>
+            Separates the names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.Name">
+            <summary>
+            The cs:name element can be used to describe the formatting of individual names, and the separation of names within a name variable.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.EtAl">
+            <summary>
+            Et-al abbreviation can be further customized with the optional cs:et-al element.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.Substitute">
+            <summary>
+            The optional cs:substitute element adds substitution in case the name variables specified in the parent cs:names
+            element are empty. The substitutions are specified as child elements of cs:substitute, and must consist of one
+            or more rendering elements (with the exception of cs:layout).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.Display">
+            <summary>
+            The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
+            into one or more text blocks. If used, all rendering elements should be under the control of a display attribute. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NamesElement.DisplaySpecified">
+            <summary>
+            Indicates whether the 'display' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.NumberElement">
+            <summary>
+            The cs:number rendering element outputs the number variable selected with the required variable attribute. A number variable
+            is rendered with cs:number and only contains numeric content (as determined by the rules for is-numeric), the number(s) are
+            extracted. Variable content is rendered “as is” when the variable contains any non-numeric content (e.g. “Special edition”).
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.NumberElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Number element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.Variable">
+            <summary>
+            The variable containing the (numeric) content.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.Format">
+            <summary>
+            Specifies the number format.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.TextCase">
+            <summary>
+            When specified, converts the rendered text to the given case.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.TextCaseSpecified">
+            <summary>
+            Indicates whether the 'text-case' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.Display">
+            <summary>
+            The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
+            into one or more text blocks. If used, all rendering elements should be under the control of a display attribute. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.NumberElement.DisplaySpecified">
+            <summary>
+            Indicates whether the 'display' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.NumberFormat">
+            <summary>
+            Represents the available number formats.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NumberFormat.Numeric">
+            <summary>
+            “numeric” - (default), e.g. “1”, “2”, “3”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NumberFormat.Ordinal">
+            <summary>
+            “ordinal” - e.g. “1st”, “2nd”, “3rd”..
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NumberFormat.LongOrdinal">
+            <summary>
+            long-ordinal” - e.g. “first”, “second”, “third”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.NumberFormat.Roman">
+            <summary>
+            “roman” - e.g. “i”, “ii”, “iii”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.RightsElement">
+            <summary>
+            The contents of cs:rights specifies the license under which the style file is released. The element 
+            may carry a license attribute to specify the URI of the license.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.RightsElement.License">
+            <summary>
+            Sppecifies the URI of the license.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.RightsElement.Contents">
+            <summary>
+            The contents of cs:rights specifies the license under which the style file is released.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.RightsElement.Culture">
+            <summary>
+            Specifies the language of the element’s content; the value must be an xsd:language locale code.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.SortElement">
+            <summary>
+            Specifies the sorting order of cites within citations, and bibliographic entries within the bibliography respectively.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.SortElement.Compile(CiteProc.Compilation.LambdaExpression)">
+            <summary>
+            Compiles this Sort element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.SortElement.Keys">
+            <summary>
+            The list of sort keys.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.StyleFile">
+            <summary>
+            Represents a single Citation Style Language style file.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.StyleFile.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.StyleFile.Compile">
+            <summary>
+            Compiles the style into a processor instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiteProc.v10.StyleFile.Compile(CiteProc.Compilation.Class)">
+            <summary>
+            Compiles this style element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.StyleFile.Compile(CiteProc.Compilation.Scope,CiteProc.v10.EntryElement)">
+            <summary>
+            Compiles the given entry descriptor element.
+            </summary>
+            <param name="code"></param>
+            <param name="child"></param>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.IsDependent">
+            <summary>
+            Indicates whether this style is an dependent style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Class">
+            <summary>
+            Determines whether the style uses in-text citations (value “in-text”) or notes (“note”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DefaultLocale">
+            <summary>
+            Sets a default locale for style localization. Value must be a locale code.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Info">
+            <summary>
+            Contains the metadata describing the style (style name, ID, authors, etc.).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Locales">
+            <summary>
+            Used to specify (overriding) localization data.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Macros">
+            <summary>
+            Macros allow formatting instructions to be reused, keeping styles compact and maintainable.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Citation">
+            <summary>
+            Describes the formatting of in-text citations or notes.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Bibliography">
+            <summary>
+            Describes the formatting of the bibliography.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.InitializeWithHyphen">
+            <summary>
+            Specifies whether compound given names (e.g. “Jean-Luc”) should be initialized with a hyphen 
+            (“J.-L.”, value “true”, default) or without (“J.L.”, value “false”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.InitializeWithHyphenSpecified">
+            <summary>
+            Indicates whether the 'initialize-with-hyphen' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.PageRangeFormat">
+            <summary>
+            Activates expansion or collapsing of page ranges. If the attribute is not set, page ranges are rendered without reformatting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.PageRangeFormatSpecified">
+            <summary>
+            Indicates whether the 'page-range-format' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DemoteNonDroppingParticle">
+            <summary>
+            Sets the display and sorting behavior of the non-dropping-particle in inverted names (e.g. “Koning, W. de”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DemoteNonDroppingParticleSpecified">
+            <summary>
+            Indicates whether the 'demote-non-dropping-particle' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.And">
+            <summary>
+            Specifies the delimiter between the second to last and last name of the names in a name variable.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.AndSpecified">
+            <summary>
+            Indicates whether the 'and' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.NameDelimiter">
+            <summary>
+            Specifies the text string used to separate names in a name variable. Default is ”, ” (e.g. “Doe, Smith”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.CiteProc#v10#INameOptions#Delimiter">
+            <summary>
+            Specifies the text string used to separate names in a name variable. Default is ”, ” (e.g. “Doe, Smith”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.NamesDelimiter">
+            <summary>
+            Specifies the delimiter for names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.CiteProc#v10#INamesOptions#Delimiter">
+            <summary>
+            Specifies the delimiter for names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DelimiterPrecedesEtAl">
+            <summary>
+            Determines when the name delimiter or a space is used between a truncated name list and the “et-al”
+            (or “and others”) term in case of et-al abbreviation.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DelimiterPrecedesEtAlSpecified">
+            <summary>
+            Indicates whether the 'delimiter-preceded-et-al' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DelimiterPrecedesLast">
+            <summary>
+            Determines when the name delimiter is used to separate the second to last and the last name in name lists (if
+            and is not set, the name delimiter is always used, regardless of the value of delimiter-precedes-last).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.DelimiterPrecedesLastSpecified">
+            <summary>
+            Indicates whether the 'delimiter-precedes-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlMin">
+            <summary>
+            If the number of names in a name variable matches or exceeds the number set on et-al-min, the rendered name list is truncated.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlSubsequentMin">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlSubsequentMinSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-min' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlSubsequentUseFirst">
+            <summary>
+            If the number of names in a name variable is truncated, it is truncated after reaching the number of names set on et-al-use-first.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlSubsequentUseFirstSpecified">
+            <summary>
+            Indicates whether the 'et-al-subsequent-use-first' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlUseLast">
+            <summary>
+            When set to “true” (the default is “false”), name lists truncated by et-al abbreviation are followed by the name
+            delimiter, the ellipsis character, and the last name of the original name list. This is only possible when the
+            original name list has at least two more names than the truncated name list.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.EtAlUseLastSpecified">
+            <summary>
+            Indicates whether the 'et-al-use-last' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.NameFormat">
+            <summary>
+            Specifies whether all the name-parts of personal names should be displayed (value “long”, the default), or only the
+            family name and the non-dropping-particle (value “short”). A third value, “count”, returns the total number of names
+            that would otherwise be rendered by the use of the cs:names element (taking into account the effects of et-al abbreviation
+            and editor/translator collapsing), which allows for advanced sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.NameFormatSpecified">
+            <summary>
+            Indicates whether the 'name-form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.CiteProc#v10#INameOptions#Format">
+            <summary>
+            Specifies whether all the name-parts of personal names should be displayed (value “long”, the default), or only the
+            family name and the non-dropping-particle (value “short”). A third value, “count”, returns the total number of names
+            that would otherwise be rendered by the use of the cs:names element (taking into account the effects of et-al abbreviation
+            and editor/translator collapsing), which allows for advanced sorting.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.CiteProc#v10#INameOptions#FormatSpecified">
+            <summary>
+            Indicates whether the 'name-form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.Initialize">
+            <summary>
+            When set to “false” (the default is “true”), given names are no longer initialized when “initialize-with” is set. However,
+            the value of “initialize-with” is still added after initials present in the full name (e.g. with initialize set to “false”,
+            and initialize-with set to ”.”, “James T Kirk” becomes “James T. Kirk”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.InitializeSpecified">
+            <summary>
+            Indicates whether the 'initialize' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.InitializeWith">
+            <summary>
+            When set, given names are converted to initials. The attribute value is added after each initial (”.” results in “J.J. Doe”). 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.NameAsSortOrder">
+            <summary>
+            Specifies that names should be displayed with the given name following the family name (e.g. “John Doe” becomes “Doe, John”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.NameAsSortOrderSpecified">
+            <summary>
+            Indicates whether the 'name-as-sort-order' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleFile.SortSeparator">
+            <summary>
+            Sets the delimiter for name-parts that have switched positions as a result of name-as-sort-order. The default value
+            is ”, ” (“Doe, John”). As is the case for name-as-sort-order, this attribute only affects names written
+            in the latin or Cyrillic alphabets.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.StyleInfoElement">
+            <summary>
+            The cs:info element contains the style’s metadata. Its structure is based on the Atom Syndication Format.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Id">
+            <summary>
+            The element should contain a URI to establish the identity of the style. A stable, unique
+            and dereferenceable URI is desired for publicly available styles.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Title">
+            <summary>
+            The contents of cs:title should be the name of the style as shown to users.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.TitleShort">
+            <summary>
+            The contents of cs:title-short should be a shortened style name (e.g. “APA”).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Summary">
+            <summary>
+            The contents of cs:summary gives a (short) description of the style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Authors">
+            <summary>
+            Acknowledges the author(s) of the style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Contributors">
+            <summary>
+            Acknowledges contributor(s) to the style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Categories">
+            <summary>
+            Styles may be assigned one or more categories. A single categorie may be used to describe how in-text citations are
+            rendered using the citation-format attribute. Multiple categories may be used with the field attribute, set to one of
+            the discipline categories, to indicate the field(s) for which the style is relevant.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Links">
+            <summary>
+            May be used multiple times. cs:link must carry two attributes: href, set to a URI (usually a URL), and
+            rel, whose value indicates how the URI relates to the style.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Rights">
+            <summary>
+            The contents of cs:rights specifies the license under which the style file is released. The element 
+            may carry a license attribute to specify the URI of the license.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.ISSN">
+            <summary>
+            The cs:issn element may be used multiple times to indicate the ISSN identifier(s) of the journal for which the style was written.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.eISSN">
+            <summary>
+            The cs:eissn element may be used once for the eISSN identifier.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.ISSNL">
+            <summary>
+            The cs:issnl elements may be used once for the ISSN-L identifier.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Published">
+            <summary>
+            The contents of cs:published must be a timestamp, indicating when the style was initially created or made available.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.PublishedSpecified">
+            <summary>
+            Indicates whether the 'published' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.Updated">
+            <summary>
+            The contents of cs:updated must be a timestamp that shows when the style was last updated.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleInfoElement.UpdatedSpecified">
+            <summary>
+            Indicates whether the 'updates' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TermFormat">
+            <summary>
+            Represents the format of a term.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermFormat.Long">
+            <summary>
+            “long” - (default), e.g. “editor” and “editors” for the “editor” term.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermFormat.Short">
+            <summary>
+            “short” - e.g. “ed.” and “eds.” for the term “editor”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermFormat.Verb">
+            <summary>
+            “verb” - e.g. “edited by” for the term “editor”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermFormat.VerbShort">
+            <summary>
+            “verb-short” - e.g. “ed.” for the term “editor”.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermFormat.Symbol">
+            <summary>
+            “symbol” - e.g. “§” and “§§” for the term “section”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TermMatch">
+            <summary>
+            Specifies how ordinals are matched.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermMatch.LastDigit">
+            <summary>
+            A term is used when the last digit in the term name matches the last digit of the rendered number.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermMatch.LastTwoDigits">
+            <summary>
+            By setting the optional match attribute to “last-two-digits” (“last-digit” is the default), matches are 
+            limited to numbers where the two last digits agree (“0”, “100”, “200”, etc.)
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermMatch.WholeNumber">
+            <summary>
+            When match is set to “whole-number”, there is only a match if the number is the same as that of the term.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TermName">
+            <summary>
+            The name of the term.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Book">
+            <summary>
+            book
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Chapter">
+            <summary>
+            chapter
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Column">
+            <summary>
+            column
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Figure">
+            <summary>
+            figure
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Folio">
+            <summary>
+            folio
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Issue">
+            <summary>
+            issue
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Line">
+            <summary>
+            line
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Note">
+            <summary>
+            note
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Opus">
+            <summary>
+            opus
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Page">
+            <summary>
+            page
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Paragraph">
+            <summary>
+            paragraph
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Part">
+            <summary>
+            part
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Section">
+            <summary>
+            section
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.SubVerbo">
+            <summary>
+            sub verbo
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Verse">
+            <summary>
+            verse
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Volume">
+            <summary>
+            volume
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month01">
+            <summary>
+            month-01
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month02">
+            <summary>
+            month-02
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month03">
+            <summary>
+            month-03
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month04">
+            <summary>
+            month-04
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month05">
+            <summary>
+            month-05
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month06">
+            <summary>
+            month-06
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month07">
+            <summary>
+            month-07
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month08">
+            <summary>
+            month-08
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month09">
+            <summary>
+            month-09
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month10">
+            <summary>
+            month-10
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month11">
+            <summary>
+            month-11
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Month12">
+            <summary>
+            month-12
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal">
+            <summary>
+            ordinal
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal01">
+            <summary>
+            long-ordinal-01
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal02">
+            <summary>
+            long-ordinal-02
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal03">
+            <summary>
+            long-ordinal-03
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal04">
+            <summary>
+            long-ordinal-04
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal05">
+            <summary>
+            long-ordinal-05
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal06">
+            <summary>
+            long-ordinal-06
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal07">
+            <summary>
+            long-ordinal-07
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal08">
+            <summary>
+            long-ordinal-08
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal09">
+            <summary>
+            long-ordinal-09
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.LongOrdinal10">
+            <summary>
+            long-ordinal-10
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal00">
+            <summary>
+            ordinal-00
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal01">
+            <summary>
+            ordinal-01
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal02">
+            <summary>
+            ordinal-02
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal03">
+            <summary>
+            ordinal-03
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal04">
+            <summary>
+            ordinal-04
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal05">
+            <summary>
+            ordinal-05
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal06">
+            <summary>
+            ordinal-06
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal07">
+            <summary>
+            ordinal-07
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal08">
+            <summary>
+            ordinal-08
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal09">
+            <summary>
+            ordinal-09
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal10">
+            <summary>
+            ordinal-10
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal11">
+            <summary>
+            ordinal-11
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal12">
+            <summary>
+            ordinal-12
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal13">
+            <summary>
+            ordinal-13
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal14">
+            <summary>
+            ordinal-14
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal15">
+            <summary>
+            ordinal-15
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal16">
+            <summary>
+            ordinal-16
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal17">
+            <summary>
+            ordinal-17
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal18">
+            <summary>
+            ordinal-18
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal19">
+            <summary>
+            ordinal-19
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal20">
+            <summary>
+            ordinal-20
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal21">
+            <summary>
+            ordinal-21
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal22">
+            <summary>
+            ordinal-22
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal23">
+            <summary>
+            ordinal-23
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal24">
+            <summary>
+            ordinal-24
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal25">
+            <summary>
+            ordinal-25
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal26">
+            <summary>
+            ordinal-26
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal27">
+            <summary>
+            ordinal-27
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal28">
+            <summary>
+            ordinal-28
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal29">
+            <summary>
+            ordinal-29
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal30">
+            <summary>
+            ordinal-30
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal31">
+            <summary>
+            ordinal-31
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal32">
+            <summary>
+            ordinal-32
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal33">
+            <summary>
+            ordinal-33
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal34">
+            <summary>
+            ordinal-34
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal35">
+            <summary>
+            ordinal-35
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal36">
+            <summary>
+            ordinal-36
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal37">
+            <summary>
+            ordinal-37
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal38">
+            <summary>
+            ordinal-38
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal39">
+            <summary>
+            ordinal-39
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal40">
+            <summary>
+            ordinal-40
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal41">
+            <summary>
+            ordinal-41
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal42">
+            <summary>
+            ordinal-42
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal43">
+            <summary>
+            ordinal-43
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal44">
+            <summary>
+            ordinal-44
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal45">
+            <summary>
+            ordinal-45
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal46">
+            <summary>
+            ordinal-46
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal47">
+            <summary>
+            ordinal-47
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal48">
+            <summary>
+            ordinal-48
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal49">
+            <summary>
+            ordinal-49
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal50">
+            <summary>
+            ordinal-50
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal51">
+            <summary>
+            ordinal-51
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal52">
+            <summary>
+            ordinal-52
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal53">
+            <summary>
+            ordinal-53
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal54">
+            <summary>
+            ordinal-54
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal55">
+            <summary>
+            ordinal-55
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal56">
+            <summary>
+            ordinal-56
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal57">
+            <summary>
+            ordinal-57
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal58">
+            <summary>
+            ordinal-58
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal59">
+            <summary>
+            ordinal-59
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal60">
+            <summary>
+            ordinal-60
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal61">
+            <summary>
+            ordinal-61
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal62">
+            <summary>
+            ordinal-62
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal63">
+            <summary>
+            ordinal-63
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal64">
+            <summary>
+            ordinal-64
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal65">
+            <summary>
+            ordinal-65
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal66">
+            <summary>
+            ordinal-66
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal67">
+            <summary>
+            ordinal-67
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal68">
+            <summary>
+            ordinal-68
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal69">
+            <summary>
+            ordinal-69
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal70">
+            <summary>
+            ordinal-70
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal71">
+            <summary>
+            ordinal-71
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal72">
+            <summary>
+            ordinal-72
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal73">
+            <summary>
+            ordinal-73
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal74">
+            <summary>
+            ordinal-74
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal75">
+            <summary>
+            ordinal-75
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal76">
+            <summary>
+            ordinal-76
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal77">
+            <summary>
+            ordinal-77
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal78">
+            <summary>
+            ordinal-78
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal79">
+            <summary>
+            ordinal-79
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal80">
+            <summary>
+            ordinal-80
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal81">
+            <summary>
+            ordinal-81
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal82">
+            <summary>
+            ordinal-82
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal83">
+            <summary>
+            ordinal-83
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal84">
+            <summary>
+            ordinal-84
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal85">
+            <summary>
+            ordinal-85
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal86">
+            <summary>
+            ordinal-86
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal87">
+            <summary>
+            ordinal-87
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal88">
+            <summary>
+            ordinal-88
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal89">
+            <summary>
+            ordinal-89
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal90">
+            <summary>
+            ordinal-90
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal91">
+            <summary>
+            ordinal-91
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal92">
+            <summary>
+            ordinal-92
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal93">
+            <summary>
+            ordinal-93
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal94">
+            <summary>
+            ordinal-94
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal95">
+            <summary>
+            ordinal-95
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal96">
+            <summary>
+            ordinal-96
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal97">
+            <summary>
+            ordinal-97
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal98">
+            <summary>
+            ordinal-98
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ordinal99">
+            <summary>
+            ordinal-99
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.OpenQuote">
+            <summary>
+            open-quote
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.CloseQuote">
+            <summary>
+            close-quote
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.OpenInnerQuote">
+            <summary>
+            open-inner-quote
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.CloseInnerQuote">
+            <summary>
+            close-inner-quote
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Author">
+            <summary>
+            author
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.CollectionEditor">
+            <summary>
+            collection-editor
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Composer">
+            <summary>
+            composer
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.ContainerAuthor">
+            <summary>
+            container-author
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Director">
+            <summary>
+            director
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Editor">
+            <summary>
+            editor
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.EditorialDirector">
+            <summary>
+            editorial-director
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.EditorTranslator">
+            <summary>
+            editortranslator
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Illustrator">
+            <summary>
+            illustrator
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Interviewer">
+            <summary>
+            interviewer
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.OriginalAuthor">
+            <summary>
+            original-author
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Recipient">
+            <summary>
+            recipient
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.ReviewedAuthor">
+            <summary>
+            reviewed-author
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Translator">
+            <summary>
+            translator
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Season01">
+            <summary>
+            season-01
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Season02">
+            <summary>
+            season-02
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Season03">
+            <summary>
+            season-03
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Season04">
+            <summary>
+            season-04
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Accessed">
+            <summary>
+            accessed
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ad">
+            <summary>
+            ad
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.And">
+            <summary>
+            and
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.AndOthers">
+            <summary>
+            and others
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Anonymous">
+            <summary>
+            anonymous
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.At">
+            <summary>
+            at
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.AvailableAt">
+            <summary>
+            available at
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Bc">
+            <summary>
+            bc
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.By">
+            <summary>
+            by
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Circa">
+            <summary>
+            circa
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Cited">
+            <summary>
+            cited
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.ChapterNumber">
+            <summary>
+            chapter-number
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.CollectionNumber">
+            <summary>
+            collection-number
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Edition">
+            <summary>
+            edition
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.EtAl">
+            <summary>
+            et-al
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Forthcoming">
+            <summary>
+            forthcoming
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.From">
+            <summary>
+            from
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Ibid">
+            <summary>
+            ibid
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.In">
+            <summary>
+            in
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.InPress">
+            <summary>
+            in press
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Internet">
+            <summary>
+            internet
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Interview">
+            <summary>
+            interview
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Letter">
+            <summary>
+            letter
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Locator">
+            <summary>
+            locator
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.NoDate">
+            <summary>
+            no date
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.NumberOfPages">
+            <summary>
+            number-of-pages
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.NumberOfVolumes">
+            <summary>
+            number-of-volumes
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Online">
+            <summary>
+            online
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.PageRangeDelimiter">
+            <summary>
+            page-range-delimiter
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.PresentedAt">
+            <summary>
+            presented at
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Reference">
+            <summary>
+            reference
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Retrieved">
+            <summary>
+            retrieved
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Scale">
+            <summary>
+            scale
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TermName.Version">
+            <summary>
+            version
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TextElement">
+            <summary>
+            The cs:text rendering element outputs text. It must carry one of the following attributes to select what
+            should be rendered: variable, macro, value or term.
+            </summary>
+        </member>
+        <member name="M:CiteProc.v10.TextElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Text element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Variable">
+            <summary>
+            Renders the text contents of a variable. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Macro">
+            <summary>
+            Renders the text output of a macro. Attribute value must match the value of the name attribute of a cs:macro element.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Value">
+            <summary>
+            Renders the literal text in the value attribute.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Term">
+            <summary>
+            Renders a term. May be accompanied by the plural attribute to select the singular or plural variant of a term, and by
+            the form attribute to select the “long” (default), “short”, “verb”, “verb-short” or “symbol” form variant.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.TermSpecified">
+            <summary>
+            Indicates whether the 'term' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Plural">
+            <summary>
+            The plural attribute selects the singular (“false”, default) or plural (“true”) variant of a term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.PluralSpecified">
+            <summary>
+            Indicates whether the 'plural' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Format">
+            <summary>
+            The form attribute Select the “long” (default), “short”, “verb”, “verb-short” or “symbol” form variant of a term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Quotes">
+            <summary>
+            When set to “true” (“false” is default), the rendered text is wrapped in quotes (the quotation marks used are terms). The
+            localized punctuation-in-quote option controls whether an adjoining comma or period appears outside (default) or
+            inside the closing quotation mark.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.QuotesSpecified">
+            <summary>
+            Indicates whether the 'quotes' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.StripPeriods">
+            <summary>
+            When set to “true” (“false” is the default), any periods in the rendered text are removed.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.StripPeriodsSpecified">
+            <summary>
+            Indicates whether the 'strip-periods' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.TextCase">
+            <summary>
+            When specified, converts the rendered text to the given case.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.TextCaseSpecified">
+            <summary>
+            Indicates whether the 'text-case' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.Display">
+            <summary>
+            The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
+            into one or more text blocks. If used, all rendering elements should be under the control of a display attribute. 
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TextElement.DisplaySpecified">
+            <summary>
+            Indicates whether the 'display' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TextCase">
+            <summary>
+            Represents the available text cases.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextCase.Lowercase">
+            <summary>
+            Renders text in lowercase.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextCase.Uppercase">
+            <summary>
+            Renders text in uppercase.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextCase.CapitalizeFirst">
+            <summary>
+            Capitalizes the first character of the first word, if the word is lowercase.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextCase.CapitalizeAll">
+            <summary>
+            Capitalizes the first character of every lowercase word.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextCase.Sentence">
+            <summary>
+            Renders text in sentence case.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextCase.Title">
+            <summary>
+            Renders text in title case.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TextDecoration">
+            <summary>
+            Specifies the text decoration (none or underline).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextDecoration.None">
+            <summary>
+            “none” (default).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.TextDecoration.Underline">
+            <summary>
+            “underline”.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.TermElement">
+            <summary>
+            A term represents a localized text string.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Name">
+            <summary>
+            The name of the term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Format">
+            <summary>
+            Terms may be defined for specific forms by using cs:term with the optional form attribute.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.FormatSpecified">
+            <summary>
+            Indicates whether the 'form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Match">
+            <summary>
+            Specifies the way terms are matched to ordinals.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.MatchSpecified">
+            <summary>
+            Indicates whether the 'match' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Gender">
+            <summary>
+            Specifies the requested gender of a ordinal rendered for this term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.GenderSpecified">
+            <summary>
+            Indicates whether the 'gender' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.GenderForm">
+            <summary>
+            Specifies the gender of the ordinal term (e.g. 1re is feminine, while 1er is masculin).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.GenderFormSpecified">
+            <summary>
+            Indicates whether the 'gender-form' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Value">
+            <summary>
+            The translation for the term.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Single">
+            <summary>
+            The translated term for a single item.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.TermElement.Multiple">
+            <summary>
+            The translated term for multiple items.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.VerticalAlign">
+            <summary>
+            Specifies the vertical alignment (baseline, subscript or superscript).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.VerticalAlign.Baseline">
+            <summary>
+            “baseline” (default).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.VerticalAlign.Superscript">
+            <summary>
+            “sup” (superscript).
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.VerticalAlign.Subscript">
+            <summary>
+            “sup” (subscript).
+            </summary>
+        </member>
+    </members>
+</doc>

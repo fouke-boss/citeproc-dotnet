@@ -1,0 +1,31 @@
+﻿
+
+
+
+
+To do
+* <names>: substitute (Meer Parameter subclasses maken, bijvoorbeeld TextByVariableParameters?)
+* Parameters omnoemen naar Scope?
+* Cite Collapsing
+* Cite Grouping
+* Disambiguation
+* Citation-specific options
+* Bibliography-specific options
+* Citation-number
+
+* parse van roman numbers
+* parsing van raw date ranges ('summer-autumn 2015' of '17-23 juli 2016')
+* Display
+* if (position)
+* tests van citeproc.cs verder verwerken (fixen of als not supported markeren)
+
+* dubbele spaties, punctuation, text-case 'title', nested quotes, always replace quote and single quote, skip particles in title case, etc.
+* Alle elements valideren tijdens compile
+
+* Gestructureerd alle gevallen langslopen en vastleggen in testgevallen
+
+* Ongebruikte code verwijderen
+* Code van commentaar voorzien.
+* #warnings
+* Xml Formatting
+* Variable type in IDataProvider

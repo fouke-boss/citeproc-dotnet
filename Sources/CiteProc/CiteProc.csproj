@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6FF68F41-B06E-4AF3-841B-F3C3861AB13F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CiteProc</RootNamespace>
+    <AssemblyName>CiteProc</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\CiteProc.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Properties\snk.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="File.cs" />
+    <Compile Include="Formatting\FontStyle.cs" />
+    <Compile Include="Formatting\FontVariant.cs" />
+    <Compile Include="Formatting\FontWeight.cs" />
+    <Compile Include="Formatting\TextDecoration.cs" />
+    <Compile Include="v10\And.cs" />
+    <Compile Include="v10\Collapse.cs" />
+    <Compile Include="Compilation\FeatureNotSupportedException.cs" />
+    <Compile Include="v10\GivenNameDisambiguationRules.cs" />
+    <Compile Include="v10\ILocale.cs" />
+    <Compile Include="v10\PersonalDetailsElement.cs" />
+    <Compile Include="v10\BibliographyElement.cs" />
+    <Compile Include="v10\CategoryElement.cs" />
+    <Compile Include="v10\ChooseElement.cs" />
+    <Compile Include="v10\CitationElement.cs" />
+    <Compile Include="v10\CitationClass.cs" />
+    <Compile Include="v10\CitationFormat.cs" />
+    <Compile Include="Compilation\Block.cs" />
+    <Compile Include="Compilation\Case.cs" />
+    <Compile Include="Compilation\Switch.cs" />
+    <Compile Include="Compilation\Property.cs" />
+    <Compile Include="Compilation\Method.cs" />
+    <Compile Include="Compilation\Namespace.cs" />
+    <Compile Include="Compilation\Class.cs" />
+    <Compile Include="Compilation\CodeWriter.cs" />
+    <Compile Include="Compilation\Compiler.cs" />
+    <Compile Include="Compilation\LambdaExpression.cs" />
+    <Compile Include="Compilation\MethodInvoke.cs" />
+    <Compile Include="Compilation\Scope.cs" />
+    <Compile Include="Compilation\Snippet.cs" />
+    <Compile Include="Compilation\CompilerException.cs" />
+    <Compile Include="Formatting\ComposedRun.cs" />
+    <Compile Include="v10\DelimiterBehavior.cs" />
+    <Compile Include="v10\DemotingBehavior.cs" />
+    <Compile Include="v10\Display.cs" />
+    <Compile Include="v10\EntryElement.cs" />
+    <Compile Include="Formatting\HtmlWriter.cs" />
+    <Compile Include="v10\IGlobalOptions.cs" />
+    <Compile Include="v10\IEtAlOptions.cs" />
+    <Compile Include="v10\INamesOptions.cs" />
+    <Compile Include="INameVariable.cs" />
+    <Compile Include="v10\IStripPeriods.cs" />
+    <Compile Include="v10\NameFormat.cs" />
+    <Compile Include="v10\NamePartName.cs" />
+    <Compile Include="v10\NameSortOptions.cs" />
+    <Compile Include="NameVariable.cs" />
+    <Compile Include="v10\PageRangeFormats.cs" />
+    <Compile Include="v10\Position.cs" />
+    <Compile Include="Properties\ApplicationInfo.cs" />
+    <Compile Include="Formatting\Run.cs" />
+    <Compile Include="Season.cs" />
+    <Compile Include="v10\SecondFieldAlign.cs" />
+    <Compile Include="v10\SortOrder.cs" />
+    <Compile Include="v10\StyleOptionsElement.cs" />
+    <Compile Include="v10\SubsequentAuthorSubstituteRules.cs" />
+    <Compile Include="v10\Runtime\Entry.cs" />
+    <Compile Include="Culture.cs" />
+    <Compile Include="v10\DateElement.cs" />
+    <Compile Include="v10\DateFormat.cs" />
+    <Compile Include="v10\DatePartElement.cs" />
+    <Compile Include="v10\DatePartFormat.cs" />
+    <Compile Include="v10\DatePartName.cs" />
+    <Compile Include="v10\DatePrecision.cs" />
+    <Compile Include="DateVariable.cs" />
+    <Compile Include="Element.cs" />
+    <Compile Include="v10\ElseElement.cs" />
+    <Compile Include="v10\EtAlElement.cs" />
+    <Compile Include="v10\FontStyle.cs" />
+    <Compile Include="v10\FontVariant.cs" />
+    <Compile Include="v10\FontWeight.cs" />
+    <Compile Include="v10\FormattingElement.cs" />
+    <Compile Include="v10\Gender.cs" />
+    <Compile Include="v10\GroupElement.cs" />
+    <Compile Include="IDataProvider.cs" />
+    <Compile Include="IDateVariable.cs" />
+    <Compile Include="v10\IfElement.cs" />
+    <Compile Include="v10\IFormatting.cs" />
+    <Compile Include="v10\INameOptions.cs" />
+    <Compile Include="INumberVariable.cs" />
+    <Compile Include="v10\KeyElement.cs" />
+    <Compile Include="v10\LabelElement.cs" />
+    <Compile Include="v10\LabelPluralization.cs" />
+    <Compile Include="v10\LayoutElement.cs" />
+    <Compile Include="v10\InfoTextElement.cs" />
+    <Compile Include="v10\LinkElement.cs" />
+    <Compile Include="v10\LinkRelation.cs" />
+    <Compile Include="v10\LocaleElement.cs" />
+    <Compile Include="v10\LocaleFile.cs" />
+    <Compile Include="v10\LocaleInfoElement.cs" />
+    <Compile Include="v10\MacroElement.cs" />
+    <Compile Include="v10\Match.cs" />
+    <Compile Include="v10\NameElement.cs" />
+    <Compile Include="v10\NamePartElement.cs" />
+    <Compile Include="v10\NamesElement.cs" />
+    <Compile Include="v10\NumberElement.cs" />
+    <Compile Include="v10\NumberFormat.cs" />
+    <Compile Include="NumberVariable.cs" />
+    <Compile Include="Processor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="v10\RenderingElement.cs" />
+    <Compile Include="v10\RightsElement.cs" />
+    <Compile Include="Formatting\TextRun.cs" />
+    <Compile Include="v10\SortElement.cs" />
+    <Compile Include="v10\StyleFile.cs" />
+    <Compile Include="v10\StyleInfoElement.cs" />
+    <Compile Include="v10\SubstituteElement.cs" />
+    <Compile Include="v10\TermFormat.cs" />
+    <Compile Include="v10\TermMatch.cs" />
+    <Compile Include="v10\TermName.cs" />
+    <Compile Include="v10\TextElement.cs" />
+    <Compile Include="v10\TextCase.cs" />
+    <Compile Include="v10\TextDecoration.cs" />
+    <Compile Include="v10\Runtime\LabelParameters.cs" />
+    <Compile Include="v10\Runtime\EtAlParameters.cs" />
+    <Compile Include="v10\Runtime\NameGroup.cs" />
+    <Compile Include="v10\Runtime\NameParameters.cs" />
+    <Compile Include="v10\Runtime\NamePartParameters.cs" />
+    <Compile Include="v10\Runtime\LocaleProviderType.cs" />
+    <Compile Include="v10\Runtime\LocaleProvider.cs" />
+    <Compile Include="v10\Runtime\LocaleProvider.Generated.cs" />
+    <Compile Include="v10\Runtime\Processor.cs" />
+    <Compile Include="v10\Runtime\DatePartParameters.cs" />
+    <Compile Include="v10\Runtime\Parameters.cs" />
+    <Compile Include="v10\Runtime\Result.cs" />
+    <Compile Include="v10\TermElement.cs" />
+    <Compile Include="v10\Runtime\ExecutionContext.cs" />
+    <Compile Include="v10\Runtime\SortComparer.cs" />
+    <Compile Include="Formatting\SuperscriptHelper.cs" />
+    <Compile Include="v10\Utility.cs" />
+    <Compile Include="v10\Runtime\Word.cs" />
+    <Compile Include="v10\VerticalAlign.cs" />
+    <Compile Include="Formatting\VerticalAlign.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\snk.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-af-ZA.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-ar.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-bg-BG.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-ca-AD.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-cs-CZ.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-cy-GB.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-da-DK.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-de-AT.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-de-CH.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-de-DE.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-el-GR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-en-GB.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-en-US.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-es-CL.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-es-ES.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-es-MX.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-et-EE.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-eu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-fa-IR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-fi-FI.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-fr-CA.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-fr-FR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-he-IL.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-hr-HR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="v10\Locales\locales-hu-HU.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-id-ID.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-is-IS.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-it-IT.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-ja-JP.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-km-KH.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-ko-KR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-lt-LT.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-lv-LV.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-mn-MN.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-nb-NO.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-nl-NL.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-nn-NO.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-pl-PL.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-pt-BR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-pt-PT.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-ro-RO.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-ru-RU.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-sk-SK.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-sl-SI.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-sr-RS.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-sv-SE.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-th-TH.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-tr-TR.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-uk-UA.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-vi-VN.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-zh-CN.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="v10\Locales\locales-zh-TW.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
