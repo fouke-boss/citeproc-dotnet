@@ -59,7 +59,7 @@ CiteProc-.NET aims to implement [version 1.0.1 of the CSL specification](http://
 * Citation-specific options
 * Display attribute
 * Position and disambiguate conditions
-* the <substitute> element inside a <names> element
+* the substitute element inside a names element
 * Generation of citation numbers
 * Removing multiple spaces and punctuation
 * (not part of the CSL spec): parsing of raw dates and roman numbers in CSL JSON
@@ -78,7 +78,7 @@ Currently, 377 of the available 820 test cases pass, while 65 of them fail (some
 ## CiteProc.WpfDemo
 CiteProc-.NET also comes with a small WPF demo that mimics the [CSL style code editor](http://editor.citationstyles.org/codeEditor/). Currently, it's main goal is to show how to use CiteProc-.NET with Windows Presentation Foundation (WPF), but it might one day become a fully functional CSL editor.
 
-Running this demo (by double clicking Release\CiteProc.WpfDemo.exe) gives you a first impression of the current capabilities and shortcomings of CiteProc-.NET.
+Running this demo (by double clicking Binaries\CiteProc.WpfDemo.exe) gives you a first impression of the current capabilities and shortcomings of CiteProc-.NET.
 
 ## Roadmap
 Now that this first version is made public, the following work remains to be done: 
