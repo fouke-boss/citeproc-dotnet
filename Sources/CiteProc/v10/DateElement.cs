@@ -188,12 +188,12 @@ namespace CiteProc.v10
                 method.AddContextAndParameters();
 
                 // date parts
-                using (var lambda = method.AddLambdaExpression(true, "new DatePartParameters[]"))
+                using (var lambda = method.AddLambdaExpression(false))
                 {
-                    lambda.AppendArray(this.DateParts, part =>
+                    lambda.AppendArray("DatePartParameters", this.DateParts, (part, scope) =>
                     {
                         // init
-                        using (var m = lambda.AppendMethodInvoke("new DatePartParameters", part))
+                        using (var m = scope.AppendMethodInvoke("new DatePartParameters", part))
                         {
                             part.Compile(m);
                         }

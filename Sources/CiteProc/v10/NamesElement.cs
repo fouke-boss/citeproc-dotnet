@@ -93,14 +93,12 @@ namespace CiteProc.v10
             set;
         }
 
+        /// <summary>
+        /// Compiles this Names element.
+        /// </summary>
+        /// <param name="code"></param>
         internal override void Compile(Scope code)
         {
-            // validate
-            if (this.Substitute != null)
-            {
-                throw new FeatureNotSupportedException("substitute element");
-            }
-
             // validate
             if (this.DisplaySpecified)
             {
@@ -174,6 +172,58 @@ namespace CiteProc.v10
                         }
                     }
                 }
+
+                // substitute
+                method.AddArray("Func<NameParameters, EtAlParameters, LabelParameters, Result>", (this.Substitute == null ? null : this.Substitute.Children), (child, scope) =>
+                {
+                    // lambda
+                    scope.Append("(np, ep, lp) => ");
+
+                    // is the child a names element?
+                    if (child is NamesElement)
+                    {
+                        ((NamesElement)child).CompileNested(scope, this);
+                    }
+                    else
+                    {
+                        // nope
+                        child.Compile(scope);
+                    }
+                });
+            }
+        }
+        private void CompileNested(Scope code, NamesElement owner)
+        {
+            // validate
+            if (this.Name != null || this.EtAl != null || this.Label != null || this.Substitute != null)
+            {
+                throw new CompilerException(this, "A names element inside a substitute element is not allowed to have any child elements.");
+            }
+
+            // invoke
+            using (var method = code.AppendMethodInvoke("this.RenderNameGroups", this))
+            {
+                // variables
+                var variables = this.Variable.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+
+                // terms
+                var terms = variables
+                    .Select(x => Utility.GetTerm(x))
+                    .Select(x => (x == null ? "(TermName?)null" : Compiler.GetLiteral(x.Value)))
+                    .ToArray();
+
+                // parameters
+                method.AddElement(this);
+                method.AddCode(string.Format("new string[]{{{{{0}}}}}", string.Join(",", variables.Select(x => Compiler.GetLiteral(x)))));
+                method.AddCode(string.Format("new TermName?[]{{{{{0}}}}}", string.Join(",", terms)));
+                method.AddLiteral(owner.Prefix);
+                method.AddLiteral(owner.Suffix);
+                method.AddLiteral(true);
+                method.AddContextAndParameters();
+                method.AddCode("np");
+                method.AddCode("ep");
+                method.AddCode("lp");
             }
         }
     }

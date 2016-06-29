@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilation\Array.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Formatting\FontStyle.cs" />
     <Compile Include="Formatting\FontVariant.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="v10\CitationElement.cs" />
     <Compile Include="v10\CitationClass.cs" />
     <Compile Include="v10\CitationFormat.cs" />
-    <Compile Include="Compilation\Block.cs" />
     <Compile Include="Compilation\Case.cs" />
     <Compile Include="Compilation\Switch.cs" />
     <Compile Include="Compilation\Property.cs" />

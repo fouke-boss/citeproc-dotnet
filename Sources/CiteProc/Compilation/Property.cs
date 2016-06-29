@@ -17,7 +17,7 @@ namespace CiteProc.Compilation
             this._Signature = signature;
 
             // getter and setter
-            this.Getter = new Block(this, null);
+            this.Getter = new Scope(this, null);
         }
 
         public Scope Getter
@@ -44,11 +44,17 @@ namespace CiteProc.Compilation
             writer.Append("get");
             writer.Append(Environment.NewLine);
             writer.AppendIndent();
+            writer.Append("{");
+            writer.Append(Environment.NewLine);
+            writer.IncreaseIndent();
             this.Getter.Render(writer);
+            writer.DecreaseIndent();
+            writer.AppendIndent();
+            writer.Append("}");
+            writer.Append(Environment.NewLine);
 
             // }
             writer.DecreaseIndent();
-            writer.Append(Environment.NewLine);
             writer.AppendIndent();
             writer.Append("}");
             writer.Append(Environment.NewLine);

@@ -191,7 +191,7 @@ namespace CiteProc.v10
             // GenerateBibliographyEntry
             using (var block = code.AppendRenderingMethod("GenerateBibliographyEntry", "Entry", "protected override"))
             {
-                Compile(block, this.Bibliography);
+                Compile(block, this.Bibliography ?? new BibliographyElement());
             }
 
             // GenerateCitation
@@ -214,7 +214,7 @@ namespace CiteProc.v10
             // GenerateCitationEntry
             using (var block = code.AppendRenderingMethod("GenerateCitationEntry", "Entry", "protected override"))
             {
-                this.Compile(block, this.Citation);
+                this.Compile(block, this.Citation ?? new CitationElement());
             }
         }
         /// <summary>
@@ -234,14 +234,7 @@ namespace CiteProc.v10
                 // child?
                 using (var lambda = method.AddLambdaExpression(false))
                 {
-                    if (child == null)
-                    {
-                        lambda.Append("null");
-                    }
-                    else
-                    {
-                        child.Compile(lambda);
-                    }
+                    child.Compile(lambda);
                 }
             }
 

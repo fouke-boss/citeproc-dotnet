@@ -192,18 +192,18 @@ namespace CiteProc.v10
             method.AddLiteral(this.Prefix);
             method.AddLiteral(this.Suffix);
 
-            // name part parameters
-            using (var lambda = method.AddLambdaExpression(true, "new NamePartParameters[]"))
-            {
-                // fix
-                var family = (this.NameParts == null || !this.NameParts.Any(x => x.Name == NamePartName.Family) ? new NamePartElement() : this.NameParts.Single(x => x.Name == NamePartName.Family));
-                var given = (this.NameParts == null || !this.NameParts.Any(x => x.Name == NamePartName.Given) ? new NamePartElement() : this.NameParts.Single(x => x.Name == NamePartName.Given));
+            // fix
+            var family = (this.NameParts == null || !this.NameParts.Any(x => x.Name == NamePartName.Family) ? new NamePartElement() : this.NameParts.Single(x => x.Name == NamePartName.Family));
+            var given = (this.NameParts == null || !this.NameParts.Any(x => x.Name == NamePartName.Given) ? new NamePartElement() : this.NameParts.Single(x => x.Name == NamePartName.Given));
 
+            // name part parameters
+            using (var lambda = method.AddLambdaExpression(false))
+            {
                 // array
-                lambda.AppendArray(new NamePartElement[] { family, given }, part =>
+                lambda.AppendArray("NamePartParameters", new NamePartElement[] { family, given }, (part, scope) =>
                 {
                     // init
-                    using (var m = lambda.AppendMethodInvoke("new NamePartParameters", part))
+                    using (var m = scope.AppendMethodInvoke("new NamePartParameters", part))
                     {
                         part.Compile(m);
                     }

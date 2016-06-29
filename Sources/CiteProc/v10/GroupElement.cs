@@ -86,9 +86,9 @@ namespace CiteProc.v10
                 method.AddContextAndParameters();
 
                 // children
-                using (var lambda = method.AddLambdaExpression(true, "new Result[]"))
+                using (var lambda = method.AddLambdaExpression(false))
                 {
-                    lambda.AppendArray(this.Children.Cast<RenderingElement>(), child => child.Compile(lambda), () => lambda.Append("null"));
+                    lambda.AppendArray("Result", this.Children.Cast<RenderingElement>(), (child, scope) => child.Compile(scope), scope => scope.Append("null"));
                 }
             }
         }

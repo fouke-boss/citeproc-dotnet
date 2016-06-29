@@ -141,19 +141,19 @@ namespace CiteProc.v10
             // options are not yet supported
             if (this.HangingIndentSpecified)
             {
-                throw new FeatureNotSupportedException("hanging-indent attribute");
+                //throw new FeatureNotSupportedException("hanging-indent attribute");
             }
             if (this.SecondFieldAlignSpecified)
             {
-                throw new FeatureNotSupportedException("second-field-align attribute");
+                //throw new FeatureNotSupportedException("second-field-align attribute");
             }
             if (this.LineSpacingSpecified)
             {
-                throw new FeatureNotSupportedException("line-spacing attribute");
+                //throw new FeatureNotSupportedException("line-spacing attribute");
             }
             if (this.EntrySpacingSpecified)
             {
-                throw new FeatureNotSupportedException("entry-spacing attribute");
+                //throw new FeatureNotSupportedException("entry-spacing attribute");
             }
 
             // subsequent author substitution not yet supported
@@ -171,7 +171,7 @@ namespace CiteProc.v10
                 // layout
                 using (var lambda = method.AddLambdaExpression(false))
                 {
-                    this.Layout.Compile(lambda);
+                    (this.Layout ?? new LayoutElement()).Compile(lambda);
                 }
 
                 // sort

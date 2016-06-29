@@ -247,7 +247,7 @@ namespace CiteProc.v10
                 // layout
                 using (var lambda = method.AddLambdaExpression(false))
                 {
-                    this.Layout.Compile(lambda);
+                    (this.Layout ?? new LayoutElement()).Compile(lambda);
                 }
 
                 // sort

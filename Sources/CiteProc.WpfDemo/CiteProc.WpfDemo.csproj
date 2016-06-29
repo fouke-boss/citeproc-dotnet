@@ -145,10 +145,10 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (goto :done)
-  xcopy "$(TargetDir)*.dll" "$(SolutionDir)..\Release" /q /s /y
-  xcopy "$(TargetDir)*.exe" "$(SolutionDir)..\Release" /q /s /y
-  xcopy "$(TargetDir)*.xml" "$(SolutionDir)..\Release" /q /s /y
-  del "$(SolutionDir)..\Release\*.vshost.exe" /q /s
+  xcopy "$(TargetDir)*.dll" "$(SolutionDir)..\Binaries" /q /s /y
+  xcopy "$(TargetDir)*.exe" "$(SolutionDir)..\Binaries" /q /s /y
+  xcopy "$(TargetDir)*.xml" "$(SolutionDir)..\Binaries" /q /s /y
+  del "$(SolutionDir)..\Binaries\*.vshost.exe" /q /s
 :done</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

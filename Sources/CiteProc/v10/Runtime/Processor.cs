@@ -380,7 +380,7 @@ namespace CiteProc.v10.Runtime
             }
 
             // done
-            return new Result(tag, p.GenerateText(text), true, prefix, suffix, false, null);
+            return new Result(tag, p.GenerateText(text), false, prefix, suffix, false, null);
         }
         protected Result RenderNumber(string tag, string variable, TermName? term, NumberFormat format, string prefix, string suffix, TextCase? textCase, ExecutionContext c, Parameters p)
         {
@@ -905,18 +905,50 @@ namespace CiteProc.v10.Runtime
             }
         }
 
-        protected Result RenderNames(string id, string[] variables, TermName?[] terms, string prefix, string suffix, ExecutionContext c, Parameters p, Func<Parameters, NameParameters> nameParameters, Func<Parameters, EtAlParameters> etAlParameters, Func<Parameters, LabelParameters> labelParameters)
+        protected Result RenderNames(string id, string[] variables, TermName?[] terms, string prefix, string suffix, ExecutionContext c, Parameters p, Func<Parameters, NameParameters> nameParameters, Func<Parameters, EtAlParameters> etAlParameters, Func<Parameters, LabelParameters> labelParameters, Func<NameParameters, EtAlParameters, LabelParameters, Result>[] substitutes)
         {
             // init
             var np = nameParameters(p);
-            var eap = etAlParameters(p);
+            var ep = etAlParameters(p);
             var lp = labelParameters(p);
 
+            // render name groups
+            var result = this.RenderNameGroups(id, variables, terms, prefix, suffix, false, c, p, np, ep, lp);
+
+            // subsitutes?
+            if (result.IsEmpty)
+            {
+                // loop
+                var index = 0;
+                while (index < substitutes.Length && result.IsEmpty)
+                {
+                    // call substitute
+                    result = substitutes[index](np, ep, lp);
+
+                    // next
+                    index++;
+                }
+            }
+
+            // done
+            return result;
+        }
+        protected Result RenderNameGroups(string id, string[] variables, TermName?[] terms, string prefix, string suffix, bool suppress, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters ep, LabelParameters lp)
+        {
             // create groups
             var groups = variables
                 .Select((v, i) => new NameGroup(v, terms[i], c.GetVariableAsNames(v)))
                 .Where(x => x.Names != null)
                 .ToList();
+
+            // substituted variables are suppressed in the rest of the output to prevent duplication
+            if (suppress)
+            {
+                foreach (var variable in variables)
+                {
+                    c.SuppressVariable(variable);
+                }
+            }
 
             // merge editor and translator
             var editors = groups.SingleOrDefault(x => x.Term.HasValue && x.Term.Value == TermName.Editor);
@@ -949,7 +981,7 @@ namespace CiteProc.v10.Runtime
             {
                 // render
                 results = groups
-                    .Select(x => this.RenderNameGroup(x, c, p, np, eap, lp))
+                    .Select(x => this.RenderNameGroup(x, c, p, np, ep, lp))
                     .Select(x => x.ToComposedRun(c, p))
                     .Cast<Run>()
                     .ToList();
@@ -961,7 +993,7 @@ namespace CiteProc.v10.Runtime
             // done
             return new Result(id, results, true, prefix, suffix, false, null);
         }
-        private Result RenderNameGroup(NameGroup group, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters eap, LabelParameters lp)
+        private Result RenderNameGroup(NameGroup group, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters ep, LabelParameters lp)
         {
             // init
             var etAlActive = (group.Names.Length >= np.EtAlMin);
@@ -1010,7 +1042,7 @@ namespace CiteProc.v10.Runtime
                     if (results.Count > 0)
                     {
                         // et al
-                        var result = new Result(eap.Tag, eap.GenerateText(c.Locale.GetTerm(eap.Term, TermFormat.Long, false)), false, null, null, false, null);
+                        var result = new Result(ep.Tag, ep.GenerateText(c.Locale.GetTerm(ep.Term, TermFormat.Long, false)), false, null, null, false, null);
 
                         // add
                         results.Add(result.ToComposedRun(c, p));
@@ -1108,18 +1140,18 @@ namespace CiteProc.v10.Runtime
             // done
             return new Result(np.Tag, results, false, null, null, false, null);
         }
-        private Result RenderName(object name, bool inverted, ExecutionContext c, NameParameters p)
+        private Result RenderName(object name, bool inverted, ExecutionContext c, NameParameters np)
         {
             // init
             IEnumerable<Run> results = null;
 
             if (name is string)
             {
-                results = p.GenerateText((string)name);
+                results = np.GenerateText((string)name);
             }
             else if (name is INameVariable)
             {
-                results = this.RenderName((INameVariable)name, inverted, c, p);
+                results = this.RenderName((INameVariable)name, inverted, c, np);
             }
             else
             {
@@ -1127,29 +1159,29 @@ namespace CiteProc.v10.Runtime
             }
 
             // done
-            return new Result(p.Tag, results, false, p.Prefix, p.Suffix, false, null);
+            return new Result(np.Tag, results, false, np.Prefix, np.Suffix, false, null);
         }
-        private IEnumerable<Run> RenderName(INameVariable name, bool inverted, ExecutionContext c, NameParameters p)
+        private IEnumerable<Run> RenderName(INameVariable name, bool inverted, ExecutionContext c, NameParameters np)
         {
             // init
-            var familyParameters = p.NameParts[0];
-            var givenParameters = p.NameParts[1];
-            var suffixParameters = new NamePartParameters(null, p, null, null, null);
+            var familyParameters = np.NameParts[0];
+            var givenParameters = np.NameParts[1];
+            var suffixParameters = new NamePartParameters(null, np, null, null, null);
 
             // format name parts
             var familyName = this.FormatNamePart(c, familyParameters, name.FamilyName);
             var nonDroppingParticles = this.FormatNamePart(c, familyParameters, name.NonDroppingParticles);
-            var given = this.FormatNamePart(c, givenParameters, this.InitializeGivenNames(name, p.Initialize, p.InitializeWith));
+            var given = this.FormatNamePart(c, givenParameters, this.InitializeGivenNames(name, np.Initialize, np.InitializeWith));
             var droppingParticles = this.FormatNamePart(c, givenParameters, name.DroppingParticles);
             var suffix = this.FormatNamePart(c, suffixParameters, name.PrecedeSuffixByComma && !string.IsNullOrWhiteSpace(name.Suffix) ? string.Format(",{0}", name.Suffix) : name.Suffix);
 
             // space delimiter
-            var space = p.GenerateText(" ");
+            var space = np.GenerateText(" ");
 
             // render parts
             Result[] results = null;
             string delimiter = null;
-            switch (p.NameFormat)
+            switch (np.NameFormat)
             {
                 case NameFormat.Long:
                     // inverted?
@@ -1159,7 +1191,7 @@ namespace CiteProc.v10.Runtime
                         if (this.DemoteNonDroppingParticle == DemotingBehavior.DisplayAndSort)
                         {
                             // yes
-                            delimiter = p.SortSeparator;
+                            delimiter = np.SortSeparator;
                             results = new Result[]
                             {
                                 this.RenderNamePart(familyParameters, space, familyName),
@@ -1170,7 +1202,7 @@ namespace CiteProc.v10.Runtime
                         else
                         {
                             // no
-                            delimiter = p.SortSeparator;
+                            delimiter = np.SortSeparator;
                             results = new Result[]
                             {
                                 this.RenderNamePart(familyParameters, space, nonDroppingParticles, familyName),
@@ -1204,27 +1236,27 @@ namespace CiteProc.v10.Runtime
 
             // create runs
             var runs = results
-                .Select(x => x.ToComposedRun(c, p))
+                .Select(x => x.ToComposedRun(c, np))
                 .Cast<Run>()
                 .ToList();
 
             // apply delimiters
-            this.ApplyDelimiter(runs, p.GenerateText(delimiter));
+            this.ApplyDelimiter(runs, np.GenerateText(delimiter));
 
             // done
             return runs;
         }
-        private TextRun[] FormatNamePart(ExecutionContext c, NamePartParameters p, string text)
+        private TextRun[] FormatNamePart(ExecutionContext c, NamePartParameters npp, string text)
         {
             // render
-            return new Result(null, p.GenerateText(text), false, null, null, false, p.TextCase)
-                .ToComposedRun(c, p)
+            return new Result(null, npp.GenerateText(text), false, null, null, false, npp.TextCase)
+                .ToComposedRun(c, npp)
                 .Children
                 .Cast<TextRun>()
                 .Where(x => !x.IsEmpty)
                 .ToArray();
         }
-        private Result RenderNamePart(NamePartParameters p, IEnumerable<TextRun> space, params TextRun[][] parts)
+        private Result RenderNamePart(NamePartParameters npp, IEnumerable<TextRun> space, params TextRun[][] parts)
         {
             // filter
             var filtered = parts
@@ -1251,7 +1283,7 @@ namespace CiteProc.v10.Runtime
                 .ToArray();
 
             // done
-            return new Result(p.Tag, results, false, p.Prefix, p.Suffix, false, null);
+            return new Result(npp.Tag, results, false, npp.Prefix, npp.Suffix, false, null);
         }
         private string InitializeGivenNames(INameVariable name, bool initialize, string initializeWith)
         {

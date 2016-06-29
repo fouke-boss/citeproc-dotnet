@@ -2641,6 +2641,11 @@
             The delimiter attribute delimits non-empty pieces of output.
             </summary>
         </member>
+        <member name="P:CiteProc.v10.LayoutElement.Children">
+            <summary>
+            Gets or sets the rendering elements that make up this layout.
+            </summary>
+        </member>
         <member name="T:CiteProc.v10.InfoTextElement">
             <summary>
             Represents a text in a given language within the style info.
@@ -2868,6 +2873,12 @@
             with one exception: when the selection consists of “editor” and “translator”, and when the contents
             of these two name variables is identical, then the contents of only one name variable is rendered.
             </summary>
+        </member>
+        <member name="M:CiteProc.v10.NamesElement.Compile(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles this Names element.
+            </summary>
+            <param name="code"></param>
         </member>
         <member name="P:CiteProc.v10.NamesElement.Variable">
             <summary>
@@ -3370,6 +3381,18 @@
         <member name="P:CiteProc.v10.StyleInfoElement.UpdatedSpecified">
             <summary>
             Indicates whether the 'updates' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.SubstituteElement">
+            <summary>
+            The optional cs:substitute element adds substitution in case the name variables specified in the parent cs:names
+            element are empty. The substitutions are specified as child elements of cs:substitute, and must consist of one
+            or more rendering elements (with the exception of cs:layout).
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.SubstituteElement.Children">
+            <summary>
+            Gets or sets the rendering elements to substite, if the variable in the parent names element is empty.
             </summary>
         </member>
         <member name="T:CiteProc.v10.TermFormat">

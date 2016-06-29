@@ -69,6 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Fixtures\v10\BasicTests\names substitute.txt" />
     <EmbeddedResource Include="CodeTesting\Repository\springer-mathphys-brackets.csl" />
     <EmbeddedResource Include="CodeTesting\Repository\annals-of-mathematics-and-artificial-intelligence.csl" />
     <Content Include="Components\Newtonsoft.Json.dll" />

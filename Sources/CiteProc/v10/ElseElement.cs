@@ -36,30 +36,39 @@ namespace CiteProc.v10
         internal virtual void Compile(Scope code)
         {
             // init
-            code.Append("{{return new Result[]");
-            using (var block = code.AppendBlock(false, ";}"))
-            {
-                if (this.Children != null)
-                {
-                    // compile children
-                    int index = 0;
-                    foreach (var child in this.Children.Cast<RenderingElement>())
-                    {
-                        // compile
-                        block.AppendIndent();
-                        child.Compile(block);
+            code.Append("{{return ");
 
-                        // comma
-                        if (index < this.Children.Length - 1)
-                        {
-                            block.Append(",");
-                        }
+            // array
+            code.AppendArray("Result", this.Children, (child, scope) => child.Compile(scope));
 
-                        // done
-                        block.AppendLineBreak();
-                    }
-                }
-            }
+            // done
+            code.Append(";}}");
+
+
+            //code.Append("{{return new Result[]");
+            //using (var block = code.AppendBlock(false, ";}"))
+            //{
+            //    if (this.Children != null)
+            //    {
+            //        // compile children
+            //        int index = 0;
+            //        foreach (var child in this.Children.Cast<RenderingElement>())
+            //        {
+            //            // compile
+            //            block.AppendIndent();
+            //            child.Compile(block);
+
+            //            // comma
+            //            if (index < this.Children.Length - 1)
+            //            {
+            //                block.Append(",");
+            //            }
+
+            //            // done
+            //            block.AppendLineBreak();
+            //        }
+            //    }
+            //}
         }
     }
 }

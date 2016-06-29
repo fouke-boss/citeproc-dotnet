@@ -20,9 +20,8 @@ namespace CiteProc.v10.Runtime
             {
                 // init
                 this.Tag = tag;
-                this.Children = children
-                    .Where(x => x != null)
-                    .ToArray();
+                this.Children = children.ToArray();
+                this.IsEmpty = (this.Children.Length == 0 || this.Children.All(x => x.IsEmpty));
                 this.ByVariable = byVariable;
                 this.Prefix = prefix;
                 this.Suffix = suffix;
@@ -58,6 +57,12 @@ namespace CiteProc.v10.Runtime
                 private set;
             }
             public bool Quotes
+            {
+                get;
+                private set;
+            }
+
+            public bool IsEmpty
             {
                 get;
                 private set;

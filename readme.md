@@ -76,7 +76,7 @@ Running the CiteProc.Test.exe shows the results of these tests in the console. I
 Currently, 377 of the available 820 test cases pass, while 65 of them fail (some more than others). The remaining 378 test cases fail because of features that are not yet supported, 211 of which because of unsupported test sections like CITATIONS, CITATION-ITEMS and BIBENTRIES.
 
 ## CiteProc.WpfDemo
-CiteProc-.NET also comes with a small WPF demo that mimics the [CSL style code editor](http://editor.citationstyles.org/codeEditor/). Currently, it's main goal is to show how to use CiteProc-.NET with Windows Presentation Foundation (WPF), but it might one day become a fully functional CSL editor.
+CiteProc-.NET also comes with a small WPF demo that mimics the [CSL style code editor](http://editor.citationstyles.org/codeEditor/). Currently, it's main goal is to demonstrate how to use CiteProc-.NET with Windows Presentation Foundation (WPF), but it might one day become a fully functional CSL editor.
 
 Running this demo (by double clicking Binaries\CiteProc.WpfDemo.exe) gives you a first impression of the current capabilities and shortcomings of CiteProc-.NET.
 

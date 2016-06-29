@@ -200,6 +200,18 @@ namespace CiteProc.v10.Runtime
                 return (position == Position.First);
             }
 
+            public void SuppressVariable(string name)
+            {
+                if (this._Cache.ContainsKey(name))
+                {
+                    this._Cache[name] = null;
+                }
+                else
+                {
+                    this._Cache.Add(name, null);
+                }
+            }
+
             private IDateVariable ParseVariableAsDate(object value, string text)
             {
                 // init

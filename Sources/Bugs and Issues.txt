@@ -3,8 +3,8 @@
 
 
 
+
 To do
-* <names>: substitute (Meer Parameter subclasses maken, bijvoorbeeld TextByVariableParameters?)
 * Parameters omnoemen naar Scope?
 * Cite Collapsing
 * Cite Grouping

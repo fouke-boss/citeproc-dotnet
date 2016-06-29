@@ -20,6 +20,9 @@ namespace CiteProc.v10
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the rendering elements that make up this layout.
+        /// </summary>
         [XmlElement("choose", Type = typeof(ChooseElement))]
         [XmlElement("date", Type = typeof(DateElement))]
         [XmlElement("group", Type = typeof(GroupElement))]
@@ -49,9 +52,9 @@ namespace CiteProc.v10
                 method.AddContextAndParameters();
 
                 // children
-                using (var lambda = method.AddLambdaExpression(true, "new Result[]"))
+                using (var lambda = method.AddLambdaExpression(false))
                 {
-                    lambda.AppendArray(this.Children.Cast<RenderingElement>(), child => child.Compile(lambda), () => lambda.Append("null"));
+                    lambda.AppendArray("Result", this.Children, (child, scope) => child.Compile(scope), scope => scope.Append("null"));
                 }
             }
         }

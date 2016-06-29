@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CiteProc.Compilation
 {
-    internal abstract class Scope : Snippet
+    internal class Scope : Snippet
     {
         private List<Action<CodeWriter>> _Actions = new List<Action<CodeWriter>>();
 
-        protected Scope(Snippet parent, Element context)
+        public Scope(Snippet parent, Element context)
             : base(parent, context)
         {
         }
@@ -36,19 +36,6 @@ namespace CiteProc.Compilation
             this._Actions.Add(c => c.AppendIndent());
 #endif
         }
-//        public void IncreaseIndent()
-//        {
-//#if(DEBUG)
-//            this._Actions.Add(c => c.IncreaseIndent());
-//#endif
-//        }
-//        public void DecreaseIndent()
-//        {
-//#if(DEBUG)
-//            this._Actions.Add(c => c.DecreaseIndent());
-//#endif
-//        }
-
         public void AppendComment(string comment, params object[] args)
         {
 #if(DEBUG)
@@ -61,25 +48,20 @@ namespace CiteProc.Compilation
             return this.AppendSnippet<Switch>(new Switch(this, expression));
         }
 
-        public Block AppendBlock()
-        {
-            return this.AppendBlock(true, Environment.NewLine);
-        }
-        public Block AppendBlock(bool indent, string suffix)
-        {
-            // indent
-            if (indent)
-            {
-                this.AppendIndent();
-            }
-
-            // append block
-            return this.AppendSnippet<Block>(new Block(this, suffix));
-        }
         public MethodInvoke AppendMethodInvoke(string methodName, Element context)
         {
             // append block
             return this.AppendSnippet<MethodInvoke>(new MethodInvoke(this, context, methodName));
+        }
+        public Array AppendArray<T>(string elementType, IEnumerable<T> items, Action<T, Scope> expression)
+        {
+            // done
+            return this.AppendArray<T>(elementType, items, expression, null);
+        }
+        public Array AppendArray<T>(string elementType, IEnumerable<T> items, Action<T, Scope> expression, Action<Scope> nullExpression)
+        {
+            //add
+            return this.AppendSnippet(Array.Create(this, elementType, items, expression, nullExpression));
         }
         protected T AppendSnippet<T>(T snippet)
             where T : Snippet
