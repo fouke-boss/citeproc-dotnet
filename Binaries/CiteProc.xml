@@ -4,6 +4,11 @@
         <name>CiteProc</name>
     </assembly>
     <members>
+        <member name="T:CiteProc.Data.DataProvider">
+            <summary>
+            Represents a default implementation of the IDataProvider interface.
+            </summary>
+        </member>
         <member name="T:CiteProc.File">
             <summary>
             Base class for all style and locale files.
@@ -465,12 +470,6 @@
             Specifies the delimiter for names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
             </summary>
         </member>
-        <member name="M:CiteProc.v10.EntryElement.Compile(CiteProc.Compilation.Scope)">
-            <summary>
-            Compiles the entry descriptor element.
-            </summary>
-            <param name="code"></param>
-        </member>
         <member name="P:CiteProc.v10.EntryElement.Sort">
             <summary>
             The optional cs:sort element specifies how references within the bibliography should be sorted.
@@ -645,9 +644,15 @@
             in the latin or Cyrillic alphabets.
             </summary>
         </member>
-        <member name="M:CiteProc.v10.BibliographyElement.Compile(CiteProc.Compilation.Scope)">
+        <member name="M:CiteProc.v10.BibliographyElement.CompileSort(CiteProc.Compilation.Scope)">
             <summary>
-            Compiles the bibliography element.
+            Compiles the sort part of the bibliography element.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.BibliographyElement.CompileLayout(CiteProc.Compilation.Scope)">
+            <summary>
+            Compiles the layout part of the bibliography element.
             </summary>
             <param name="code"></param>
         </member>
@@ -753,6 +758,12 @@
             Compiles this rendering element.
             </summary>
             <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.RenderingElement.GetChildren">
+            <summary>
+            Returns all child rendering elements.
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:CiteProc.v10.RenderingElement.Prefix">
             <summary>
@@ -1076,28 +1087,28 @@
             Indicates whether the 'demote-non-dropping-particle' attribute is specified. Required by System.Xml.XmlSerializer.
             </summary>
         </member>
-        <member name="P:CiteProc.INameVariable.FamilyName">
+        <member name="P:CiteProc.IPersonalName.FamilyName">
             <summary>
             Surname minus any particles and suffixes.
             </summary>
         </member>
-        <member name="P:CiteProc.INameVariable.GivenNames">
+        <member name="P:CiteProc.IPersonalName.GivenNames">
             <summary>
             Given names, either full (“John Edward”) or initialized (“J. E.”)
             </summary>
         </member>
-        <member name="P:CiteProc.INameVariable.Suffix">
+        <member name="P:CiteProc.IPersonalName.Suffix">
             <summary>
             Name suffix, e.g. “Jr.” in “John Smith Jr.” and “III” in “Bill Gates III”.
             </summary>
         </member>
-        <member name="P:CiteProc.INameVariable.NonDroppingParticles">
+        <member name="P:CiteProc.IPersonalName.NonDroppingParticles">
             <summary>
             Name particles that are not dropped when only the surname is shown (“de” in the Dutch surname “de Koning”)
             but which may be treated separately from the family name, e.g. for sorting.
             </summary>
         </member>
-        <member name="P:CiteProc.INameVariable.DroppingParticles">
+        <member name="P:CiteProc.IPersonalName.DroppingParticles">
             <summary>
             Name particles that are dropped when only the surname is shown (“van” in “Ludwig van Beethoven”, which becomes “Beethoven”).
             </summary>
@@ -1205,7 +1216,7 @@
         </member>
         <member name="F:CiteProc.v10.Position.First">
             <summary>
-            •“first”: position of cites that are the first to reference an item.
+            “first”: position of cites that are the first to reference an item.
             </summary>
         </member>
         <member name="F:CiteProc.v10.Position.Ibid">
@@ -1259,95 +1270,6 @@
         <member name="F:CiteProc.Season.Winter">
             <summary>
             Winter.
-            </summary>
-        </member>
-        <member name="T:CiteProc.v10.SecondFieldAlign">
-            <summary>
-            Specifies alignment of the second field.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SecondFieldAlign.Flush">
-            <summary>
-            With “flush”, the first field is flush with the margin.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SecondFieldAlign.Margin">
-            <summary>
-            With “margin”, the first field is put in the margin, and subsequent lines are aligned with the margin.
-            </summary>
-        </member>
-        <member name="T:CiteProc.v10.SortOrder">
-            <summary>
-            Describes a sort order.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SortOrder.Ascending">
-            <summary>
-            Ascending.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SortOrder.Descending">
-            <summary>
-            Descending.
-            </summary>
-        </member>
-        <member name="T:CiteProc.v10.StyleOptionsElement">
-            <summary>
-            Per-locale, global options which affect both citations and the bibliography.
-            </summary>
-        </member>
-        <member name="P:CiteProc.v10.StyleOptionsElement.LimitDayOrdinalsToDay1">
-            <summary>
-            By setting limit-day-ordinals-to-day-1 to “true” (“false” is the default), the “ordinal” form is 
-            limited to the first day of each month (other days will use the “numeric” form). This is desirable 
-            for some languages, such as French: “1er janvier”, but “2 janvier”, “3 janvier”, etc.
-            </summary>
-        </member>
-        <member name="P:CiteProc.v10.StyleOptionsElement.LimitDayOrdinalsToDay1Specified">
-            <summary>
-            Indicates whether the 'limit-day-ordinals-to-day-1' attribute is specified. Required by System.Xml.XmlSerializer.
-            </summary>
-        </member>
-        <member name="P:CiteProc.v10.StyleOptionsElement.PunctuationInQuote">
-            <summary>
-            For cs:text elements rendered with the quotes attribute set to “true” (see Formatting), and for which 
-            the output is followed by a comma or period, punctuation-in-quote specifies whether this punctuation is
-            placed outside (value “false”, default) or inside (value “true”) the closing quotation mark.
-            </summary>
-        </member>
-        <member name="P:CiteProc.v10.StyleOptionsElement.PunctuationInQuoteSpecified">
-            <summary>
-            Indicates whether the 'punctuation-in-quote' attribute is specified. Required by System.Xml.XmlSerializer.
-            </summary>
-        </member>
-        <member name="T:CiteProc.v10.SubsequentAuthorSubstituteRules">
-            <summary>
-            Specifies when and how names within bibliographies are substituted as a result of subsequent-author-substitute. 
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.CompleteAll">
-            <summary>
-            “complete-all” - (default), when all rendered names of the name variable match those in the preceding
-            bibliographic entry, the value of subsequent-author-substitute replaces the entire name list (including
-            punctuation and terms like “et al” and “and”), except for the affixes set on the cs:names element.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.CompleteEach">
-            <summary>
-            “complete-each” - requires a complete match like “complete-all”, but now the value of
-            subsequent-author-substitute substitutes for each rendered name.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.PartialEach">
-            <summary>
-            “partial-each” - when one or more rendered names in the name variable match those in the preceding bibliographic
-            entry, the value of subsequent-author-substitute substitutes for each matching name. Matching starts with the
-            first name, and continues up to the first mismatch.
-            </summary>
-        </member>
-        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.PartialFirst">
-            <summary>
-            “partial-first” - as “partial-each”, but substitution is limited to the first name of the name variable.
             </summary>
         </member>
         <member name="T:CiteProc.v10.Runtime.Processor">
@@ -1752,42 +1674,103 @@
         </member>
         <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariable(System.String)">
             <summary>
-            Get the value from the underlying data provider, and casts it into one of four types:
-            - IDateVariable
-            - INumberVariable
-            - object[], either string or INameVariable
-            - a string
+            Gets the variable with the given name from the underlying data provider as one of 4 types
+            - ITextVariable.
+            - IDateVariable.
+            - INumberVariable.
+            - INamesVariable.
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsText(System.String)">
+        <member name="T:CiteProc.v10.SecondFieldAlign">
             <summary>
-            Returns the variable with the given name as a string.
+            Specifies alignment of the second field.
             </summary>
-            <param name="name"></param>
-            <returns></returns>
         </member>
-        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsDate(System.String)">
+        <member name="F:CiteProc.v10.SecondFieldAlign.Flush">
             <summary>
-            Returns the variable with the given name as either a IDateVariable or a string.
+            With “flush”, the first field is flush with the margin.
             </summary>
-            <param name="name"></param>
-            <returns></returns>
         </member>
-        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsNumber(System.String)">
+        <member name="F:CiteProc.v10.SecondFieldAlign.Margin">
             <summary>
-            Returns the variable with the given name as either a INumberVariable or a string.
+            With “margin”, the first field is put in the margin, and subsequent lines are aligned with the margin.
             </summary>
-            <param name="name"></param>
-            <returns></returns>
         </member>
-        <member name="M:CiteProc.v10.Runtime.Processor.ExecutionContext.GetVariableAsNames(System.String)">
+        <member name="T:CiteProc.v10.SortOrder">
             <summary>
-            Returns the variable with the given name as object[].
+            Describes a sort order.
             </summary>
-            <param name="name"></param>
-            <returns></returns>
+        </member>
+        <member name="F:CiteProc.v10.SortOrder.Ascending">
+            <summary>
+            Ascending.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SortOrder.Descending">
+            <summary>
+            Descending.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.StyleOptionsElement">
+            <summary>
+            Per-locale, global options which affect both citations and the bibliography.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.LimitDayOrdinalsToDay1">
+            <summary>
+            By setting limit-day-ordinals-to-day-1 to “true” (“false” is the default), the “ordinal” form is 
+            limited to the first day of each month (other days will use the “numeric” form). This is desirable 
+            for some languages, such as French: “1er janvier”, but “2 janvier”, “3 janvier”, etc.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.LimitDayOrdinalsToDay1Specified">
+            <summary>
+            Indicates whether the 'limit-day-ordinals-to-day-1' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.PunctuationInQuote">
+            <summary>
+            For cs:text elements rendered with the quotes attribute set to “true” (see Formatting), and for which 
+            the output is followed by a comma or period, punctuation-in-quote specifies whether this punctuation is
+            placed outside (value “false”, default) or inside (value “true”) the closing quotation mark.
+            </summary>
+        </member>
+        <member name="P:CiteProc.v10.StyleOptionsElement.PunctuationInQuoteSpecified">
+            <summary>
+            Indicates whether the 'punctuation-in-quote' attribute is specified. Required by System.Xml.XmlSerializer.
+            </summary>
+        </member>
+        <member name="T:CiteProc.v10.SubsequentAuthorSubstituteRules">
+            <summary>
+            Specifies when and how names within bibliographies are substituted as a result of subsequent-author-substitute. 
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.CompleteAll">
+            <summary>
+            “complete-all” - (default), when all rendered names of the name variable match those in the preceding
+            bibliographic entry, the value of subsequent-author-substitute replaces the entire name list (including
+            punctuation and terms like “et al” and “and”), except for the affixes set on the cs:names element.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.CompleteEach">
+            <summary>
+            “complete-each” - requires a complete match like “complete-all”, but now the value of
+            subsequent-author-substitute substitutes for each rendered name.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.PartialEach">
+            <summary>
+            “partial-each” - when one or more rendered names in the name variable match those in the preceding bibliographic
+            entry, the value of subsequent-author-substitute substitutes for each matching name. Matching starts with the
+            first name, and continues up to the first mismatch.
+            </summary>
+        </member>
+        <member name="F:CiteProc.v10.SubsequentAuthorSubstituteRules.PartialFirst">
+            <summary>
+            “partial-first” - as “partial-each”, but substitution is limited to the first name of the name variable.
+            </summary>
         </member>
         <member name="T:CiteProc.Culture">
             <summary>
@@ -2393,6 +2376,12 @@
             </summary>
             <param name="code"></param>
         </member>
+        <member name="M:CiteProc.v10.GroupElement.GetChildren">
+            <summary>
+            Returns all child elements.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:CiteProc.v10.GroupElement.Display">
             <summary>
             The display attribute (similar the “display” property in CSS) may be used to structure individual bibliographic entries
@@ -2635,6 +2624,12 @@
             Compiles this Layout element.
             </summary>
             <param name="code"></param>
+        </member>
+        <member name="M:CiteProc.v10.LayoutElement.GetChildren">
+            <summary>
+            Returns all child elements.
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:CiteProc.v10.LayoutElement.Delimiter">
             <summary>
@@ -3050,13 +3045,6 @@
             Compiles this style element.
             </summary>
             <param name="code"></param>
-        </member>
-        <member name="M:CiteProc.v10.StyleFile.Compile(CiteProc.Compilation.Scope,CiteProc.v10.EntryElement)">
-            <summary>
-            Compiles the given entry descriptor element.
-            </summary>
-            <param name="code"></param>
-            <param name="child"></param>
         </member>
         <member name="P:CiteProc.v10.StyleFile.IsDependent">
             <summary>
