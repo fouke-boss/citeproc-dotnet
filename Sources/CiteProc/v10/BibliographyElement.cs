@@ -133,10 +133,29 @@ namespace CiteProc.v10
         }
 
         /// <summary>
-        /// Compiles the bibliography element.
+        /// Compiles the sort part of the bibliography element.
         /// </summary>
         /// <param name="code"></param>
-        internal override void Compile(Scope code)
+        internal void CompileSort(Scope code)
+        {
+            // invoke
+            using (var method = code.AppendMethodInvoke("this.RenderBibliography", this))
+            {
+                // parameters
+                method.AddContextAndParameters();
+
+                // sort
+                using (var lambda = method.AddLambdaExpression(false))
+                {
+                    (this.Sort ?? new SortElement()).Compile(lambda);
+                }
+            }
+        }
+        /// <summary>
+        /// Compiles the layout part of the bibliography element.
+        /// </summary>
+        /// <param name="code"></param>
+        internal void CompileLayout(Scope code)
         {
             // options are not yet supported
             if (this.HangingIndentSpecified)
@@ -159,7 +178,7 @@ namespace CiteProc.v10
             // subsequent author substitution not yet supported
             if (this.SubsequentAuthorSubstituteSpecified || this.SubsequentAuthorSubstituteRuleSpecified)
             {
-                throw new FeatureNotSupportedException("subsequent-author-substitution");
+                //throw new FeatureNotSupportedException("subsequent-author-substitution");
             }
 
             // invoke
@@ -172,12 +191,6 @@ namespace CiteProc.v10
                 using (var lambda = method.AddLambdaExpression(false))
                 {
                     (this.Layout ?? new LayoutElement()).Compile(lambda);
-                }
-
-                // sort
-                using (var lambda = method.AddLambdaExpression(false))
-                {
-                    (this.Sort ?? new SortElement()).Compile(lambda);
                 }
             }
         }

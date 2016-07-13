@@ -30,12 +30,12 @@ namespace CiteProc.v10
         /// entry, the value of subsequent-author-substitute substitutes for each matching name. Matching starts with the
         /// first name, and continues up to the first mismatch.
         /// </summary>
-        [XmlEnum("complete-all")]
+        [XmlEnum("partial-each")]
         PartialEach,
         /// <summary>
         /// “partial-first” - as “partial-each”, but substitution is limited to the first name of the name variable.
         /// </summary>
-        [XmlEnum("complete-all")]
+        [XmlEnum("partial-first")]
         PartialFirst,
     }
 }

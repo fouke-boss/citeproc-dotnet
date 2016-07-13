@@ -181,7 +181,7 @@ namespace CiteProc.v10
                 else if (!string.IsNullOrEmpty(this.Macro))
                 {
                     method.Name = "this.RenderKeyByMacro";
-                    method.AddCode("this.{0}", code.GetMacro(this.Macro));
+                    method.AddCode("this.{0}", code.Root.GetMacro(this.Macro));
                 }
                 else
                 {

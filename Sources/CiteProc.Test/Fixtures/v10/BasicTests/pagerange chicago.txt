@@ -96,6 +96,6 @@ citation
     {
 		"page": "2787-2816",
         "type": "book"
-    },
+    }
 ]
 <<===== INPUT =====<<

@@ -34,5 +34,20 @@ namespace CiteProc
             get;
             private set;
         }
+
+        //public Element[] Elements
+        //{
+        //    get
+        //    {
+        //        return this.GetElements()
+        //            .Where(x => x != null)
+        //            .ToArray();
+        //    }
+        //}
+        ///// <summary>
+        ///// Returns all child elements.
+        ///// </summary>
+        ///// <returns></returns>
+        //protected abstract IEnumerable<Element> GetElements();
     }
 }

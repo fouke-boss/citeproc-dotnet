@@ -43,6 +43,7 @@ namespace CiteProc.Compilation
         private List<string> _Usings = new List<string>();
         private List<Namespace> _Namespaces = new List<Namespace>();
         private Dictionary<string, string> _MacroMappings = new Dictionary<string, string>();
+        private Dictionary<string, Element> _SpecialElements = new Dictionary<string, Element>();
 
         public Compiler()
             : base(null, null)
@@ -66,7 +67,8 @@ namespace CiteProc.Compilation
             // done
             return result;
         }
-        public override void RegisterMacros(IEnumerable<string> macros)
+
+        public void RegisterMacros(IEnumerable<string> macros)
         {
             // loop
             foreach (var macro in macros)
@@ -78,16 +80,46 @@ namespace CiteProc.Compilation
                 this._MacroMappings.Add(macro, name);
             }
         }
-        public override string GetMacro(string name)
+        public string GetMacro(string name)
         {
             return this._MacroMappings[name];
         }
-
-        public override int ParameterIndex
+        public int ParameterIndex
         {
             get;
             set;
         }
+
+        public void SetSpecialElement<T>(T element)
+            where T : Element
+        {
+            this.SetSpecialElement<T>(element, "");
+        }
+        public void SetSpecialElement<T>(T element, string name)
+            where T : Element
+        {
+            // init
+            var key = string.Format("{0}::{1}", typeof(T).FullName, name);
+
+            // done
+            this._SpecialElements.Add(key, element);
+        }
+
+        public T GetSpecialElement<T>()
+            where T : Element
+        {
+            return this.GetSpecialElement<T>("");
+        }
+        public T GetSpecialElement<T>(string name)
+            where T : Element
+        {
+            // init
+            var key = string.Format("{0}::{1}", typeof(T).FullName, name);
+
+            // done
+            return (this._SpecialElements.ContainsKey(key) ? (T)this._SpecialElements[key] : null);
+        }
+
 
         public static string GetLiteral(object value)
         {
@@ -145,7 +177,6 @@ namespace CiteProc.Compilation
                 ns.Render(writer);
             }
         }
-
         public CompilerResults Compile()
         {
             // compile

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CiteProc.Compilation;
+using CiteProc.Data;
 
 namespace CiteProc.Test
 {
@@ -19,9 +20,9 @@ namespace CiteProc.Test
             var tests = new ITest[]
             {
                 new Fixtures.Test("Debugging", "Debugging"),
-                new Fixtures.Test("Basic Tests - v1.0", "v10.BasicTests"),
-                new Fixtures.Test("CSL Test Suite - v1.0", "v10.CslTestSuite")
                 //new CodeTesting.IntegrationTest(),
+                new Fixtures.Test("Basic Tests - v1.0", "v10.BasicTests"),
+                new Fixtures.Test("CSL Test Suite - v1.0", "v10.CslTestSuite"),
             }
             .Where(x => x.Cases.Length > 0)
             .ToArray();
@@ -171,6 +172,38 @@ namespace CiteProc.Test
 
             // log
             log.WriteLine("{0}{1}/{2}", header.PadRight(5), part.ToString().PadLeft(length), total);
+        }
+
+        public void Example()
+        {
+            // Load a style from disk (or use one of the overloads for reading
+            // from a stream, a text reader or an xml reader).
+            var style = File.Load("harvard-cite-them-right.csl");
+
+            // Compile the style to get a processor instance.
+            var processor = Processor.Compile(style);
+
+            // Data of the referenced items (books, articles, etc.) is accessed
+            // through the IDataProvider interface. CiteProc.NET comes with a
+            // default implementation of this interface that supports the
+            // CSL JSON format.
+            processor.DataProviders = DataProvider.Load("items.json", DataFormat.Json);
+
+            // Now, you are ready to render citations and bibliographies using
+            // the selected style:
+            var entries = processor.GenerateBibliography();
+
+            // The result is an instance of a CiteProc.Formatting.Run class.
+            // This instance can then be converted to the desired format. CiteProc
+            // supports plain text and HTML out-of-the-box; the CiteProc.WpfDemo
+            // project contains an example of how to show the result in a WPF
+            // TextBlock. Other formats can be added easily.
+
+            // Austen, J. (1995) Pride and Prejudice. New York, NY: Dover Publications.
+            var plainText = entries.First().ToPlainText();
+
+            // Austen, J. (1995) <i>Pride and Prejudice</i>. New York, NY: Dover Publications.
+            var html = entries.First().ToHtml();
         }
     }
 }

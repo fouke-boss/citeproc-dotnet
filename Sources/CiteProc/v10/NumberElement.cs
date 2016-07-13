@@ -100,7 +100,7 @@ namespace CiteProc.v10
             {
                 // parameters
                 method.AddElement(this);
-                method.AddLiteral(this.Variable);
+                method.AddLiteral(this.Variable.ToLower());
                 method.AddLiteral(Utility.GetTerm(this.Variable));
                 method.AddLiteral(this.FormatSpecified ? this.Format : NumberFormat.Numeric);
                 method.AddLiteral(this.Prefix);

@@ -58,6 +58,7 @@ namespace CiteProc.Compilation
             // done
             return this.AppendArray<T>(elementType, items, expression, null);
         }
+#warning Is deze echt nodig?
         public Array AppendArray<T>(string elementType, IEnumerable<T> items, Action<T, Scope> expression, Action<Scope> nullExpression)
         {
             //add

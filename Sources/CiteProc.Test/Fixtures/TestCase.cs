@@ -56,6 +56,10 @@ namespace CiteProc.Test.Fixtures
                 // rethrow
                 throw;
             }
+            catch (Data.DataFormatException)
+            {
+                throw new FeatureNotSupportedException("Invalid json.");
+            }
             catch (Exception ex)
             {
                 // catch

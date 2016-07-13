@@ -10,11 +10,25 @@ namespace CiteProc.v10
 {
     internal static class Utility
     {
+        private static Dictionary<Type, Dictionary<string, object>> _XmlEnumCache = new Dictionary<Type, Dictionary<string, object>>();
+
         public static Method AppendRenderingMethod(this Class @class, string methodName, string returnType, string accessor)
         {
             return @class.AppendMethod("{0} {1} {2}(ExecutionContext {3}, Parameters {4})", accessor, returnType, methodName, Compiler.CONTEXT_NAME, Compiler.PARAMETER_NAME);
         }
 
+        public static void AddSortComparerParameters(this MethodInvoke method, SortElement sort)
+        {
+            // find orders
+            var keys = sort.Keys ?? new KeyElement[] { };
+
+            // add
+            foreach (var key in keys)
+            {
+                method.AddLiteral(key.SortOrderSpecified ? key.SortOrder : SortOrder.Ascending);
+            }
+        }
+#warning Overbodig?
         public static void AddSortComparer(this MethodInvoke method, EntryElement element)
         {
             // find orders
@@ -33,15 +47,59 @@ namespace CiteProc.v10
             method.AddCode("new SortComparer({0})", string.Join(", ", orders));
         }
 
-        public static TermName? GetTerm(string name)
+        public static T? GetXmlEnum<T>(this string value)
+            where T : struct
         {
-            // find field
-            var field = typeof(TermName)
-                .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
-                .SingleOrDefault(x => string.Compare(x.GetCustomAttributes(true).OfType<XmlEnumAttribute>().Single().Name, name, true) == 0);
+            // init
+            var type = typeof(T);
+
+            // from cache
+            if (!_XmlEnumCache.ContainsKey(type))
+            {
+                // enum?
+                if (!type.IsEnum)
+                {
+                    throw new NotSupportedException();
+                }
+
+                // get values
+                var values = type
+                    .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                    .ToDictionary(field =>
+                    {
+                        // get xml name
+                        return field
+                            .GetCustomAttributes(true)
+                            .OfType<XmlEnumAttribute>()
+                            .Single()
+                            .Name;
+                    }, field =>
+                    {
+                        // get enum value
+                        return field.GetValue(null);
+                    });
+
+                // done
+                _XmlEnumCache.Add(type, values);
+            }
+
+            // find
+            var dictionary = _XmlEnumCache[type];
 
             // done
-            return (field == null ? (TermName?)null : (TermName)field.GetValue(null));
+            return (dictionary.ContainsKey(value) ? (T)dictionary[value] : (T?)null);
+        }
+
+        public static TermName? GetTerm(string name)
+        {
+            return name.GetXmlEnum<TermName>();
+            //// find field
+            //var field = typeof(TermName)
+            //    .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+            //    .SingleOrDefault(x => string.Compare(x.GetCustomAttributes(true).OfType<XmlEnumAttribute>().Single().Name, name, true) == 0);
+
+            //// done
+            //return (field == null ? (TermName?)null : (TermName)field.GetValue(null));
         }
 
         public static string GetMethodName(this Culture culture)

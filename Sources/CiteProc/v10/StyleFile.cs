@@ -127,6 +127,10 @@ namespace CiteProc.v10
         /// <param name="code"></param>
         internal void Compile(Class code)
         {
+            // special elements
+            code.Root.SetSpecialElement(this.Bibliography);
+            code.Root.SetSpecialElement(this.GetFirstNamesElementInBibliography());
+
             // default locale
             if (!string.IsNullOrEmpty(this.DefaultLocale))
             {
@@ -160,38 +164,46 @@ namespace CiteProc.v10
                 }
 
                 // register macros
-                code.RegisterMacros(this.Macros.Select(x => x.Name));
+                code.Root.RegisterMacros(this.Macros.Select(x => x.Name));
 
                 // render macros
                 foreach (var macro in this.Macros)
                 {
-                    using (var block = code.AppendRenderingMethod(code.GetMacro(macro.Name), "Result", "private"))
+                    using (var block = code.AppendRenderingMethod(code.Root.GetMacro(macro.Name), "Result", "private"))
                     {
                         macro.Compile(block);
                     }
                 }
             }
 
-            // GenerateBibliography
-            using (var block = code.AppendMethod("public override ComposedRun[] GenerateBibliography(IDataProvider[] items, string locale, bool forceLocale)"))
+            // first name
+            var tmp = this.GetFirstNamesElementInBibliography();
+
+            // GenerateBibliographyLayout
+            using (var block = code.AppendRenderingMethod("GenerateBibliographyLayout", "ComposedRun", "protected override"))
             {
-                block.AppendIndent();
-                using (var method = block.AppendMethodInvoke("return this.GenerateBibliography", null))
-                {
-                    // parameters
-                    method.AddCode("items");
-                    method.AddCode("locale");
-                    method.AddCode("forceLocale");
-                    method.AddSortComparer(this.Bibliography);
-                }
-                block.Append(";");
-                block.AppendLineBreak();
+                Compile(block, this.Bibliography ?? new BibliographyElement(), (scope, child) => child.CompileLayout(scope));
             }
 
-            // GenerateBibliographyEntry
-            using (var block = code.AppendRenderingMethod("GenerateBibliographyEntry", "Entry", "protected override"))
+            // GenerateBibliographySort
+            using (var block = code.AppendRenderingMethod("GenerateBibliographySort", "string[]", "protected override"))
             {
-                Compile(block, this.Bibliography ?? new BibliographyElement());
+                Compile(block, this.Bibliography ?? new BibliographyElement(), (scope, child) => child.CompileSort(scope));
+            }
+
+            // GetBibliographySortComparer
+            if (this.Bibliography != null && this.Bibliography.Sort != null)
+            {
+                using (var block = code.AppendMethod("protected override SortComparer GetBibliographySortComparer()"))
+                {
+                    block.AppendIndent();
+                    using (var method = block.AppendMethodInvoke("return new SortComparer", null))
+                    {
+                        method.AddSortComparerParameters(this.Bibliography.Sort);
+                    }
+                    block.Append(";");
+                    block.AppendLineBreak();
+                }
             }
 
             // GenerateCitation
@@ -214,15 +226,31 @@ namespace CiteProc.v10
             // GenerateCitationEntry
             using (var block = code.AppendRenderingMethod("GenerateCitationEntry", "Entry", "protected override"))
             {
-                this.Compile(block, this.Citation ?? new CitationElement());
+                this.Compile(block, this.Citation ?? new CitationElement(), (scope, child) => child.Compile(scope));
+            }
+
+            // disambiguate
+            using (var block = code.AppendMethod("protected override DisambiguationContext Disambiguate(IEnumerable<Item> items)"))
+            {
+                // init
+                var citation = this.Citation ?? new CitationElement();
+
+                // compile
+                block.AppendIndent();
+                using (var method = block.AppendMethodInvoke("return this.Disambiguate", null))
+                {
+                    // parameters
+                    method.AddCode("items.ToArray()");
+                    method.AddLiteral(citation.DisambiguateAddNamesSpecified ? citation.DisambiguateAddNames : false);
+                    method.AddLiteral(citation.DisambiguateAddGivenNameSpecified ? true : false);
+                    method.AddLiteral(citation.DisambiguateAddYearSuffixSpecified ? citation.DisambiguateAddYearSuffix : false);
+                }
+                block.Append(";");
+                block.AppendLineBreak();
             }
         }
-        /// <summary>
-        /// Compiles the given entry descriptor element.
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="child"></param>
-        private void Compile(Scope code, EntryElement child)
+        private void Compile<T>(Scope code, T child, Action<Scope, T> action)
+            where T : EntryElement
         {
             // invoke
             code.AppendIndent();
@@ -234,7 +262,7 @@ namespace CiteProc.v10
                 // child?
                 using (var lambda = method.AddLambdaExpression(false))
                 {
-                    child.Compile(lambda);
+                    action(lambda, child);
                 }
             }
 
@@ -242,6 +270,28 @@ namespace CiteProc.v10
             code.Append(";");
             code.AppendLineBreak();
         }
+
+        private NamesElement GetFirstNamesElementInBibliography()
+        {
+            // init
+            NamesElement result = null;
+
+            // find layout in bibliography
+            if (this.Bibliography != null && this.Bibliography.Layout != null)
+            {
+                // init
+                result = this.Bibliography.Layout.GetChildren()
+                    .OfType<NamesElement>()
+                    .FirstOrDefault();
+                if (result != null)
+                {
+                }
+            }
+
+            // done
+            return result;
+        }
+
         #endregion
 
         #region Global options

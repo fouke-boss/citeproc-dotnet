@@ -13,6 +13,9 @@ namespace CiteProc.Compilation
             // init
             this.Parent = parent;
             this.Context = (context == null && parent != null ? parent.Context : context);
+
+            // root
+            this.Root = (parent == null ? (Compiler)this : parent.Root);
         }
         public virtual void Dispose()
         {
@@ -23,37 +26,22 @@ namespace CiteProc.Compilation
             get;
             private set;
         }
+        public Compiler Root
+        {
+            get;
+            private set;
+        }
         public Element Context
         {
             get;
             private set;
         }
 
-        public virtual void RegisterMacros(IEnumerable<string> macros)
-        {
-            this.Parent.RegisterMacros(macros);
-        }
-        public virtual string GetMacro(string name)
-        {
-            return this.Parent.GetMacro(name);
-        }
-
-        public virtual int ParameterIndex
-        {
-            get
-            {
-                return this.Parent.ParameterIndex;
-            }
-            set
-            {
-                this.Parent.ParameterIndex = value;
-            }
-        }
         public string ParameterName
         {
             get
             {
-                return string.Format("{0}{1}", Compiler.PARAMETER_NAME, (this.ParameterIndex == -1 ? "" : this.ParameterIndex.ToString()));
+                return string.Format("{0}{1}", Compiler.PARAMETER_NAME, (this.Root.ParameterIndex == -1 ? "" : this.Root.ParameterIndex.ToString()));
             }
         }
 

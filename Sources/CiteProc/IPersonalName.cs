@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CiteProc
 {
-    public interface INameVariable
+    public interface IPersonalName : IName
     {
         /// <summary>
         /// Surname minus any particles and suffixes.

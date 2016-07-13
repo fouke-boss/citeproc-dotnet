@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using CiteProc.Compilation;
 using CiteProc.v10;
+using Newtonsoft.Json.Linq;
 
 namespace CiteProc.Test.Fixtures
 {
@@ -53,7 +54,7 @@ namespace CiteProc.Test.Fixtures
                         result.Style = File.Parse<StyleFile>(block);
                         break;
                     case "INPUT":
-                        result.Items = Input.LoadJson(block);
+                        result.Items = Data.DataProvider.Parse(block, Data.DataFormat.Json).ToArray();
                         break;
                     case "MODE":
                         switch (block.ToUpper())
@@ -70,6 +71,9 @@ namespace CiteProc.Test.Fixtures
                         break;
                     case "RESULT":
                         result.ExpectedResult = block;
+                        break;
+                    case "CITATION-ITEMS":
+                        result.CitationItems = ParseCitationItems(block);
                         break;
                     default:
                         throw new FeatureNotSupportedException(string.Format("test-{0}", group.Key.ToUpper()));
@@ -90,6 +94,20 @@ namespace CiteProc.Test.Fixtures
                 }
             }
         }
+        private static string[][] ParseCitationItems(string json)
+        {
+            // deserialize array
+            return JArray.Parse(json)
+                .Cast<JArray>()
+                .Select(item =>
+                {
+                    return item
+                        .Cast<JObject>()
+                        .Select(obj => obj.Property("id").Value.Value<string>())
+                        .ToArray();
+                })
+                .ToArray();
+        }
 
         public StyleFile Style
         {
@@ -97,6 +115,11 @@ namespace CiteProc.Test.Fixtures
             set;
         }
         public IDataProvider[] Items
+        {
+            get;
+            set;
+        }
+        public string[][] CitationItems
         {
             get;
             set;
@@ -120,15 +143,14 @@ namespace CiteProc.Test.Fixtures
             // compile
             var processor = this.Style.Compile();
 
+            // link to items
+            processor.DataProviders = this.Items;
+
             // mode?
             switch (this.Mode)
             {
                 case Fixtures.Mode.Citation:
-                    // generate
-                    var citation = processor.GenerateCitation(this.Items);
-
-                    // done
-                    result = (citation == null || citation.IsEmpty ? "[CSL STYLE ERROR: reference with no printed form.]" : citation.ToHtml().Replace("&amp;", "&#38;"));
+                    result = this.ExecuteCitation(processor);
                     break;
                 case Fixtures.Mode.Bibliography:
                     // init
@@ -148,7 +170,7 @@ namespace CiteProc.Test.Fixtures
                         xw.WriteAttributeString("class", "csl-bib-body");
 
                         // items
-                        foreach (var run in processor.GenerateBibliography(this.Items))
+                        foreach (var run in processor.GenerateBibliography())
                         {
                             // <div class="csl-entry">
                             xw.WriteStartElement("div");
@@ -172,6 +194,38 @@ namespace CiteProc.Test.Fixtures
 
             // done
             return result;
+        }
+        private string ExecuteCitation(Processor processor)
+        {
+            // init
+            CiteProc.Formatting.ComposedRun[] results = null;
+
+            // citation items
+            if (this.CitationItems == null)
+            {
+                // no citation items
+                results = new Formatting.ComposedRun[] { processor.GenerateCitation(this.Items) };
+            }
+            else
+            {
+                // citation items
+                results = this.CitationItems
+                    .Select(citation =>
+                    {
+                        // find items
+                        var items = citation
+                            .Select(id => this.Items.Single(x => ((ITextVariable)x.GetVariables()["id"]).Value == id))
+                            .ToArray();
+
+                        // done
+                        return processor.GenerateCitation(items);
+                    })
+                    .ToArray();
+            }
+
+            // done
+            return string.Join(Environment.NewLine, results
+                .Select(result => result.IsEmpty ? "[CSL STYLE ERROR: reference with no printed form.]" : result.ToHtml().Replace("&amp;", "&#38;")));
         }
     }
 }

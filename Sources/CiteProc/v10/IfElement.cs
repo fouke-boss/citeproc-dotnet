@@ -156,7 +156,7 @@ namespace CiteProc.v10
             var byPosition = (this.Position ?? "")
                 .Split(' ')
                 .Where(x => !string.IsNullOrEmpty(x))
-                .Select(x => Enum.Parse(typeof(v10.Position), x))
+                .Select(x => x.GetXmlEnum<v10.Position>().Value)
                 .Cast<v10.Position>()
                 .Select(v => string.Format("{0}.IsPosition({1})", Compiler.CONTEXT_NAME, Compiler.GetLiteral(v)))
                 .ToArray();

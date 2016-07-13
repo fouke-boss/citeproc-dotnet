@@ -18,13 +18,13 @@ namespace CiteProc.Compilation
             this._AddBraces = addBraces;
 
             // copy parameter name
-            this.ParameterIndex++;
+            this.Root.ParameterIndex++;
             this._ParameterName = this.ParameterName;
         }
         public override void Dispose()
         {
             // decrease
-            this.ParameterIndex--;
+            this.Root.ParameterIndex--;
 
             // base
             base.Dispose();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,166 +8,89 @@ namespace CiteProc.v10.Runtime
 {
     partial class Processor
     {
-        protected internal class ExecutionContext : IDataProvider
+        protected internal class ExecutionContext
         {
             private IDataProvider _DataProvider;
-            private Dictionary<string, object> _Cache = new Dictionary<string, object>();
+            private Dictionary<string, IVariable> _Variables;
 
-            public ExecutionContext(IDataProvider dataProvider, LocaleProvider locale)
+            public ExecutionContext(IDataProvider dataProvider, LocaleProvider locale, DisambiguationContext disambiguationContext)
+                : this(dataProvider, locale, disambiguationContext, null)
+            {
+            }
+            public ExecutionContext(IDataProvider dataProvider, LocaleProvider locale, DisambiguationContext disambiguationContext, ExecutionContext previous)
             {
                 // init
                 this._DataProvider = dataProvider;
-                this.Culture = dataProvider.Culture;
                 this.Locale = locale;
+                this.DisambiguationContext = disambiguationContext;
+                this.Previous = previous;
+
+                // get variables
+                var variables = dataProvider.GetVariables();
+
+                // add -first variables for numbers
+                var variablesFirst = variables
+                    .Where(x => x.Value is INumberVariable)
+                    .ToDictionary(x => string.Format("{0}-first", x.Key), x => (IVariable)new Data.NumberVariable(((INumberVariable)x.Value).Min));
+
+                // done
+                this._Variables = variables.Concat(variablesFirst)
+                    .ToDictionary(x => x.Key.ToLower(), x => x.Value);
             }
 
+            public Culture Culture
+            {
+                get
+                {
+                    return this._DataProvider.Culture;
+                }
+            }
             public LocaleProvider Locale
             {
                 get;
                 private set;
             }
-            public Culture Culture
-            {
-                get;
-                private set;
-            }
 
             /// <summary>
-            /// Get the value from the underlying data provider, and casts it into one of four types:
-            /// - IDateVariable
-            /// - INumberVariable
-            /// - object[], either string or INameVariable
-            /// - a string
+            /// Gets the variable with the given name from the underlying data provider as one of 4 types
+            /// - ITextVariable.
+            /// - IDateVariable.
+            /// - INumberVariable.
+            /// - INamesVariable.
             /// </summary>
             /// <param name="name"></param>
             /// <returns></returns>
-            public object GetVariable(string name)
+            public IVariable GetVariable(string name)
             {
-                // cache?
-                if (!this._Cache.ContainsKey(name))
+                return (this._Variables.ContainsKey(name) ? this._Variables[name] : null);
+            }
+            public IVariable GetVariable(string name, Predicate<IVariable> valid, string error)
+            {
+                // init
+                var result = this.GetVariable(name);
+
+                // valid?
+                if (result == null || valid(result))
                 {
-                    // init
-                    object result = null;
-
-                    // first?
-                    if (name.Length > 6 && string.Compare(name.Substring(name.Length - 6), "-first", true) == 0)
-                    {
-                        // get page variable
-                        object value = this.GetVariable(name.Substring(0, name.Length - 6));
-
-                        // done
-                        result = (value is INumberVariable ? (object)((INumberVariable)value).Min : null);
-                    }
-                    else
-                    {
-                        // get variable
-                        object value = this._DataProvider.GetVariable(name);
-
-                        // parse
-                        if (value == null)
-                        {
-                            result = null;
-                        }
-                        else if (value is IDateVariable || value is INumberVariable)
-                        {
-                            result = value;
-                        }
-                        else if (value is INameVariable)
-                        {
-                            result = new object[] { value };
-                        }
-                        else if (value is IEnumerable && !(value is string))
-                        {
-                            // names
-                            result = ((IEnumerable)value)
-                                .Cast<object>()
-                                .Select(v => (v is INameVariable ? v : v.ToString()))
-                                .ToArray();
-                        }
-                        else
-                        {
-                            // init
-                            var text = value.ToString().Trim();
-
-                            // number?
-                            if (result == null)
-                            {
-                                result = this.ParseVariableAsNumber(value, text);
-                            }
-
-                            // date?
-                            if (result == null)
-                            {
-                                result = this.ParseVariableAsDate(value, text);
-                            }
-
-                            // string
-                            if (result == null)
-                            {
-                                // done
-                                result = (string.IsNullOrEmpty(text) ? null : text);
-                            }
-                        }
-                    }
-
                     // done
-                    this._Cache.Add(name, result);
+                    return result;
                 }
-
-                // done
-                return this._Cache[name];
+                else
+                {
+                    // error
+                    throw new ArgumentOutOfRangeException(string.Format("'{0}' is not a valid {1} variable.", name, error));
+                }
             }
-            /// <summary>
-            /// Returns the variable with the given name as a string.
-            /// </summary>
-            /// <param name="name"></param>
-            /// <returns></returns>
-            public string GetVariableAsText(string name)
+            public void SuppressVariable(string name)
             {
-                // init
-                var result = this.GetVariable(name);
-
-                // done
-                return (result is string || result == null ? (string)result : result.ToString());
-            }
-            /// <summary>
-            /// Returns the variable with the given name as either a IDateVariable or a string.
-            /// </summary>
-            /// <param name="name"></param>
-            /// <returns></returns>
-            public object GetVariableAsDate(string name)
-            {
-                return this.GetVariableAsT<IDateVariable>(name);
-            }
-            /// <summary>
-            /// Returns the variable with the given name as either a INumberVariable or a string.
-            /// </summary>
-            /// <param name="name"></param>
-            /// <returns></returns>
-            public object GetVariableAsNumber(string name)
-            {
-                return this.GetVariableAsT<INumberVariable>(name);
-            }
-            private object GetVariableAsT<T>(string name)
-            {
-                // init
-                var result = this.GetVariable(name);
-
-                // done
-                return (result is T || result == null ? result : result.ToString());
-            }
-            /// <summary>
-            /// Returns the variable with the given name as object[].
-            /// </summary>
-            /// <param name="name"></param>
-            /// <returns></returns>
-            public object[] GetVariableAsNames(string name)
-            {
-                // init
-                var result = this.GetVariable(name);
-
-                // done
-                return (result is object[] || result == null ? (object[])result : new object[] { result.ToString() });
+                if (this._Variables.ContainsKey(name))
+                {
+                    this._Variables[name] = null;
+                }
+                else
+                {
+                    this._Variables.Add(name, null);
+                }
             }
 
             public bool IsNotNull(string name)
@@ -177,160 +99,51 @@ namespace CiteProc.v10.Runtime
             }
             public bool IsNumeric(string name)
             {
-                return (this.GetVariableAsNumber(name) is INumberVariable);
+                return (this.GetVariable(name) is INumberVariable);
             }
             public bool IsUncertainDate(string name)
             {
                 // init
-                var date = this.GetVariableAsDate(name);
+                var date = this.GetVariable(name);
 
                 // done
                 return (date is IDateVariable && ((IDateVariable)date).IsApproximate);
             }
             public bool IsType(string type)
             {
-                return (string.Compare(this.GetVariableAsText("type"), type, true) == 0);
+                // init
+                var text = this.GetVariable("type") as ITextVariable;
+
+                // done
+                return (text != null && (string.Compare(text.Value, type, true) == 0));
             }
             public bool IsLocator(string locator)
             {
-                return (string.Compare(this.GetVariableAsText("locator"), locator, true) == 0);
+                // init
+                var text = this.GetVariable("locator") as ITextVariable;
+
+                // done
+                return (text != null && (string.Compare(text.Value, locator, true) == 0));
             }
             public bool IsPosition(Position position)
             {
                 return (position == Position.First);
             }
 
-            public void SuppressVariable(string name)
+            public DisambiguationContext DisambiguationContext
             {
-                if (this._Cache.ContainsKey(name))
-                {
-                    this._Cache[name] = null;
-                }
-                else
-                {
-                    this._Cache.Add(name, null);
-                }
+                get;
+                private set;
             }
-
-            private IDateVariable ParseVariableAsDate(object value, string text)
+            public NameGroup[] FirstBibliographyNameGroups
             {
-                // init
-                DateTime date;
-
-                // done
-                if (value is DateTime)
-                {
-                    return new DateVariable((DateTime)value);
-                }
-                else if (value is IEnumerable<DateTime>)
-                {
-                    // init
-                    var min = ((IEnumerable<DateTime>)value).Min();
-                    var max = ((IEnumerable<DateTime>)value).Max();
-
-                    // done
-                    return new DateVariable(min, max);
-                }
-                else if (DateTime.TryParse(text, out date))
-                {
-                    return new DateVariable(date);
-                }
-                else
-                {
-                    return null;
-                }
+                get;
+                set;
             }
-            private INumberVariable ParseVariableAsNumber(object value, string text)
+            public ExecutionContext Previous
             {
-                // parse
-                if (value is uint)
-                {
-                    return new NumberVariable((uint)value);
-                }
-                else if (value is int)
-                {
-                    return new NumberVariable((uint)(int)value);
-                }
-                else if (value is ulong)
-                {
-                    return new NumberVariable((uint)(ulong)value);
-                }
-                else if (value is long)
-                {
-                    return new NumberVariable((uint)(long)value);
-                }
-                else if (value is ushort)
-                {
-                    return new NumberVariable((ushort)value);
-                }
-                else if (value is short)
-                {
-                    return new NumberVariable((uint)(short)value);
-                }
-                else if (value is byte)
-                {
-                    return new NumberVariable((byte)value);
-                }
-                else if (value is sbyte)
-                {
-                    return new NumberVariable((uint)(sbyte)value);
-                }
-                else
-                {
-                    // number?
-                    var single = this.TryParseNumber(text);
-                    if (single.HasValue)
-                    {
-                        return new NumberVariable(single.Value);
-                    }
-
-                    // init
-                    INumberVariable result = null;
-
-                    // separator?
-                    if (result == null)
-                    {
-                        result = this.TrySplitNumber(text, ",");
-                    }
-                    if (result == null)
-                    {
-                        result = this.TrySplitNumber(text, "&");
-                    }
-                    if (result == null)
-                    {
-                        result = this.TrySplitNumber(text, "-–");
-                    }
-
-                    // done
-                    return result;
-                }
-            }
-            private NumberVariable? TrySplitNumber(string text, string separators)
-            {
-                // init
-                var parts = text
-                    .Split(separators.ToArray(), StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => this.TryParseNumber(x.Trim()))
-                    .Where(x => x.HasValue)
-                    .ToArray();
-
-                // done
-                return (parts.Length == 2 ? new NumberVariable(parts[0].Value, parts[1].Value, separators.First()) : (NumberVariable?)null);
-            }
-            private uint? TryParseNumber(string text)
-            {
-                // init
-                var result = (uint?)null;
-
-                // try/parse
-                uint dummy;
-                if (uint.TryParse(text, out dummy))
-                {
-                    result = dummy;
-                }
-
-                // done
-                return result;
+                get;
+                private set;
             }
         }
     }

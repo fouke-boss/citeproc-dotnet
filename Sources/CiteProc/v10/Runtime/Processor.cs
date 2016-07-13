@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,12 @@ namespace CiteProc.v10.Runtime
     /// </summary>
     public abstract partial class Processor : CiteProc.Processor
     {
+        private IEnumerable<IDataProvider> _DataProviders;
+        private Item[] _Items = new Item[] { };
+        private DisambiguationContext[] _DisambiguationContexts;
+
         private LocaleProvider[] _LocaleProviders;
+        private SortComparer _BibliographySortComparer = null;
 
         /// <summary>
         /// Constructor.
@@ -25,51 +31,66 @@ namespace CiteProc.v10.Runtime
         protected Processor(string id, string title)
             : base(new Version(1, 0, 1), id, title)
         {
+            // cache
+            this._BibliographySortComparer = this.GetBibliographySortComparer();
+
             // create instances of available locale providers
             this._LocaleProviders = this.GetLocaleProviders().ToArray();
+            this.InvariantLocale = this._LocaleProviders.Single(x => x.Culture.IsInvariant);
         }
 
-        protected ComposedRun[] GenerateBibliography(IDataProvider[] items, string locale, bool forceLocale, SortComparer comparer)
+        public override ComposedRun[] GenerateBibliography(string locale, bool forceLocale)
         {
             // init
+            ExecutionContext c = null;
             var localeProvider = this.GetLocaleProvider(locale, forceLocale);
-            var p = new Parameters();
 
             // generate entries
-            var entries = items
+            return this._Items
                 .Select(item =>
                 {
                     // init
-                    var c = new ExecutionContext(item, localeProvider);
+                    c = new ExecutionContext(item, localeProvider, DisambiguationContext.Default, c);
 
                     // render
-                    return this.GenerateBibliographyEntry(c, p);
+                    return this.GenerateBibliographyLayout(c, Parameters.Default);
                 })
                 .ToArray();
+        }
+        public override ComposedRun GenerateBibliographyEntry(IDataProvider dataProvider, string locale, bool forceLocale)
+        {
+            // init
+            var localeProvider = this.GetLocaleProvider(locale, forceLocale);
+
+            // context
+            var c = new ExecutionContext(dataProvider, localeProvider, DisambiguationContext.Default);
 
             // done
-            return entries
-                .OrderBy(x => x.Sort, comparer)
-                .Select(x => x.Layout)
-                .ToArray();
+            return this.GenerateBibliographyLayout(c, Parameters.Default);
         }
-        protected abstract Entry GenerateBibliographyEntry(ExecutionContext c, Parameters p);
+
+        protected abstract ComposedRun GenerateBibliographyLayout(ExecutionContext c, Parameters p);
+        protected abstract string[] GenerateBibliographySort(ExecutionContext c, Parameters p);
+        protected virtual SortComparer GetBibliographySortComparer()
+        {
+            return new SortComparer();
+        }
 
         protected ComposedRun GenerateCitation(IDataProvider[] items, string locale, bool forceLocale, string delimiter, SortComparer comparer)
         {
             // init
             var localeProvider = this.GetLocaleProvider(locale, forceLocale);
-            var p = new Parameters();
 
             // generate cites
-            var cites = items
+            var cites = this._Items
+                .Where(item => items.Contains(item.DataProvider))
                 .Select(item =>
                 {
                     // init
-                    var context = new ExecutionContext(item, localeProvider);
+                    var context = new ExecutionContext(item, localeProvider, item.DisambiguationContext);
 
                     // render
-                    return this.GenerateCitationEntry(context, p);
+                    return this.GenerateCitationEntry(context, Parameters.Default);
                 })
                 .ToArray();
 
@@ -88,7 +109,7 @@ namespace CiteProc.v10.Runtime
                         .ToList();
 
                     // insert
-                    this.ApplyDelimiter(runs, p.GenerateText(delimiter));
+                    this.ApplyDelimiter(runs, Parameters.Default.GenerateText(delimiter));
 
                     // done
                     return new ComposedRun(null, runs.ToArray(), false);
@@ -126,6 +147,11 @@ namespace CiteProc.v10.Runtime
                 return "en-US";
             }
         }
+        protected LocaleProvider InvariantLocale
+        {
+            get;
+            private set;
+        }
         private LocaleProvider GetLocaleProvider(string locale, bool force)
         {
             // init
@@ -151,6 +177,149 @@ namespace CiteProc.v10.Runtime
 
             // done
             return result;
+        }
+
+        protected abstract DisambiguationContext Disambiguate(IEnumerable<Item> items);
+        protected DisambiguationContext Disambiguate(Item[] items, bool addNames, bool addGivenName, bool addYearSuffix)
+        {
+            // init
+            var context = new DisambiguationContext();
+
+            // disambiguate?
+            if (items.Length > 1)
+            {
+                // init
+                bool done = false;
+
+                // [Step (1)]: disambiguate by adding names
+                if (addNames && !done)
+                {
+                    done = this.DisambiguateAddNames(items, context);
+                }
+
+                // [Step (2)]: disambiguate by expanding given names
+                if (addGivenName && !done)
+                {
+                    done = this.DisambiguateAddGivenName(items, context);
+                }
+            }
+
+            // set
+            foreach (var item in items)
+            {
+                item.DisambiguationContext = context;
+            }
+
+            // done
+            return context;
+        }
+        private bool DisambiguateAddNames(Item[] items, DisambiguationContext context)
+        {
+            // init
+            var previous = -1;
+            var result = context.MinAddNames;
+            var count = 0;
+            string[] cites = null;
+
+            // loop
+            do
+            {
+                // generate cites
+                cites = items
+                     .Select(item => this.GenerateCitationEntry(new ExecutionContext(item, this.InvariantLocale, context), Parameters.Default).Layout.ToPlainText())
+                     .ToArray();
+
+                // find the number of unique cites
+                count = cites.Distinct().Count();
+
+                // is this an improvement?
+                if (previous == -1)
+                {
+                    // initialize
+                    previous = count;
+                }
+                else if (count > previous)
+                {
+                    // mark as improvement
+                    result = context.MinAddNames;
+
+                    // set previous
+                    previous = count;
+                }
+
+                // next
+                context.MinAddNames++;
+            }
+            while (count < items.Length && context.MinAddNames < 100);
+#warning Find a better limit than 100.
+
+            // set result
+            context.MinAddNames = result;
+
+            // done?
+            return (count == items.Length);
+        }
+        private bool DisambiguateAddGivenName(Item[] items, DisambiguationContext context)
+        {
+            // init
+            var count1 = items
+                .Select(item => this.GenerateCitationEntry(new ExecutionContext(item, this.InvariantLocale, context), Parameters.Default).Layout.ToPlainText())
+                .Distinct()
+                .Count();
+
+            // try with force long
+            context.AddGivenNameLevel = DisambiguateAddGivenNameLevel.Long;
+
+            // try
+            var count2 = items
+                .Select(item => this.GenerateCitationEntry(new ExecutionContext(item, this.InvariantLocale, context), Parameters.Default).Layout.ToPlainText())
+                .Distinct()
+                .Count();
+
+            // try with uninitialized;
+            var count3 = count2;
+            if (count2 < items.Length)
+            {
+                // init
+                context.AddGivenNameLevel = DisambiguateAddGivenNameLevel.LongAndUninitialized;
+
+                // try
+                count3 = items
+                    .Select(item => this.GenerateCitationEntry(new ExecutionContext(item, this.InvariantLocale, context), Parameters.Default).Layout.ToPlainText())
+                    .Distinct()
+                    .Count();
+            }
+
+            // now try adding names again
+            var count4 = count3;
+            if (count3 < items.Length)
+            {
+                // add names
+                this.DisambiguateAddNames(items, context);
+
+                // try
+                count4 = items
+                    .Select(item => this.GenerateCitationEntry(new ExecutionContext(item, this.InvariantLocale, context), Parameters.Default).Layout.ToPlainText())
+                    .Distinct()
+                    .Count();
+            }
+
+            // find effective level
+            if (count4 > count2)
+            {
+                context.AddGivenNameLevel = DisambiguateAddGivenNameLevel.LongAndUninitialized;
+            }
+            else if (count2 > count1)
+            {
+                context.AddGivenNameLevel = DisambiguateAddGivenNameLevel.Long;
+            }
+            else
+            {
+                context.AddGivenNameLevel = DisambiguateAddGivenNameLevel.None;
+            }
+
+            // done
+            return (count3 == items.Length);
         }
 
         #region Compilation
@@ -274,14 +443,105 @@ namespace CiteProc.v10.Runtime
 
         #endregion
 
+        #region State management
+
+        public override IEnumerable<IDataProvider> DataProviders
+        {
+            get
+            {
+                // done
+                return this._DataProviders;
+            }
+            set
+            {
+                // remove event handler
+                if (this._DataProviders is INotifyCollectionChanged)
+                {
+                    ((INotifyCollectionChanged)this._DataProviders).CollectionChanged -= DataProviders_CollectionChanged;
+                }
+
+                // set
+                this._DataProviders = value;
+
+                // add event handler
+                if (this._DataProviders is INotifyCollectionChanged)
+                {
+                    ((INotifyCollectionChanged)this._DataProviders).CollectionChanged += DataProviders_CollectionChanged;
+                }
+
+                // update state
+                this.UpdateState();
+            }
+        }
+        private void DataProviders_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // update state
+            this.UpdateState();
+        }
+        private void UpdateState()
+        {
+            // init
+            var obsolete = this._Items.ToList();
+
+            // insert items
+            var items = this._DataProviders
+                .Select(dataProvider =>
+                {
+                    // init
+                    var match = obsolete.SingleOrDefault(x => x.DataProvider == dataProvider);
+
+                    // found?
+                    if (match == null)
+                    {
+                        // create
+                        match = new Item(this, dataProvider);
+                    }
+                    else
+                    {
+                        // not obsolete
+                        obsolete.Remove(match);
+                    }
+
+                    // done
+                    return match;
+                })
+                .ToArray();
+
+            // dispose obsolete items
+            foreach (var item in obsolete)
+            {
+                item.Dispose();
+            }
+
+            // sort items and generate citation numbers
+            this._Items = items
+                .OrderBy(x => x.BibliographySortKey, this._BibliographySortComparer)
+                .Select((x, i) =>
+                {
+                    // set citation number
+                    x.CitationNumber = (i + 1);
+
+                    // done
+                    return x;
+                })
+                .ToArray();
+
+            // group into disambiguation contexts
+            this._DisambiguationContexts = this._Items.GroupBy(x => x.DefaultCite)
+                .Select(x => this.Disambiguate(x))
+                .ToArray();
+        }
+
+        #endregion
+
         #region Rendering
-        protected Entry RenderStyle(ExecutionContext c, Parameters p, Func<Parameters, Entry> child)
+        protected T RenderStyle<T>(ExecutionContext c, Parameters p, Func<Parameters, T> child)
         {
             return child(p);
         }
-        protected Entry RenderBibliography(ExecutionContext c, Parameters p, Func<Parameters, ComposedRun> layout, Func<Parameters, string[]> sort)
+        protected T RenderBibliography<T>(ExecutionContext c, Parameters p, Func<Parameters, T> child)
         {
-            return new Entry(layout(p), sort(p));
+            return child(p);
         }
         protected Entry RenderCitation(ExecutionContext c, Parameters p, Func<Parameters, ComposedRun> layout, Func<Parameters, string[]> sort)
         {
@@ -354,7 +614,7 @@ namespace CiteProc.v10.Runtime
         protected Result RenderLabel(string tag, string variable, TermName term, TermFormat format, LabelPluralization plurilization, string prefix, string suffix, ExecutionContext c, Parameters p)
         {
             // get variable
-            var value = c.GetVariableAsNumber(variable) as INumberVariable;
+            var value = c.GetVariable(variable) as INumberVariable;
 
             // find text
             string text = null;
@@ -385,7 +645,7 @@ namespace CiteProc.v10.Runtime
         protected Result RenderNumber(string tag, string variable, TermName? term, NumberFormat format, string prefix, string suffix, TextCase? textCase, ExecutionContext c, Parameters p)
         {
             // init
-            var value = c.GetVariableAsNumber(variable);
+            var value = c.GetVariable(variable, x => x is INumberVariable || x is ITextVariable, "number or text");
 
             // to text
             string text = null;
@@ -395,17 +655,13 @@ namespace CiteProc.v10.Runtime
             {
                 text = null;
             }
-            else if (value is string)
+            else if (value is ITextVariable)
             {
-                text = (string)value;
+                text = ((ITextVariable)value).Value;
             }
             else if (value is INumberVariable)
             {
                 text = this.RenderNumber((INumberVariable)value, term, format, c, p);
-            }
-            else
-            {
-                throw new NotSupportedException();
             }
 
             // done
@@ -646,7 +902,7 @@ namespace CiteProc.v10.Runtime
         private Result RenderDate(string tag, string variable, string delimiter, string prefix, string suffix, ExecutionContext c, Parameters p, DatePartParameters[] dateParts)
         {
             // get date
-            var value = c.GetVariableAsDate(variable);
+            var value = c.GetVariable(variable, x => x is IDateVariable || x is ITextVariable, "date or text");
 
             // format
             Run[] results = null;
@@ -654,10 +910,10 @@ namespace CiteProc.v10.Runtime
             {
                 results = new Run[] { };
             }
-            else if (value is string)
+            else if (value is ITextVariable)
             {
                 // render as text
-                results = p.GenerateText((string)value).ToArray();
+                results = p.GenerateText(((ITextVariable)value).Value).ToArray();
             }
             else
             {
@@ -905,7 +1161,7 @@ namespace CiteProc.v10.Runtime
             }
         }
 
-        protected Result RenderNames(string id, string[] variables, TermName?[] terms, string prefix, string suffix, ExecutionContext c, Parameters p, Func<Parameters, NameParameters> nameParameters, Func<Parameters, EtAlParameters> etAlParameters, Func<Parameters, LabelParameters> labelParameters, Func<NameParameters, EtAlParameters, LabelParameters, Result>[] substitutes)
+        protected Result RenderNames(string id, string[] variables, TermName?[] terms, string subsequentAuthorSubstitute, SubsequentAuthorSubstituteRules? subsequentAuthorSubstituteRule, string prefix, string suffix, ExecutionContext c, Parameters p, Func<Parameters, NameParameters> nameParameters, Func<Parameters, EtAlParameters> etAlParameters, Func<Parameters, LabelParameters> labelParameters, Func<NameParameters, EtAlParameters, LabelParameters, Result>[] substitutes)
         {
             // init
             var np = nameParameters(p);
@@ -913,7 +1169,7 @@ namespace CiteProc.v10.Runtime
             var lp = labelParameters(p);
 
             // render name groups
-            var result = this.RenderNameGroups(id, variables, terms, prefix, suffix, false, c, p, np, ep, lp);
+            var result = this.RenderNameGroups(id, variables, terms, subsequentAuthorSubstitute, subsequentAuthorSubstituteRule, prefix, suffix, false, c, p, np, ep, lp);
 
             // subsitutes?
             if (result.IsEmpty)
@@ -933,11 +1189,11 @@ namespace CiteProc.v10.Runtime
             // done
             return result;
         }
-        protected Result RenderNameGroups(string id, string[] variables, TermName?[] terms, string prefix, string suffix, bool suppress, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters ep, LabelParameters lp)
+        protected Result RenderNameGroups(string id, string[] variables, TermName?[] terms, string subsequentAuthorSubstitute, SubsequentAuthorSubstituteRules? subsequentAuthorSubstituteRule, string prefix, string suffix, bool suppress, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters ep, LabelParameters lp)
         {
             // create groups
             var groups = variables
-                .Select((v, i) => new NameGroup(v, terms[i], c.GetVariableAsNames(v)))
+                .Select((v, i) => new NameGroup(v, terms[i], (INamesVariable)c.GetVariable(v, x => x is INamesVariable, "names")))
                 .Where(x => x.Names != null)
                 .ToList();
 
@@ -971,7 +1227,7 @@ namespace CiteProc.v10.Runtime
             {
                 // count
                 var count = groups
-                    .Select(x => (x.Names.Length >= np.EtAlMin ? np.EtAlUseFirst : x.Names.Length))
+                    .Select(x => (x.Names.Length >= np.EtAlMin ? Math.Max(np.EtAlUseFirst, c.DisambiguationContext.MinAddNames) : x.Names.Length))
                     .Sum();
 
                 // done
@@ -981,10 +1237,30 @@ namespace CiteProc.v10.Runtime
             {
                 // render
                 results = groups
-                    .Select(x => this.RenderNameGroup(x, c, p, np, ep, lp))
+                    .Select((group, index) =>
+                    {
+                        // init
+                        NameGroup previousGroup = null;
+
+                        // subsequent author substitution?
+                        if (subsequentAuthorSubstituteRule.HasValue)
+                        {
+                            // find match from previous entry in bibliography
+                            previousGroup = (c.Previous == null || c.Previous.FirstBibliographyNameGroups.Length <= index ? null : c.Previous.FirstBibliographyNameGroups[index]);
+                        }
+
+                        // render name group
+                        return this.RenderNameGroup(group, previousGroup, subsequentAuthorSubstitute, subsequentAuthorSubstituteRule, c, p, np, ep, lp);
+                    })
                     .Select(x => x.ToComposedRun(c, p))
                     .Cast<Run>()
                     .ToList();
+
+                // set result
+                if (subsequentAuthorSubstituteRule.HasValue)
+                {
+                    c.FirstBibliographyNameGroups = groups.ToArray();
+                }
 
                 // delimiter
                 this.ApplyDelimiter(results, p.GenerateText(p.NamesDelimiter));
@@ -993,148 +1269,197 @@ namespace CiteProc.v10.Runtime
             // done
             return new Result(id, results, true, prefix, suffix, false, null);
         }
-        private Result RenderNameGroup(NameGroup group, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters ep, LabelParameters lp)
+        private Result RenderNameGroup(NameGroup group, NameGroup previousGroup, string subsequentAuthorSubstitute, SubsequentAuthorSubstituteRules? subsequentAuthorSubstituteRule, ExecutionContext c, Parameters p, NameParameters np, EtAlParameters ep, LabelParameters lp)
         {
             // init
-            var etAlActive = (group.Names.Length >= np.EtAlMin);
-            var count = (etAlActive ? np.EtAlUseFirst + 1 : group.Names.Length);
-            var delta = (etAlActive ? 1 : 0);
-
-            // render names
-            var parts = group.Names
-                .Where((x, i) => i < count - delta || i == group.Names.Length - 1)
-                .Select((name, index) =>
-                {
-                    // invert name?
-                    var inverted = false;
-                    switch (np.NameAsSortOrder)
-                    {
-                        case NameSortOptions.None:
-                            inverted = false;
-                            break;
-                        case NameSortOptions.First:
-                            inverted = (index == 0);
-                            break;
-                        case NameSortOptions.All:
-                            inverted = true;
-                            break;
-                    }
-
-                    // render name
-                    return new
-                    {
-                        Name = this.RenderName(name, inverted, c, np).ToComposedRun(c, p),
-                        Inverted = inverted,
-                        IsSecondToLast = (index == count - 2),
-                        IsLast = (index == count - 1)
-                    };
-                })
-                .ToArray();
-
-            // create results
             var results = new List<Run>();
-            foreach (var part in parts)
+
+            // complete subsequent author substitution?
+            var isComplete = (subsequentAuthorSubstituteRule.HasValue &&
+                previousGroup != null &&
+                group.Names.Length == previousGroup.Names.Length &&
+                Enumerable.Range(0, group.Names.Length).All(i => NameGroup.AreNamesEqual(group.Names[i], previousGroup.Names[i])));
+            if (isComplete && subsequentAuthorSubstituteRule.Value == SubsequentAuthorSubstituteRules.CompleteAll)
             {
-                // name
-                if (part.IsLast && etAlActive && !np.EtAlUseLast)
-                {
-                    // add 'et-al' only if any names are rendered (which is not the case when et-al-use-first="0")
-                    if (results.Count > 0)
+                // substitute subsequent author
+                results.AddRange(np.GenerateText(subsequentAuthorSubstitute));
+            }
+            else
+            {
+                // render names list
+                var etAlActive = (group.Names.Length >= np.EtAlMin);
+                var count = (etAlActive ? Math.Max(np.EtAlUseFirst, c.DisambiguationContext.MinAddNames) + 1 : group.Names.Length);
+                var delta = (etAlActive ? 1 : 0);
+
+                // render names
+                var parts = group.Names
+                    .Where((x, i) => i < count - delta || i == group.Names.Length - 1)
+                    .Select((name, index) =>
                     {
-                        // et al
-                        var result = new Result(ep.Tag, ep.GenerateText(c.Locale.GetTerm(ep.Term, TermFormat.Long, false)), false, null, null, false, null);
-
-                        // add
-                        results.Add(result.ToComposedRun(c, p));
-                    }
-                }
-                else
-                {
-                    // name
-                    results.Add(part.Name);
-                }
-
-                // delimiter
-                if (part.IsLast)
-                {
-                    // no delimiter
-                }
-                else if (part.IsSecondToLast)
-                {
-                    // init
-                    var addDelimiter = true;
-
-                    // et al or and?
-                    if (etAlActive)
-                    {
-                        // et al
-                        addDelimiter = this.EvaluateDelimiterBehavior(np.DelimiterPrecedesEtAl, (count > 2), part.Inverted);
-                    }
-                    else if (np.And != And.Delimiter)
-                    {
-                        // and
-                        addDelimiter = this.EvaluateDelimiterBehavior(np.DelimiterPrecedesLast, (count >= 3), part.Inverted);
-                    }
-
-                    // add delimiter
-                    results.AddRange(p.GenerateText(addDelimiter ? np.NameDelimiter : " "));
-
-                    // and
-                    if (!etAlActive)
-                    {
-                        switch (np.And)
+                        // invert name?
+                        var inverted = false;
+                        switch (np.NameAsSortOrder)
                         {
-                            case And.Symbol:
-                                results.AddRange(np.GenerateText("&"));
-                                results.AddRange(np.GenerateText(" "));
+                            case NameSortOptions.None:
+                                inverted = false;
                                 break;
-                            case And.Text:
-                                results.AddRange(np.GenerateText(c.Locale.GetTerm(TermName.And, TermFormat.Long, false)));
-                                results.AddRange(np.GenerateText(" "));
+                            case NameSortOptions.First:
+                                inverted = (index == 0);
+                                break;
+                            case NameSortOptions.All:
+                                inverted = true;
                                 break;
                         }
-                    }
 
-                    // et-al-use-last
-                    if (etAlActive && np.EtAlUseLast)
+                        // subsequent author substitute?
+                        bool substitute = false;
+                        if (subsequentAuthorSubstituteRule.HasValue &&
+                            previousGroup != null &&
+                            index < previousGroup.Names.Length &&
+                            NameGroup.AreNamesEqual(name, previousGroup.Names[index]))
+                        {
+                            switch (subsequentAuthorSubstituteRule.Value)
+                            {
+                                case SubsequentAuthorSubstituteRules.CompleteEach:
+                                    substitute = isComplete;
+                                    break;
+                                case SubsequentAuthorSubstituteRules.PartialEach:
+                                    substitute = true;
+                                    break;
+                                case SubsequentAuthorSubstituteRules.PartialFirst:
+                                    substitute = (index == 0);
+                                    break;
+                            }
+                        }
+
+                        // substitute?
+                        Result result = null;
+                        if (substitute)
+                        {
+                            // subsequent author substitute
+                            result = new Result(np.Tag, np.GenerateText(subsequentAuthorSubstitute), false, null, null, false, null);
+                        }
+                        else
+                        {
+                            // name
+                            result = this.RenderName(name, inverted, c, np);
+                        }
+
+                        // render name
+                        return new
+                        {
+                            Name = result.ToComposedRun(c, p),
+                            Inverted = inverted,
+                            IsSecondToLast = (index == count - 2),
+                            IsLast = (index == count - 1)
+                        };
+                    })
+                    .ToArray();
+
+                // create results
+                foreach (var part in parts)
+                {
+                    // name
+                    if (part.IsLast && etAlActive && !np.EtAlUseLast)
                     {
-                        // ellipsis
-                        results.AddRange(np.GenerateText("… "));
+                        // add 'et-al' only if any names are rendered (which is not the case when et-al-use-first="0")
+                        if (results.Count > 0)
+                        {
+                            // et al
+                            var result = new Result(ep.Tag, ep.GenerateText(c.Locale.GetTerm(ep.Term, TermFormat.Long, false)), false, null, null, false, null);
+
+                            // add
+                            results.Add(result.ToComposedRun(c, p));
+                        }
+                    }
+                    else
+                    {
+                        // name
+                        results.Add(part.Name);
+                    }
+
+                    // delimiter
+                    if (part.IsLast)
+                    {
+                        // no delimiter
+                    }
+                    else if (part.IsSecondToLast)
+                    {
+                        // init
+                        var addDelimiter = true;
+
+                        // et al or and?
+                        if (etAlActive)
+                        {
+                            // et al
+                            addDelimiter = this.EvaluateDelimiterBehavior(np.DelimiterPrecedesEtAl, (count > 2), part.Inverted);
+                        }
+                        else if (np.And != And.Delimiter)
+                        {
+                            // and
+                            addDelimiter = this.EvaluateDelimiterBehavior(np.DelimiterPrecedesLast, (count >= 3), part.Inverted);
+                        }
+
+                        // add delimiter
+                        results.AddRange(p.GenerateText(addDelimiter ? np.NameDelimiter : " "));
+
+                        // and
+                        if (!etAlActive)
+                        {
+                            switch (np.And)
+                            {
+                                case And.Symbol:
+                                    results.AddRange(np.GenerateText("&"));
+                                    results.AddRange(np.GenerateText(" "));
+                                    break;
+                                case And.Text:
+                                    results.AddRange(np.GenerateText(c.Locale.GetTerm(TermName.And, TermFormat.Long, false)));
+                                    results.AddRange(np.GenerateText(" "));
+                                    break;
+                            }
+                        }
+
+                        // et-al-use-last
+                        if (etAlActive && np.EtAlUseLast)
+                        {
+                            // ellipsis
+                            results.AddRange(np.GenerateText("… "));
+                        }
+                    }
+                    else
+                    {
+                        // add delimiter
+                        results.AddRange(p.GenerateText(np.NameDelimiter));
                     }
                 }
-                else
+
+                // label
+                if (lp != null && group.Term.HasValue)
                 {
-                    // add delimiter
-                    results.AddRange(p.GenerateText(np.NameDelimiter));
+                    // plural?
+                    var plural = false;
+                    switch (lp.Plural)
+                    {
+                        case LabelPluralization.Always:
+                            plural = true;
+                            break;
+                        case LabelPluralization.Contextual:
+                            plural = (group.Names.Length != 1);
+                            break;
+                        case LabelPluralization.Never:
+                            plural = false;
+                            break;
+                        default:
+                            throw new NotSupportedException();
+                    }
+
+                    // render
+                    var text = lp.GenerateText(c.Locale.GetTerm(group.Term.Value, lp.Format, plural));
+                    var label = new Result(lp.Tag, text, false, lp.Prefix, lp.Suffix, false, lp.TextCase);
+
+                    // add
+                    results.Add(label.ToComposedRun(c, p));
                 }
-            }
-
-            // label
-            if (lp != null && group.Term.HasValue)
-            {
-                // plural?
-                var plural = false;
-                switch (lp.Plural)
-                {
-                    case LabelPluralization.Always:
-                        plural = true;
-                        break;
-                    case LabelPluralization.Contextual:
-                        plural = (group.Names.Length != 1);
-                        break;
-                    case LabelPluralization.Never:
-                        plural = false;
-                        break;
-                    default:
-                        throw new NotSupportedException();
-                }
-
-                // render
-                var text = lp.GenerateText(c.Locale.GetTerm(group.Term.Value, lp.Format, plural));
-                var label = new Result(lp.Tag, text, false, lp.Prefix, lp.Suffix, false, lp.TextCase);
-
-                // add
-                results.Add(label.ToComposedRun(c, p));
             }
 
             // done
@@ -1145,13 +1470,13 @@ namespace CiteProc.v10.Runtime
             // init
             IEnumerable<Run> results = null;
 
-            if (name is string)
+            if (name is IPersonalName)
             {
-                results = np.GenerateText((string)name);
+                results = this.RenderName((IPersonalName)name, inverted, c, np);
             }
-            else if (name is INameVariable)
+            else if (name is IInstitutionalName)
             {
-                results = this.RenderName((INameVariable)name, inverted, c, np);
+                results = np.GenerateText(((IInstitutionalName)name).Name);
             }
             else
             {
@@ -1161,7 +1486,7 @@ namespace CiteProc.v10.Runtime
             // done
             return new Result(np.Tag, results, false, np.Prefix, np.Suffix, false, null);
         }
-        private IEnumerable<Run> RenderName(INameVariable name, bool inverted, ExecutionContext c, NameParameters np)
+        private IEnumerable<Run> RenderName(IPersonalName name, bool inverted, ExecutionContext c, NameParameters np)
         {
             // init
             var familyParameters = np.NameParts[0];
@@ -1171,7 +1496,7 @@ namespace CiteProc.v10.Runtime
             // format name parts
             var familyName = this.FormatNamePart(c, familyParameters, name.FamilyName);
             var nonDroppingParticles = this.FormatNamePart(c, familyParameters, name.NonDroppingParticles);
-            var given = this.FormatNamePart(c, givenParameters, this.InitializeGivenNames(name, np.Initialize, np.InitializeWith));
+            var given = this.FormatNamePart(c, givenParameters, this.InitializeGivenNames(name, np.Initialize && (c.DisambiguationContext.AddGivenNameLevel != DisambiguateAddGivenNameLevel.LongAndUninitialized), np.InitializeWith));
             var droppingParticles = this.FormatNamePart(c, givenParameters, name.DroppingParticles);
             var suffix = this.FormatNamePart(c, suffixParameters, name.PrecedeSuffixByComma && !string.IsNullOrWhiteSpace(name.Suffix) ? string.Format(",{0}", name.Suffix) : name.Suffix);
 
@@ -1181,7 +1506,7 @@ namespace CiteProc.v10.Runtime
             // render parts
             Result[] results = null;
             string delimiter = null;
-            switch (np.NameFormat)
+            switch (c.DisambiguationContext.AddGivenNameLevel != DisambiguateAddGivenNameLevel.None ? NameFormat.Long : np.NameFormat)
             {
                 case NameFormat.Long:
                     // inverted?
@@ -1285,7 +1610,7 @@ namespace CiteProc.v10.Runtime
             // done
             return new Result(npp.Tag, results, false, npp.Prefix, npp.Suffix, false, null);
         }
-        private string InitializeGivenNames(INameVariable name, bool initialize, string initializeWith)
+        private string InitializeGivenNames(IPersonalName name, bool initialize, string initializeWith)
         {
             // processing required?
             if (initializeWith == null || string.IsNullOrEmpty(name.GivenNames) || string.IsNullOrWhiteSpace(name.FamilyName))
@@ -1362,9 +1687,13 @@ namespace CiteProc.v10.Runtime
             var value = c.GetVariable(variable);
 
             // create key
-            if (value == null || value is string)
+            if (value == null)
             {
-                return (string)value;
+                return (string)null;
+            }
+            else if (value is ITextVariable)
+            {
+                return ((ITextVariable)value).Value;
             }
             else if (value is IDateVariable)
             {
@@ -1372,32 +1701,33 @@ namespace CiteProc.v10.Runtime
                 var date = (IDateVariable)value;
 
                 // done
-                return string.Format("{0:0000}{1:00}{2:00}-{3:0000}{4:00}{5:00}", date.YearFrom, date.MonthFrom ?? 0, date.DayFrom ?? 0, date.YearTo, date.MonthTo ?? 0, date.DayTo ?? 0);
+                return string.Format("{0:00000}{1:00}{2:00}-{3:00000}{4:00}{5:00}", date.YearFrom + 10000, date.MonthFrom ?? 0, date.DayFrom ?? 0, date.YearTo + 10000, date.MonthTo ?? 0, date.DayTo ?? 0);
             }
             else if (value is INumberVariable)
             {
-                throw new NotImplementedException();
+                return string.Format("{0:00000000}-{1:00000000}", ((INumberVariable)value).Min + 10000000, ((INumberVariable)value).Max + 10000000);
             }
-            else if (value is object[])
+            else if (value is INamesVariable)
             {
                 // cast
-                var names = (object[])value;
+                var names = ((INamesVariable)value).ToArray();
 
                 // done
                 return string.Join(",", names.Select(n =>
                 {
                     // string or INameVariable?
-                    if (n is INameVariable)
+                    if (n is IPersonalName)
                     {
                         // cast
-                        var name = (INameVariable)n;
+                        var name = (IPersonalName)n;
 
                         // done
                         return string.Join(" ", new string[] { name.FamilyName, name.GivenNames, name.DroppingParticles, name.NonDroppingParticles, name.Suffix }.Where(x => !string.IsNullOrEmpty(x)));
                     }
                     else
                     {
-                        return (string)n;
+                        // institiutional
+                        return ((IInstitutionalName)n).Name;
                     }
                 }));
             }

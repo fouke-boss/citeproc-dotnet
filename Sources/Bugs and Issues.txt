@@ -5,13 +5,15 @@
 
 
 To do
+* Prefix/Suffix in number
+* et-al-subsequent-min/et-al-subsequent-use-first
+
 * Parameters omnoemen naar Scope?
 * Cite Collapsing
 * Cite Grouping
 * Disambiguation
 * Citation-specific options
 * Bibliography-specific options
-* Citation-number
 
 * parse van roman numbers
 * parsing van raw date ranges ('summer-autumn 2015' of '17-23 juli 2016')
@@ -27,5 +29,4 @@ To do
 * Ongebruikte code verwijderen
 * Code van commentaar voorzien.
 * #warnings
-* Xml Formatting
-* Variable type in IDataProvider
+* Xml Formatting in WPF Demo

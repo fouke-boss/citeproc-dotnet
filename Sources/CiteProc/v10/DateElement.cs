@@ -167,7 +167,7 @@ namespace CiteProc.v10
 
                     // parameters
                     method.AddElement(this);
-                    method.AddLiteral(this.Variable);
+                    method.AddLiteral(this.Variable.ToLower());
                     method.AddLiteral(this.Format);
                     method.AddLiteral(this.PrecisionSpecified ? this.Precision : DatePrecision.YearMonthDay);
                 }
@@ -178,7 +178,7 @@ namespace CiteProc.v10
 
                     // parameters
                     method.AddElement(this);
-                    method.AddLiteral(this.Variable);
+                    method.AddLiteral(this.Variable.ToLower());
                     method.AddLiteral(this.Delimiter);
                 }
 

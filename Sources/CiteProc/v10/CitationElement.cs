@@ -212,10 +212,10 @@ namespace CiteProc.v10
         /// Compiles the Citation element.
         /// </summary>
         /// <param name="code"></param>
-        internal override void Compile(Scope code)
+        internal void Compile(Scope code)
         {
             // disambiguation is not yet supported
-            if (this.DisambiguateAddGivenNameSpecified || this.DisambiguateAddNamesSpecified || this.DisambiguateAddYearSuffixSpecified || this.GivenNameDisambiguationRuleSpecified)
+            if (this.DisambiguateAddYearSuffixSpecified)
             {
                 throw new FeatureNotSupportedException("disambiguation");
             }
@@ -236,6 +236,12 @@ namespace CiteProc.v10
             if (this.NearNoteDistanceSpecified)
             {
                 throw new FeatureNotSupportedException("near-note-distance attribute");
+            }
+
+            // disambiguation is not yet supported
+            if (this.DisambiguateAddGivenNameSpecified && this.DisambiguateAddGivenName)
+            {
+                throw new FeatureNotSupportedException("disambiguation");
             }
 
             // invoke

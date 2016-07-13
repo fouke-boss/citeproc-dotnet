@@ -12,6 +12,6 @@ namespace CiteProc
         {
             get;
         }
-        object GetVariable(string name);
+        Dictionary<string, IVariable> GetVariables();
     }
 }

@@ -67,7 +67,7 @@ namespace CiteProc.v10.Runtime
                 this.NameAsSortOrder = nameAsSortOrder ?? original.NameAsSortOrder;
                 this.SortSeparator = sortSeparator ?? original.SortSeparator;
             }
-            internal Parameters()
+            private Parameters()
                 : this(
                     null,
                     FontStyle.Normal,
@@ -94,6 +94,8 @@ namespace CiteProc.v10.Runtime
                 )
             {
             }
+
+            public static readonly Parameters Default = new Parameters();
 
             public FontStyle FontStyle
             {

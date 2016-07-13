@@ -10,28 +10,27 @@ To start using CiteProc-.NET, create a new project in Visual Studio and add a re
     {
         // Load a style from disk (or use one of the overloads for reading
         // from a stream, a text reader or an xml reader).
-        var style = CiteProc.File.Load("harvard-cite-them-right.csl");
+        var style = File.Load("harvard-cite-them-right.csl");
 
         // Compile the style to get a processor instance.
         var processor = Processor.Compile(style);
 
-        // Data of the referenced items (books, articles, etc.) is accessed through the
-        // IDataProvider interface. CiteProc.NET comes with a default implementation of
-        // this interface that supports the CSL JSON format. Currently this default
-        // implementation is part of the CiteProc.Test assembly, but in the near future
-        // it will become part of the CiteProc assembly itself.
-        var data = CiteProc.Test.Fixtures.Input.LoadJson("items.json");
+        // Data of the referenced items (books, articles, etc.) is accessed
+        // through the IDataProvider interface. CiteProc.NET comes with a
+        // default implementation of this interface that supports the
+        // CSL JSON format.
+        processor.DataProviders = DataProvider.Load("items.json", DataFormat.Json);
 
         // Now, you are ready to render citations and bibliographies using
         // the selected style:
-        var entries = processor.GenerateBibliography(data);
+        var entries = processor.GenerateBibliography();
 
-        // The result is an instance of a CiteProc.Formatting.Run class. This instance
-        // can then be converted to the desired format. CiteProc supports plain text
-        // and HTML out-of-the-box; the CiteProc.WpfDemo project contains an example
-        // of how to show the result in a WPF TextBlock. Other formats can be added
-        // easily.
-        
+        // The result is an instance of a CiteProc.Formatting.Run class.
+        // This instance can then be converted to the desired format. CiteProc
+        // supports plain text and HTML out-of-the-box; the CiteProc.WpfDemo
+        // project contains an example of how to show the result in a WPF
+        // TextBlock. Other formats can be added easily.
+
         // Austen, J. (1995) Pride and Prejudice. New York, NY: Dover Publications.
         var plainText = entries.First().ToPlainText();
 
@@ -45,21 +44,17 @@ The CiteProc.dll assembly targets .NET framework 4.5, although I'm guessing it c
 * System.Core.dll
 * System.Xml.dll
 
-The only reference to a third-party component is a reference from the CiteProc.Test.dll to the Newtonsoft.Json.dll for parsing CSL JSON. Once I've replaced this with my own JSON parser, this functionality will be moved to the CiteProc.dll.
-
 As it does not depend on any specific .NET language or UI technology, CiteProc-.NET can be used together with ASP.NET, WinForms, Windows Presentation Foundation, etc., in either C# or Visual Basic.NET. 
 
 ## CSL Compatibility
-CiteProc-.NET aims to implement [version 1.0.1 of the CSL specification](http://docs.citationstyles.org/en/stable/specification.html), and currently supports the larger part of this specification. There is same more work ahead however, as the following features (marked in code by the FeatureNotSupportedException) are not yet supported (as of june 28, 2016):
+CiteProc-.NET aims to implement [version 1.0.1 of the CSL specification](http://docs.citationstyles.org/en/stable/specification.html), and currently supports the larger part of this specification. There is same more work ahead however, as the following features (marked in code by the FeatureNotSupportedException) are not yet supported (as of july 13, 2016):
 * Bibliography-specific options
-* Subsequent author substitution
 * Disambiguation
 * Cite grouping
 * Cite collapsing
 * Citation-specific options
 * Display attribute
 * Position and disambiguate conditions
-* Generation of citation numbers
 * Removing multiple spaces and punctuation
 * (not part of the CSL spec): parsing of raw dates and roman numbers in CSL JSON
 * (not part of the CSL spec): inline html in CSL JSON
@@ -72,7 +67,7 @@ CiteProc-.NET comes with a CiteProc.Test.exe assembly, which contains:
 
 Running the CiteProc.Test.exe shows the results of these tests in the console. It also generates a log file (in the same folder as the CiteProc.Test.exe), which contains additional info on the failing tests, including a summary, showing the unsupported features (and the number of test cases failing because of them).
 
-Currently, 397 of the available 821 test cases pass, while 73 of them fail (some more than others). The remaining 351 test cases fail because of features that are not yet supported, 211 of which because of unsupported test sections like CITATIONS, CITATION-ITEMS and BIBENTRIES.
+Currently, 416 of the available 826 test cases pass, while 92 of them fail (some more than others). The remaining 318 test cases fail because of features that are not yet supported, 153 of which because of unsupported test sections like CITATIONS, BIBSECTIONS and BIBENTRIES.
 
 ## CiteProc.WpfDemo
 CiteProc-.NET also comes with a small WPF demo that mimics the [CSL style code editor](http://editor.citationstyles.org/codeEditor/). Currently, it's main goal is to demonstrate how to use CiteProc-.NET with Windows Presentation Foundation (WPF), but it might one day become a fully functional CSL editor.
@@ -83,6 +78,6 @@ Running this demo (by double clicking Binaries\CiteProc.WpfDemo.exe) gives you a
 Now that this first version is made public, the following work remains to be done: 
 * Implementing the remaining *unsupported features*, at least the ones that are part of the CSL specification.
 * Completing the *basic test* set.
-* Creating a *default implementation of the IDataProvider* interface in the CiteProc.dll assembly, which  supports JSON CSL, BibTeX and other formats.
+* Add support for *BibTeX* and other formats.
 * *Documentation, documentation, documentation*.
 * Enhancing and expanding the *CiteProc.WpfDemo* project.

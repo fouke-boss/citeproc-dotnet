@@ -92,5 +92,14 @@ namespace CiteProc.v10
                 }
             }
         }
+
+        /// <summary>
+        /// Returns all child elements.
+        /// </summary>
+        /// <returns></returns>
+        internal override IEnumerable<RenderingElement> GetChildren()
+        {
+            return base.GetChildren().Concat(this.Children.SelectMany(x => x.GetChildren()));
+        }
     }
 }

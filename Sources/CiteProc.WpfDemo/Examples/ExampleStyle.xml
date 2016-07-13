@@ -63,12 +63,36 @@
       <name and="text" delimiter-precedes-last="never" initialize-with=". " name-as-sort-order="all"/>
       <label form="short" prefix=" (" suffix=")"/>
       <et-al font-style="italic"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <choose>
+          <if type="article-newspaper article-magazine" match="any">
+            <text variable="container-title" text-case="title" font-style="italic"/>
+          </if>
+          <else>
+            <text macro="title"/>
+          </else>
+        </choose>
+      </substitute>
     </names>
   </macro>
   <macro name="author-short">
     <names variable="author">
       <name form="short" and="text" delimiter=", " delimiter-precedes-last="never" initialize-with=". "/>
       <et-al font-style="italic"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <choose>
+          <if type="article-newspaper article-magazine" match="any">
+            <text variable="container-title" text-case="title" font-style="italic"/>
+          </if>
+          <else>
+            <text macro="title"/>
+          </else>
+        </choose>
+      </substitute>
     </names>
   </macro>
   <macro name="access">
@@ -229,7 +253,7 @@
       </if>
     </choose>
   </macro>
-  <citation et-al-min="4" et-al-use-first="1">
+  <citation et-al-min="4" et-al-use-first="1" disambiguate-add-names="true">
     <sort>
       <key macro="year-date"/>
     </sort>
@@ -278,3 +302,4 @@
     </layout>
   </bibliography>
 </style>
+

@@ -110,6 +110,7 @@ namespace CiteProc.v10
             {
                 // variables
                 var variables = this.Variable.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.ToLower())
                     .ToArray();
 
                 // terms
@@ -118,10 +119,26 @@ namespace CiteProc.v10
                     .Select(x => (x == null ? "(TermName?)null" : Compiler.GetLiteral(x.Value)))
                     .ToArray();
 
+                // subsequent author substitution rule
+                var subsequentAuthorSubstitute = (string)null;
+                var subsequentAuthorSubstituteRule = (SubsequentAuthorSubstituteRules?)null;
+                if (this == code.Root.GetSpecialElement<NamesElement>())
+                {
+                    // init
+                    var bibliography = code.Root.GetSpecialElement<BibliographyElement>();
+                    if (bibliography.SubsequentAuthorSubstituteSpecified)
+                    {
+                        subsequentAuthorSubstitute = bibliography.SubsequentAuthorSubstitute;
+                        subsequentAuthorSubstituteRule = (bibliography.SubsequentAuthorSubstituteRuleSpecified ? bibliography.SubsequentAuthorSubstituteRule : SubsequentAuthorSubstituteRules.CompleteAll);
+                    }
+                }
+
                 // parameters
                 method.AddElement(this);
                 method.AddCode(string.Format("new string[]{{{{{0}}}}}", string.Join(",", variables.Select(x => Compiler.GetLiteral(x)))));
                 method.AddCode(string.Format("new TermName?[]{{{{{0}}}}}", string.Join(",", terms)));
+                method.AddLiteral(subsequentAuthorSubstitute);
+                method.AddLiteral(subsequentAuthorSubstituteRule);
                 method.AddLiteral(this.Prefix);
                 method.AddLiteral(this.Suffix);
                 method.AddContextAndParameters();
@@ -217,6 +234,8 @@ namespace CiteProc.v10
                 method.AddElement(this);
                 method.AddCode(string.Format("new string[]{{{{{0}}}}}", string.Join(",", variables.Select(x => Compiler.GetLiteral(x)))));
                 method.AddCode(string.Format("new TermName?[]{{{{{0}}}}}", string.Join(",", terms)));
+                method.AddLiteral(null);
+                method.AddLiteral(null);
                 method.AddLiteral(owner.Prefix);
                 method.AddLiteral(owner.Suffix);
                 method.AddLiteral(true);

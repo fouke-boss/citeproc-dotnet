@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CiteProc
+namespace CiteProc.Data
 {
     public struct DateVariable : IDateVariable
     {

@@ -49,12 +49,10 @@
     <Compile Include="CodeTesting\AssertionException.cs" />
     <Compile Include="CodeTesting\IntegrationTest.cs" />
     <Compile Include="CodeTesting\TestCaseAttribute.cs" />
-    <Compile Include="Fixtures\Input.cs" />
     <Compile Include="Fixtures\TestCase.cs" />
     <Compile Include="Fixtures\Test.cs" />
     <Compile Include="CodeTesting\Test.cs" />
     <Compile Include="CodeTesting\TestCase.cs" />
-    <Compile Include="Item.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="ITestCase.cs" />
     <Compile Include="Program.cs" />
@@ -69,6 +67,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute partial-each.txt" />
+    <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute complete-each.txt" />
+    <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute partial-first.txt" />
+    <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute none.txt" />
+    <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute complete-all.txt" />
     <EmbeddedResource Include="Fixtures\v10\BasicTests\names substitute.txt" />
     <EmbeddedResource Include="CodeTesting\Repository\springer-mathphys-brackets.csl" />
     <EmbeddedResource Include="CodeTesting\Repository\annals-of-mathematics-and-artificial-intelligence.csl" />

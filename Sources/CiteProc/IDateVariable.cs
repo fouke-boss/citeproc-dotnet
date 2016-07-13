@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CiteProc
 {
-    public interface IDateVariable
+    public interface IDateVariable : IVariable
     {
         int YearFrom
         {

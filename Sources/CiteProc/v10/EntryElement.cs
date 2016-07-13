@@ -32,12 +32,6 @@ namespace CiteProc.v10
             set;
         }
 
-        /// <summary>
-        /// Compiles the entry descriptor element.
-        /// </summary>
-        /// <param name="code"></param>
-        internal abstract void Compile(Scope code);
-
         #region Inheritable name options
         /// <summary>
         /// Specifies the delimiter between the second to last and last name of the names in a name variable.

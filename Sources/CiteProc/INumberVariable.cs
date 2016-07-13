@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CiteProc
 {
-    public interface INumberVariable
+    public interface INumberVariable : IVariable
     {
         uint Min
         {

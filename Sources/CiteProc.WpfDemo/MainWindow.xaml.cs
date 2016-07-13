@@ -36,7 +36,7 @@ namespace CiteProc.WpfDemo
         private CiteProc.Processor _Processor = null;
         private Exception _ProcessorException = null;
 
-        private CiteProc.Test.Fixtures.Input[] _Json = null;
+        private CiteProc.IDataProvider[] _Json = null;
         private Exception _JsonException = null;
 
         private TimeSpan _CompileDuration = TimeSpan.Zero;
@@ -133,7 +133,7 @@ namespace CiteProc.WpfDemo
                     try
                     {
                         // load
-                        this._Json = Test.Fixtures.Input.LoadJson(this.Dispatcher.Invoke(() => this.txtJson.Text));
+                        this._Json = Data.DataProvider.Parse(this.Dispatcher.Invoke(() => this.txtJson.Text), Data.DataFormat.Json).ToArray();
                         this._JsonException = null;
                     }
                     catch (Exception ex)
@@ -166,8 +166,11 @@ namespace CiteProc.WpfDemo
                         // try/catch
                         try
                         {
+                            // bind
+                            this._Processor.DataProviders = this._Json;
+
                             // generate
-                            this._Bibliography = this._Processor.GenerateBibliography(this._Json, locale, force);
+                            this._Bibliography = this._Processor.GenerateBibliography(locale, force);
                             this._Citations = this._Json.Select(x => this._Processor.GenerateCitation(new IDataProvider[] { x }, locale, force)).ToArray();
                         }
                         catch (Exception ex)

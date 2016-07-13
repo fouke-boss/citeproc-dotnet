@@ -99,11 +99,23 @@ namespace CiteProc
             private set;
         }
 
-        public ComposedRun[] GenerateBibliography(IDataProvider[] items)
+        public abstract IEnumerable<IDataProvider> DataProviders
         {
-            return this.GenerateBibliography(items, "en-US", false);
+            get;
+            set;
         }
-        public abstract ComposedRun[] GenerateBibliography(IDataProvider[] items, string locale, bool forceLocale);
+
+        public ComposedRun[] GenerateBibliography()
+        {
+            return this.GenerateBibliography("en-US", false);
+        }
+        public abstract ComposedRun[] GenerateBibliography(string locale, bool forceLocale);
+
+        public ComposedRun GenerateBibliographyEntry(IDataProvider dataProvider)
+        {
+            return this.GenerateBibliographyEntry(dataProvider, "en-US", false);
+        }
+        public abstract ComposedRun GenerateBibliographyEntry(IDataProvider dataProvider, string locale, bool forceLocale);
 
         public ComposedRun GenerateCitation(IDataProvider[] items)
         {

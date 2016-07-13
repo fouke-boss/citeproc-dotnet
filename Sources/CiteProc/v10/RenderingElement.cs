@@ -40,5 +40,14 @@ namespace CiteProc.v10
         {
             throw new CompilerException(this, "Not supported.");
         }
+
+        /// <summary>
+        /// Returns all child rendering elements.
+        /// </summary>
+        /// <returns></returns>
+        internal virtual IEnumerable<RenderingElement> GetChildren()
+        {
+            yield return this;
+        }
     }
 }

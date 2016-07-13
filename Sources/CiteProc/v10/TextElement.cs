@@ -223,7 +223,7 @@ namespace CiteProc.v10
                 {
                     method.Name = "this.RenderTextByVariable";
                     method.AddElement(this);
-                    method.AddLiteral(this.Variable);
+                    method.AddLiteral(this.Variable.ToLower());
                     method.AddLiteral(Utility.GetTerm(this.Variable));
                     method.AddLiteral(this.FormatSpecified ? this.Format : TermFormat.Long);
                 }
@@ -231,7 +231,7 @@ namespace CiteProc.v10
                 {
                     method.Name = "this.RenderTextByMacro";
                     method.AddElement(this);
-                    method.AddCode("this.{0}", code.GetMacro(this.Macro));
+                    method.AddCode("this.{0}", code.Root.GetMacro(this.Macro));
                 }
                 else if (this.TermSpecified)
                 {
