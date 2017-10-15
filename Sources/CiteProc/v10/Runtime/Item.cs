@@ -48,6 +48,13 @@ namespace CiteProc.v10.Runtime
                 private set;
             }
 
+            public IDataProvider Parent
+            {
+                get
+                {
+                    throw new NotSupportedException();
+                }
+            }
             public Culture Culture
             {
                 get

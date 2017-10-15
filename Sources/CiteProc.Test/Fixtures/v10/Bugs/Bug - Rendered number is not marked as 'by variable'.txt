@@ -1,0 +1,111 @@
+>>===== MODE =====>>
+citation
+<<===== MODE =====<<
+
+
+
+
+>>===== RESULT =====>>
+p. 1
+<<===== RESULT =====<<
+
+
+>>===== CSL =====>>
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="note">
+  <info>
+    <title/>
+    <id/>
+    <updated>2016-06-21T07:13:58+00:00</updated>
+  </info>
+  <macro name="record-detail">
+		<group delimiter=" ">
+		<group delimiter=", ">
+			<choose>
+			<if is-numeric="volume">
+				<group delimiter=" ">
+				<text term="volume" form="short" />
+				<number variable="volume" />
+				</group>
+			</if>
+			<else-if variable="volume">
+				<text variable="volume" />
+			</else-if>
+			</choose>
+			<text variable="label" quotes="true" />
+			<choose>
+			<if is-numeric="section">
+				<group delimiter=" ">
+				<text term="section" form="short" />
+				<number variable="section" />
+				</group>
+			</if>
+			<else-if variable="section">
+				<text variable="section" />
+			</else-if>
+			</choose>
+			<choose>
+			<if variable="page">
+				<group delimiter=" ">
+				<text term="page" form="short" />
+				<number variable="page" />
+				</group>
+			</if>
+			<else-if variable="section number entry-for item-of-interest" match="any">
+				<choose>
+				<if variable="arrangement" match="none">
+					<text value="unpaginated" />
+				</if>
+				</choose>
+			</else-if>
+			</choose>
+			<text variable="arrangement" />
+			<choose>
+			<if is-numeric="number">
+				<group delimiter=" ">
+				<text value="no." />
+				<number variable="number" />
+				</group>
+			</if>
+			<else-if variable="number">
+				<text variable="number" />
+			</else-if>
+			</choose>
+			<choose>
+			<if variable="entry-for">
+				<group delimiter=" ">
+				<text value="entry for" />
+				<text variable="entry-for" />
+				</group>
+			</if>
+			</choose>
+			<!-- vermoedelijke bug in citeproc: <text variable="item-of-interest" /> zou voldoende moeten zijn, maar in dat geval wordt de gehele macro niet getoond indien de variabele item-of-interest niet is gevuld. -->
+			<choose>
+			<if is-numeric="item-of-interest">
+				<text variable="item-of-interest" />
+			</if>
+			<else-if variable="item-of-interest">
+				<text variable="item-of-interest" />
+			</else-if>
+			</choose>
+		</group>
+		<date variable="date" form="text" prefix="(" suffix=")" />
+		</group>
+	</macro>
+  <citation>
+    <layout>
+      <text macro="record-detail" />
+    </layout>
+  </citation>
+</style>
+<<===== CSL =====<<
+
+
+>>===== INPUT =====>>
+[
+    {
+		"type": "church-record",
+        "page": 1
+    }
+]
+<<===== INPUT =====<<

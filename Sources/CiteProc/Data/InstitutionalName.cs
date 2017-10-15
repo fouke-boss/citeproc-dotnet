@@ -19,6 +19,14 @@ namespace CiteProc.Data
             private set;
         }
 
+        public override bool IsEmpty
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(this.Name);
+            }
+        }
+
         public override string ToString()
         {
             // done

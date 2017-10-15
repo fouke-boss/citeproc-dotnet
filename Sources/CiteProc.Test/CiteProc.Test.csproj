@@ -67,6 +67,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Fixtures\v10\Bugs\Bug - Rendered number is not marked as %27by variable%27.txt" />
     <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute partial-each.txt" />
     <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute complete-each.txt" />
     <EmbeddedResource Include="Fixtures\v10\BasicTests\subsequent-author-substitute partial-first.txt" />

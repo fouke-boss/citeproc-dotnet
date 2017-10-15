@@ -25,7 +25,7 @@ namespace CiteProc
         }
 
         /// <summary>
-        /// Gets or sets additional data for the element. When the elemnt was loaded using an XmlReader,
+        /// Gets or sets additional data for the element. When the element was loaded using an XmlReader,
         /// the tag is filled with the (line, position) of the element in the xml.
         /// </summary>
         [XmlIgnore]
@@ -34,20 +34,5 @@ namespace CiteProc
             get;
             private set;
         }
-
-        //public Element[] Elements
-        //{
-        //    get
-        //    {
-        //        return this.GetElements()
-        //            .Where(x => x != null)
-        //            .ToArray();
-        //    }
-        //}
-        ///// <summary>
-        ///// Returns all child elements.
-        ///// </summary>
-        ///// <returns></returns>
-        //protected abstract IEnumerable<Element> GetElements();
     }
 }

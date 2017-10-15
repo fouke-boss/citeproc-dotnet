@@ -224,7 +224,7 @@ namespace CiteProc.v10
                     method.Name = "this.RenderTextByVariable";
                     method.AddElement(this);
                     method.AddLiteral(this.Variable.ToLower());
-                    method.AddLiteral(Utility.GetTerm(this.Variable));
+                    method.AddLiteral(Utility.GetXmlEnum<TermName>(this.Variable));
                     method.AddLiteral(this.FormatSpecified ? this.Format : TermFormat.Long);
                 }
                 else if (!string.IsNullOrEmpty(this.Macro))

@@ -16,28 +16,11 @@ namespace CiteProc.Compilation
         public const string PARAMETER_NAME = "p";
 
         private static Microsoft.CSharp.CSharpCodeProvider _CodeProvider;
-        private static System.CodeDom.Compiler.CompilerParameters _CompilerOptions;
+
         static Compiler()
         {
             // code provider
             _CodeProvider = new Microsoft.CSharp.CSharpCodeProvider();
-
-            // compiler options
-            _CompilerOptions = new System.CodeDom.Compiler.CompilerParameters()
-            {
-                GenerateInMemory = true,
-                GenerateExecutable = false,
-                IncludeDebugInformation = false
-            };
-
-            // references assemblies
-            var references = new Type[] { typeof(string), typeof(Enumerable), typeof(Processor) };
-            _CompilerOptions.ReferencedAssemblies.AddRange(references
-                .Select(x => x.Assembly)
-                .Where(x => !x.IsDynamic)
-                .GroupBy(x => x.FullName)
-                .Select(x => x.First().Location)
-                .ToArray());
         }
 
         private List<string> _Usings = new List<string>();
@@ -82,6 +65,13 @@ namespace CiteProc.Compilation
         }
         public string GetMacro(string name)
         {
+            // find
+            if (!this._MacroMappings.ContainsKey(name))
+            {
+                throw new ArgumentOutOfRangeException(name, string.Format("Macro '{0}' is not defined.", name));
+            }
+
+            // done
             return this._MacroMappings[name];
         }
         public int ParameterIndex
@@ -179,8 +169,34 @@ namespace CiteProc.Compilation
         }
         public CompilerResults Compile()
         {
+            // init
+            var guid = Guid.NewGuid().ToString();
+            var tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), guid);
+
+            // create temp path
+            System.IO.Directory.CreateDirectory(tempPath);
+
+            // options
+            var options = new System.CodeDom.Compiler.CompilerParameters()
+            {
+                GenerateInMemory = true,
+                GenerateExecutable = false,
+                IncludeDebugInformation = false,
+                OutputAssembly = System.IO.Path.Combine(tempPath, string.Format("{0}.dll", guid)),
+                TempFiles = new TempFileCollection(tempPath, false)
+            };
+
+            // references
+            var references = new Type[] { typeof(string), typeof(Enumerable), typeof(Processor) };
+            options.ReferencedAssemblies.AddRange(references
+                .Select(x => x.Assembly)
+                .Where(x => !x.IsDynamic)
+                .GroupBy(x => x.FullName)
+                .Select(x => x.First().Location)
+                .ToArray());
+
             // compile
-            return _CodeProvider.CompileAssemblyFromSource(_CompilerOptions, this.ToString());
+            return _CodeProvider.CompileAssemblyFromSource(options, this.ToString());
         }
     }
 }

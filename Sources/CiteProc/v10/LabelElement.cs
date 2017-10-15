@@ -114,7 +114,7 @@ namespace CiteProc.v10
             }
 
             // find matching term
-            var term = Utility.GetTerm(this.Variable);
+            var term = Utility.GetXmlEnum<TermName>(this.Variable);
             if (term == null)
             {
                 throw new CompilerException(this, "No label is defined for variable '{0}'.", this.Variable);

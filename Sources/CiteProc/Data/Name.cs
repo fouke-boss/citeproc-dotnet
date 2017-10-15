@@ -8,5 +8,9 @@ namespace CiteProc.Data
 {
     public abstract class Name : IName
     {
+        public abstract bool IsEmpty
+        {
+            get;
+        }
     }
 }

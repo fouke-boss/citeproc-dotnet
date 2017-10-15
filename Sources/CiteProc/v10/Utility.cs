@@ -54,33 +54,36 @@ namespace CiteProc.v10
             var type = typeof(T);
 
             // from cache
-            if (!_XmlEnumCache.ContainsKey(type))
+            lock (_XmlEnumCache)
             {
-                // enum?
-                if (!type.IsEnum)
+                if (!_XmlEnumCache.ContainsKey(type))
                 {
-                    throw new NotSupportedException();
+                    // enum?
+                    if (!type.IsEnum)
+                    {
+                        throw new NotSupportedException();
+                    }
+
+                    // get values
+                    var values = type
+                        .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                        .ToDictionary(field =>
+                        {
+                            // get xml name
+                            return field
+                                .GetCustomAttributes(true)
+                                .OfType<XmlEnumAttribute>()
+                                .Single()
+                                .Name;
+                        }, field =>
+                        {
+                            // get enum value
+                            return field.GetValue(null);
+                        });
+
+                    // done
+                    _XmlEnumCache.Add(type, values);
                 }
-
-                // get values
-                var values = type
-                    .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
-                    .ToDictionary(field =>
-                    {
-                        // get xml name
-                        return field
-                            .GetCustomAttributes(true)
-                            .OfType<XmlEnumAttribute>()
-                            .Single()
-                            .Name;
-                    }, field =>
-                    {
-                        // get enum value
-                        return field.GetValue(null);
-                    });
-
-                // done
-                _XmlEnumCache.Add(type, values);
             }
 
             // find
@@ -88,18 +91,6 @@ namespace CiteProc.v10
 
             // done
             return (dictionary.ContainsKey(value) ? (T)dictionary[value] : (T?)null);
-        }
-
-        public static TermName? GetTerm(string name)
-        {
-            return name.GetXmlEnum<TermName>();
-            //// find field
-            //var field = typeof(TermName)
-            //    .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
-            //    .SingleOrDefault(x => string.Compare(x.GetCustomAttributes(true).OfType<XmlEnumAttribute>().Single().Name, name, true) == 0);
-
-            //// done
-            //return (field == null ? (TermName?)null : (TermName)field.GetValue(null));
         }
 
         public static string GetMethodName(this Culture culture)

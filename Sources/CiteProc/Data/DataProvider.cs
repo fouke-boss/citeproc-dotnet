@@ -10,6 +10,7 @@ namespace CiteProc.Data
     /// <summary>
     /// Represents a default implementation of the IDataProvider interface.
     /// </summary>
+#warning To do: implement INotifyPropertyChanged
     public class DataProvider : IDataProvider
     {
         private Dictionary<string, IVariable> _Variables = new Dictionary<string, IVariable>();
@@ -19,9 +20,14 @@ namespace CiteProc.Data
         {
         }
         public DataProvider(Culture culture)
+            : this(culture, null)
+        {
+        }
+        public DataProvider(Culture culture, IDataProvider parent)
         {
             // init
             this.Culture = culture;
+            this.Parent = parent;
         }
 
         public static IEnumerable<DataProvider> Parse(string value, DataFormat format)
@@ -51,6 +57,11 @@ namespace CiteProc.Data
             return format.Parse(reader).ToArray();
         }
 
+        public IDataProvider Parent
+        {
+            get;
+            set;
+        }
         public Culture Culture
         {
             get;
@@ -65,6 +76,7 @@ namespace CiteProc.Data
             }
             set
             {
+#warning To do: check variable type
                 this._Variables[name.ToLower()] = value;
             }
         }
@@ -95,7 +107,7 @@ namespace CiteProc.Data
 #warning Id is not an official CSL variable
                 case "id":
                 case "isbn":
-                case "ISSN":
+                case "issn":
                 case "jurisdiction":
                 case "keyword":
                 case "locator":

@@ -16,9 +16,8 @@ namespace CiteProc.v10.Runtime
     /// </summary>
     public abstract partial class Processor : CiteProc.Processor
     {
-        private IEnumerable<IDataProvider> _DataProviders;
+        private IEnumerable<IDataProvider> _DataProviders = new IDataProvider[] { };
         private Item[] _Items = new Item[] { };
-        private DisambiguationContext[] _DisambiguationContexts;
 
         private LocaleProvider[] _LocaleProviders;
         private SortComparer _BibliographySortComparer = null;
@@ -62,8 +61,11 @@ namespace CiteProc.v10.Runtime
             // init
             var localeProvider = this.GetLocaleProvider(locale, forceLocale);
 
+            // find item
+            var item = (IDataProvider)(this._Items.SingleOrDefault(x => x.DataProvider == dataProvider) ?? dataProvider);
+
             // context
-            var c = new ExecutionContext(dataProvider, localeProvider, DisambiguationContext.Default);
+            var c = new ExecutionContext(item, localeProvider, DisambiguationContext.Default);
 
             // done
             return this.GenerateBibliographyLayout(c, Parameters.Default);
@@ -81,9 +83,38 @@ namespace CiteProc.v10.Runtime
             // init
             var localeProvider = this.GetLocaleProvider(locale, forceLocale);
 
+            // find or create items
+            var items2 = items
+                .Select((item, index) =>
+                {
+                    // find root
+                    var root = item;
+                    while (root.Parent != null)
+                    {
+                        root = root.Parent;
+                    }
+
+                    // find matching item in _Items
+                    var match = this._Items.SingleOrDefault(x => x.DataProvider == root);
+                    if (match == null)
+                    {
+                        throw new ArgumentException(string.Format("The recursive parents of the item with index {0} is not present in the DataProvider collection.", index));
+                    }
+
+                    // done
+#warning To do: transfer citation number from match to newly created item
+                    return new Item(this, item);
+                })
+                .ToArray();
+
+            // disambiguate
+            var disambiguationContexts = items2
+                .GroupBy(x => x.DefaultCite)
+                .Select(x => this.Disambiguate(x))
+                .ToArray();
+
             // generate cites
-            var cites = this._Items
-                .Where(item => items.Contains(item.DataProvider))
+            var cites = items2
                 .Select(item =>
                 {
                     // init
@@ -115,6 +146,45 @@ namespace CiteProc.v10.Runtime
                     return new ComposedRun(null, runs.ToArray(), false);
             }
         }
+        //protected ComposedRun GenerateCitation(IDataProvider[] items, string locale, bool forceLocale, string delimiter, SortComparer comparer)
+        //{
+        //    // init
+        //    var localeProvider = this.GetLocaleProvider(locale, forceLocale);
+
+        //    // generate cites
+        //    var cites = this._Items
+        //        .Where(item => items.Contains(item.DataProvider))
+        //        .Select(item =>
+        //        {
+        //            // init
+        //            var context = new ExecutionContext(item, localeProvider, item.DisambiguationContext);
+
+        //            // render
+        //            return this.GenerateCitationEntry(context, Parameters.Default);
+        //        })
+        //        .ToArray();
+
+        //    // done
+        //    switch (cites.Length)
+        //    {
+        //        case 0:
+        //            return null;
+        //        case 1:
+        //            return cites.Single().Layout;
+        //        default:
+        //            // init
+        //            var runs = cites
+        //                .OrderBy(x => x.Sort, comparer)
+        //                .Select(x => (Run)x.Layout)
+        //                .ToList();
+
+        //            // insert
+        //            this.ApplyDelimiter(runs, Parameters.Default.GenerateText(delimiter));
+
+        //            // done
+        //            return new ComposedRun(null, runs.ToArray(), false);
+        //    }
+        //}
         protected abstract Entry GenerateCitationEntry(ExecutionContext c, Parameters p);
 
         protected virtual bool InitializeWithHyphen
@@ -525,11 +595,6 @@ namespace CiteProc.v10.Runtime
                     return x;
                 })
                 .ToArray();
-
-            // group into disambiguation contexts
-            this._DisambiguationContexts = this._Items.GroupBy(x => x.DefaultCite)
-                .Select(x => this.Disambiguate(x))
-                .ToArray();
         }
 
         #endregion
@@ -664,8 +729,8 @@ namespace CiteProc.v10.Runtime
                 text = this.RenderNumber((INumberVariable)value, term, format, c, p);
             }
 
-            // done
-            return this.RenderTextByValue(tag, text, prefix, suffix, false, textCase, c, p);
+            // init
+            return new Result(tag, p.GenerateText(text), true, prefix, suffix, false, textCase);
         }
         private string RenderNumber(INumberVariable value, TermName? term, NumberFormat format, ExecutionContext c, Parameters p)
         {

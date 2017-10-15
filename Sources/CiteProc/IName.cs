@@ -8,5 +8,9 @@ namespace CiteProc
 {
     public interface IName
     {
+        bool IsEmpty
+        {
+            get;
+        }
     }
 }

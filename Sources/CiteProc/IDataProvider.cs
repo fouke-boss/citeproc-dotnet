@@ -13,5 +13,10 @@ namespace CiteProc
             get;
         }
         Dictionary<string, IVariable> GetVariables();
+
+        IDataProvider Parent
+        {
+            get;
+        }
     }
 }

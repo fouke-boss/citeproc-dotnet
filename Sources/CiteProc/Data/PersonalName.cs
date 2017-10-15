@@ -55,6 +55,14 @@ namespace CiteProc.Data
             private set;
         }
 
+        public override bool IsEmpty
+        {
+            get
+            {
+                return (string.IsNullOrWhiteSpace(this.FamilyName) && string.IsNullOrWhiteSpace(this.GivenNames) && string.IsNullOrWhiteSpace(this.NonDroppingParticles) && string.IsNullOrWhiteSpace(this.DroppingParticles) && string.IsNullOrWhiteSpace(this.Suffix));
+            }
+        }
+
         public override string ToString()
         {
             // init

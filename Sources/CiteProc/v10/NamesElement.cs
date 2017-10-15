@@ -115,7 +115,7 @@ namespace CiteProc.v10
 
                 // terms
                 var terms = variables
-                    .Select(x => Utility.GetTerm(x))
+                    .Select(x => Utility.GetXmlEnum<TermName>(x))
                     .Select(x => (x == null ? "(TermName?)null" : Compiler.GetLiteral(x.Value)))
                     .ToArray();
 
@@ -226,7 +226,7 @@ namespace CiteProc.v10
 
                 // terms
                 var terms = variables
-                    .Select(x => Utility.GetTerm(x))
+                    .Select(x => Utility.GetXmlEnum<TermName>(x))
                     .Select(x => (x == null ? "(TermName?)null" : Compiler.GetLiteral(x.Value)))
                     .ToArray();
 

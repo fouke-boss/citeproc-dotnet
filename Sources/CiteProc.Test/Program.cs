@@ -22,6 +22,7 @@ namespace CiteProc.Test
                 new Fixtures.Test("Debugging", "Debugging"),
                 //new CodeTesting.IntegrationTest(),
                 new Fixtures.Test("Basic Tests - v1.0", "v10.BasicTests"),
+                new Fixtures.Test("Bugs - v1.0", "v10.Bugs"),
                 new Fixtures.Test("CSL Test Suite - v1.0", "v10.CslTestSuite"),
             }
             .Where(x => x.Cases.Length > 0)

@@ -47,6 +47,7 @@ namespace CiteProc
             var result = compiler.Compile();
             if (result.Errors.Count > 0)
             {
+                System.IO.File.AppendAllText(@"D:\templog.txt", result.Errors[0].ErrorText);
                 throw new NotSupportedException();
             }
 

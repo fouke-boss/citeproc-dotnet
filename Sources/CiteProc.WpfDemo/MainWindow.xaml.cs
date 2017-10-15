@@ -311,6 +311,9 @@ namespace CiteProc.WpfDemo
                 TextIndent = -30,
                 Margin = new Thickness(30, 20, 0, 0),
             };
+            result.Tag = run;
+            result.Cursor = Cursors.Hand;
+            result.MouseDown += result_MouseDown;
 
             // flatten
             var inlines = run.Flatten()
@@ -380,6 +383,11 @@ namespace CiteProc.WpfDemo
 
             // done
             return result;
+        }
+
+        void result_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var tmp = ((Paragraph)sender).Tag;
         }
 
         private bool IsDirty
