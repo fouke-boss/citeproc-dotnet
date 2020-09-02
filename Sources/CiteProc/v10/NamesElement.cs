@@ -27,6 +27,7 @@ namespace CiteProc.v10
             get;
             set;
         }
+
         /// <summary>
         /// Separates the names of the different name variables (e.g. the semicolon in “Doe, Smith (editors); Johnson (translator)”).
         /// </summary>
@@ -46,6 +47,7 @@ namespace CiteProc.v10
             get;
             set;
         }
+
         /// <summary>
         /// Et-al abbreviation can be further customized with the optional cs:et-al element.
         /// </summary>
@@ -55,6 +57,7 @@ namespace CiteProc.v10
             get;
             set;
         }
+
         /// <summary>
         /// The optional cs:substitute element adds substitution in case the name variables specified in the parent cs:names
         /// element are empty. The substitutions are specified as child elements of cs:substitute, and must consist of one
@@ -66,6 +69,7 @@ namespace CiteProc.v10
             get;
             set;
         }
+
         [XmlElement("label")]
         public LabelElement Label
         {
@@ -83,11 +87,21 @@ namespace CiteProc.v10
             get;
             set;
         }
+
         /// <summary>
         /// Indicates whether the 'display' attribute is specified. Required by System.Xml.XmlSerializer.
         /// </summary>
         [XmlIgnore]
         public bool DisplaySpecified
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Used to suppress substituted variables to prevent duplication. Default is false.
+        /// </summary>
+        private bool Suppress
         {
             get;
             set;
@@ -141,6 +155,7 @@ namespace CiteProc.v10
                 method.AddLiteral(subsequentAuthorSubstituteRule);
                 method.AddLiteral(this.Prefix);
                 method.AddLiteral(this.Suffix);
+                method.AddLiteral(this.Suppress);
                 method.AddContextAndParameters();
 
                 // name parameters
@@ -197,52 +212,27 @@ namespace CiteProc.v10
                     scope.Append("(np, ep, lp) => ");
 
                     // is the child a names element?
-                    if (child is NamesElement)
+                    if (child is NamesElement substNames)
                     {
-                        ((NamesElement)child).CompileNested(scope, this);
+                        // substituted variables are suppressed to prevent duplication
+                        substNames.Suppress = true;
+
+                        // inside a substitution, the names elements without child elements will 
+                        // inherit name, et-al, label, prefix & suffix from the original names element
+                        if (substNames.Name == null && substNames.EtAl == null &&
+                            substNames.Label == null && substNames.Substitute == null)
+                        {
+                            substNames.Name = this.Name;
+                            substNames.EtAl = this.EtAl;
+                            substNames.Label = this.Label;
+                            substNames.Prefix = this.Prefix;
+                            substNames.Suffix = this.Suffix;
+                        }
                     }
-                    else
-                    {
-                        // nope
-                        child.Compile(scope);
-                    }
+
+                    // compile the substitute child element
+                    child.Compile(scope);
                 });
-            }
-        }
-        private void CompileNested(Scope code, NamesElement owner)
-        {
-            // validate
-            if (this.Name != null || this.EtAl != null || this.Label != null || this.Substitute != null)
-            {
-                throw new CompilerException(this, "A names element inside a substitute element is not allowed to have any child elements.");
-            }
-
-            // invoke
-            using (var method = code.AppendMethodInvoke("this.RenderNameGroups", this))
-            {
-                // variables
-                var variables = this.Variable.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    .ToArray();
-
-                // terms
-                var terms = variables
-                    .Select(x => Utility.GetXmlEnum<TermName>(x))
-                    .Select(x => (x == null ? "(TermName?)null" : Compiler.GetLiteral(x.Value)))
-                    .ToArray();
-
-                // parameters
-                method.AddElement(this);
-                method.AddCode(string.Format("new string[]{{{{{0}}}}}", string.Join(",", variables.Select(x => Compiler.GetLiteral(x)))));
-                method.AddCode(string.Format("new TermName?[]{{{{{0}}}}}", string.Join(",", terms)));
-                method.AddLiteral(null);
-                method.AddLiteral(null);
-                method.AddLiteral(owner.Prefix);
-                method.AddLiteral(owner.Suffix);
-                method.AddLiteral(true);
-                method.AddContextAndParameters();
-                method.AddCode("np");
-                method.AddCode("ep");
-                method.AddCode("lp");
             }
         }
     }

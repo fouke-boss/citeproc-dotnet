@@ -1226,7 +1226,7 @@ namespace CiteProc.v10.Runtime
             }
         }
 
-        protected Result RenderNames(string id, string[] variables, TermName?[] terms, string subsequentAuthorSubstitute, SubsequentAuthorSubstituteRules? subsequentAuthorSubstituteRule, string prefix, string suffix, ExecutionContext c, Parameters p, Func<Parameters, NameParameters> nameParameters, Func<Parameters, EtAlParameters> etAlParameters, Func<Parameters, LabelParameters> labelParameters, Func<NameParameters, EtAlParameters, LabelParameters, Result>[] substitutes)
+        protected Result RenderNames(string id, string[] variables, TermName?[] terms, string subsequentAuthorSubstitute, SubsequentAuthorSubstituteRules? subsequentAuthorSubstituteRule, string prefix, string suffix, bool suppress, ExecutionContext c, Parameters p, Func<Parameters, NameParameters> nameParameters, Func<Parameters, EtAlParameters> etAlParameters, Func<Parameters, LabelParameters> labelParameters, Func<NameParameters, EtAlParameters, LabelParameters, Result>[] substitutes)
         {
             // init
             var np = nameParameters(p);
@@ -1234,7 +1234,7 @@ namespace CiteProc.v10.Runtime
             var lp = labelParameters(p);
 
             // render name groups
-            var result = this.RenderNameGroups(id, variables, terms, subsequentAuthorSubstitute, subsequentAuthorSubstituteRule, prefix, suffix, false, c, p, np, ep, lp);
+            var result = this.RenderNameGroups(id, variables, terms, subsequentAuthorSubstitute, subsequentAuthorSubstituteRule, prefix, suffix, suppress, c, p, np, ep, lp);
 
             // subsitutes?
             if (result.IsEmpty)
