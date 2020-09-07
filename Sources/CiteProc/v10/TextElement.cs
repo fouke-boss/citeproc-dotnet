@@ -213,7 +213,7 @@ namespace CiteProc.v10
             using (var method = code.AppendMethodInvoke(null, this))
             {
                 // by type
-                if (!string.IsNullOrEmpty(this.Value))
+                if (this.Value != null) // also allow empty valued <text value=""/>
                 {
                     method.Name = "this.RenderTextByValue";
                     method.AddElement(this);
